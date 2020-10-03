@@ -1,0 +1,14 @@
+# general
+*.exe
+a.out
+*.pyc
+*.o
+*.a
+# tar is built
+tar/*.tar
+# tmp
+*~
+*.swp
+*.swo
+# log or *.log
+#*.log
