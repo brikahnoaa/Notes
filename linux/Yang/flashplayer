@@ -1,0 +1,10 @@
+Mon, Jan 11, 2016  3:53:40 PM
+
+install flashplayer for merle 
+http://idroot.net/tutorials/install-adobe-flash-player-11-2-centos/
+
+
+wget http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
+rpm -ivh adobe-release-x86_64-1.0-1.noarch.rpm
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux 
+yum --enablerepo=adobe install flash-plugin nspluginwrapper alsa-plugins-pulseaudio libcurl

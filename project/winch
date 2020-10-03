@@ -1,0 +1,24 @@
+Fri, Jun 02, 2017 10:26:00 AM
+.1 2do
+..1 strong current detect
+..2 lost antenna
+..3 CTD depth error
+..3.1 calibrate
+..3.2 fail / ignore
+..4 storm noise
+..5 respond to deck unit
+..6 parameters from iridium
+..7 comm to antenna cf2
+
+.2 crazy ideas
+..1 inside test using long corridor
+
+.3 test and measure
+..1 response time, acoustic modem 
+
+.4 ?
+..1 acoustic modem is rs232?
+
+.5 protocol buoy <=> antenna modules
+description of the serial communications
+..1 

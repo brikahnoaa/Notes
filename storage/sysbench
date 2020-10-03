@@ -1,0 +1,53 @@
+yum --enablerepo=epel install sysbench
+
+sysbench --test=fileio --file-total-size=150G prepare
+sysbench --test=fileio --file-total-size=150G --file-test-mode=rndrw --init-rng=on --max-time=300 --max-requests=0 run
+
+Test execution summary:
+    total time:                          300.0021s
+    total number of events:              28033
+    total time taken by event execution: 298.7602
+    per-request statistics:
+         min:                                  0.00ms
+         avg:                                 10.66ms
+         max:                                321.18ms
+         approx.  95 percentile:              23.91ms
+
+Threads fairness:
+    events (avg/stddev):           28033.0000/0.00
+    execution time (avg/stddev):   298.7602/0.00
+
+[root@acoustic 05:41:51 /data]
+---
+Test execution summary:
+    total time:                          300.0141s
+    total number of events:              26545
+    total time taken by event execution: 191.4704
+    per-request statistics:
+         min:                                  0.00ms
+         avg:                                  7.21ms
+         max:                                 61.96ms
+         approx.  95 percentile:              16.54ms
+
+Threads fairness:
+    events (avg/stddev):           26545.0000/0.00
+    execution time (avg/stddev):   191.4704/0.00
+
+[root@bioac3 08:53:37 /home/kahn/test]
+---
+Test execution summary:
+    total time:                          300.0005s
+    total number of events:              35475
+    total time taken by event execution: 175.8513
+    per-request statistics:
+         min:                                  0.00ms
+         avg:                                  4.96ms
+         max:                                 34.72ms
+         approx.  95 percentile:              12.62ms
+
+Threads fairness:
+    events (avg/stddev):           35475.0000/0.00
+    execution time (avg/stddev):   175.8513/0.00
+
+[root@station1 08:53:42 /home/kahn/test]
+

@@ -1,0 +1,40 @@
+:codewarrior:
+. install CW9.0 using defaults except: shorten paths to CodeWar, skip c++
+. run CW9.2 update, +palm +handspring. 
+. install persistor. 
+. mklink /D "c:\Program Files\Persistor" "c:\Program Files (x86)\Persistor" 
+. setup
+.. open "CW for Palm OS Support\BuildAll"
+ Edit:Preferences:SourceTrees:ImportPanel=c:\Program Files\Persistor\MotoCross Support\CFX\XMLSettingsPanels\IDE\Source Trees_CF2_IDEGlobalPref.xml
+ make
+
+cygwin setup
+  setup-x86_64.exe -qP bind-utils,binutils,ctags,cygcheck-dep,cygutils-extra,cygwin-devel,enscript,git,indent,openssh,perl,python2,rsync,vim,vim-doc,wget
+
+git clone git@github.com:brikahnoaa/Winch.git
+cd Winch/cod; tar xvf War.tar
+
+.. pip install pyserial 
+ # easy_install-2[TAB] pip
+ # easy_install-3[TAB] pip
+ # pip install wheel
+ # pip install pyserial
+.. python serial
+import serial
+import time
+ser = serial.Serial('COM3', 9600, timeout=0)
+while 1:
+    try:
+        print ser.readline()
+        time.sleep(1)
+    except ser.SerialTimeoutException:
+        print('Data could not be read')
+    time.sleep(1)
+..
+
+Tue, Jun 13, 2017  2:16:54 PM
+ ctags -o /home/kahn/cf2/tags.h.cf2 $(find ~/cf2/headers/*/Headers -name '*.h')
+ vi .vim/vimrc
+set tags+=/home/kahn/cf2/tags.h.cf2
+
+'tagrelative' - Controls how the file names in the tags file are treated. When on, the filenames are relative to the directory where the tags file is present.

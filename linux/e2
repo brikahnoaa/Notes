@@ -1,0 +1,119 @@
+Mon, May 04, 2015  1:45:50 PM
+rebuild plan
+.1 x make a fast copy for bioac2 
+.1.1 set 3ware id blocks on acoustic for 3 disks
+.1.2 make lvm span, copy, export, move to b2
+.1.3 rsync onto bioac2 4xraid1 for expansion
+.1.4 update with rsync
+.1.5 ETA 2pm wed
+.2 x inform users
+.2.1 changing thurs noon, one week
+.2.2 remap your drive to bioac2:/same-names
+.2.3 live for a week during rebuild and test
+.2.4 change back next thurs noon
+.3 prepare
+.3.1 x b2 += samba ... groups ... users (pwd,shadow)
+.3.2 test new 9750 and intel, new breakouts
+.3.3 test restore procedure
+.4 shutdown
+ # service smb stop
+ # exportfs -au
+ # rsync -ai /data0/ 161.55.191.40::b1
+ # rsync -ai mdisk multibeam /data1
+ # umount /data1
+ # vgchange -an vge2 
+ # vgexport vge2 
+.4.1 spare disks to storage
+
+
+Mon, Apr 06, 2015  2:43:33 PM
+.0 backup all onto soft raid0
+.1 install rhel onto 2.5" disk
+.2 install 9750 & intel expander on existing mbd, read data
+.3 new mbd
+
+
+
+Mon, Feb 23, 2015  2:09:06 PM
+rebuild plan: 
+.1 data set
+.1.1 Too much data now to copy all onto 2GB-raid5.
+.1.2 data newer than newyear: 24G on mdisk, 19G on mdata; this is unexpected
+.1.3 backup data: 92G on mdisk, 4.72T on mdata = 4.74T
+89968   /mdisk/backup
+2081    /mdisk/backup-oerdftp
+4878031 /mdisk/cruise-data
+153620  /mdisk/fledermaus
+512225  /mdisk/gis-data
+32      /mdisk/google-earth
+404705  /mdisk/lidar
+10707   /mdisk/OLD-erdas-gloria-seismic
+123700  /mdisk/OLD-gisdata-emb
+211278  /mdisk/pc-archives
+1088266 /mdisk/regions-linux
+8716    /mdisk/satellite-data
+1937    /mdisk/users-misc
+19529   /mdata/backup
+4707858 /mdata/backup-cruise-data
+1       /mdata/lost+found
+3119618 /mdata/multibeam
+.1.4 total: 8.22TiB mdata, 7.85TiB mdisk = 16.07TiB
+.1.5 backup: .10TiB mdata, 4.96TiB mdisk = 5.06 TiB
+.1.6 total non-backup 11TiB, fits on 3x4TiB-lvm or 7x2TiB-raid5
+.2 archive plan
+.2.1 bioac2 o
+.2.1.1 can 9550 read 4tb drives?
+.2.1.2 can either 9550 and 9560 do pass thru, no raid?
+.3 info
+.3.1 3ware 9xxx applies 512K DCB data at end of disk
+.3.2 make a 'full disk' partition under 9550 first, then move to SATA
+.3.2.1 parted mkpart protectDCB -1m -1s
+.3.3 
+.4 process
+x4.1 ensure sata hooked to empty bays
+x4.2 BIOS SATA -> AHCI for hot swap
+.4.3 repoint samba,nfs to backup disks
+.4.4 lvm destroy mdatalv, mdisklv
+.4.4.1 tw_cli /c0/u0 remove
+.4.5 swap 2T for 4T
+.4.5.1 wipe end of 2T disks so can be used in raid
+.4.6 raid6
+.4.6.1 tw_cli /c0 add type=raid6 disk=0-11 nowrcache
+.4.6.2 do we need to wipe end of disks before add?
+.4.7 define raid6
+
+
+ # parted /dev/sdc u s print
+Model: AMCC 9650SE-12M DISK (scsi)
+Disk /dev/sdc: 7812478976s
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number  Start  End          Size         File system  Name     Flags
+ 1      2048s  7812476927s  7812474880s               primary
+
+ # parted /dev/sdb u s print
+Error: The backup GPT table is not at the end of the disk, as it should be.  This
+might mean that another operating system believes the disk is smaller.  Fix, by
+moving the backup to the end (and removing the old backup)?
+Fix/Ignore/Cancel? i
+Warning: Not all of the space available to /dev/sdb appears to be used, you can
+fix the GPT to use all of the space (an extra 1558192 blocks) or continue with
+the current setting?
+Fix/Ignore? i
+
+Model: ATA HGST HDN724040AL (scsi)
+Disk /dev/sdb: 7814037167s
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number  Start  End          Size         File system  Name     Flags
+ 1      2048s  7812476927s  7812474880s               primary
+
+ # dc
+7814037167 7812478976 - p
+1558191
+
+.5 disk array
+.5.1 starting with 12TB data
+.5.2 8 disks. raid6x7 (20TB), hot spare. 1 backup.

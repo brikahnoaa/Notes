@@ -1,0 +1,11 @@
+Wed, Jun 21, 2017  9:19:34 AM
+.1 new user aclab:haru-#@manatee
+.. set up codewarrior after errors opening project, missing paths: 
+ Edit.Preferences.SourceTrees.[importPanel]
+ c:\Prog..\Persist..\Moto..\CFX\XML..\IDE\Source..CF2..
+.. git pull --all
+.2 pyserial
+ admin$ python -m ensurepip --default-pip
+ admin$ pip install pyserial
+.. check pyserial, list ports
+ $   python -m serial.tools.list_ports

@@ -1,0 +1,13 @@
+Wed, Mar 30, 2016  3:23:41 PM
+.1 once per build
+ echo "# nvidia (blk)" >> /etc/modprobe.d/blacklist.conf
+ echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
+
+ mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak   
+ dracut -v /boot/initramfs-$(uname -r).img $(uname -r)
+ reboot
+
+.2 every time the kernel updates
+ init 3
+ sh /root/NVID*.run
+ init 5

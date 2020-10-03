@@ -1,0 +1,49 @@
+Thu, Jul 06, 2017 10:23:39 AM
+dell 3510
+setup:gen:bootseq:bootList:[uefi]
+setup:gen:bootseq:bootList:[view]::
+ : name=ubu filename=\efi\ubuntu\grubx64.efi
+ : name=ubuthumb filename=\efi\boot\bootx64
+ : name=windows filename=\efi\microsoft\boot\bootmgfw
+
+setup:post:fastboot=auto
+
+.1 During startup, when DELL image displays, press F12 until
+ "one time boot" message shows at upper right corner of screen.
+.2 select BIOS Setup [F2]
+.3 select Settings:General:BootSequence
+.4 click [Restore Settings], choose "Custom ...", [OK]
+.5 Restart, press F12 until "one time boot" message shows
+.6 select "ubu"
+
+tape steps .1 - .6 onto the machine, keep the rest of this in email folder.
+in case this doesn't work, here are the bios settings for "Custom ..."
+.A use bios to [Restore Settings] -> (Factory Defaults), reboot to bios
+.B select Settings:General:BootSequence
+.C select BootOption:[AddBootOption]
+.D select (Filename):[...] to get a popup menu
+.E select EFI/ubuntu/grubx64.exe for (Filename)
+.F enter ubu for (OptionName)
+.G Settings:SytemConfig:SATAoptions = (AHCI)
+.H [Apply] and select "Save as Custom"
+.I goto step .5
+
+
+
+
+Tue, May 23, 2017  2:59:17 PM
+system: OSU portable workstation
+problem: system can forget how to boot into linux
+
+.1 During startup, when DELL image displays, press F12 until one time boot message shows at upper right corner of screen. 
+.1.A if one option is "ubu", select this for one time boot or go to .8 below
+.2 select BIOS Setup
+.3 select Settings:General:BootSequence
+.4 select BootOption:[AddBootOption]
+.5 select (Filename):[...] to get a popup menu
+.6 select EFI/ubuntu/grubx64.exe for (Filename)
+.7 enter ubu for (OptionName)
+
+.8 in BootSeq select default boot you want and use [^] to move up to top
+ie "ubu"
+

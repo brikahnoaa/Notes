@@ -1,0 +1,17 @@
+Wed, Feb 01, 2017  9:19:51 AM
+++ features
+winter mode
+current decrease - note raise in lower ctd after state change (e.g. 5m)
+current -> angle = diff between upper lower ctd
+surfacing slowly
+listen for deck unit
+storm watch, warning from irid
+
+daveBB: re crc vs some other more robust
+  review the trans/rcv cycle, retrans fail etc
+  review our retrans code
+
+
+retry on descent interrupted, clear jams; reel out and in is a risk
+
+

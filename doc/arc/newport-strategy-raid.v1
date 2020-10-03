@@ -1,0 +1,158 @@
+:Title: Storage RAID Policy, PMEL Newport
+
+:Summary: The selection of RAID tech and balance of risk vs cost.
+
+:Overview: RAID is a set of disk storage configurations and tech which
+offer various combinations of risk, performance, and cost. There are
+similar choices made in the selection of components. Our current policy
+leans heavily to the lowest cost with moderate risk, but some moderate
+cost reduced risk choices may be preferred by individual project managers.
+
+:Options: Here we review the cost/risk trade-off. The intrepid reader
+may want to first read the :Analysis: section below to see why these
+issues present.
+
+Our current policy is to build RAID with suitable redundancy, using the
+lower cost "desktop" grade of disks in large arrays up to 50TB with 
+sixteen 4TB disks. With the larger 4TB disks we will use RAID 6 method
+of redundancy instead of RAID 5, which is a common practice. RAID 6
+has notably slower write speeds (30%) but this is not a problem for our
+needs usage of network attached storage.
+
+Option - Use "enterprise" class disks, as advised by all manufacturers.
+
+Advantage - Use disks that last longer in datacenter type of use, and
+carry a longer replacement warranty (5 yrs vs 3 yrs). The disk failure
+modes are also different with much lower incidence of read errors, so
+manufacturers claim a lower risk of complete RAID failure. 
+
+Cost - 50% more per disk, adding 33% to cost of a new 50TB server.
+As of Nov 2014, desktop class 4TB is $169, enterprise class 4TB is $269,
+costing $7000 to fill up a 50TB server instead of $5200.
+
+Discussion - This option has some certain payback due to an extra
+two years warranty and probably gives us longer disk life in kind. If
+disks are replaced as soon as warranty expires, this option pays for
+itself. However, many of our disks are past warranty (older than 3 years)
+and we continue to use them. Statistics show that current desktop class
+disks live well beyond warranty, and are thus a better value. 
+
+However, the manufacturer spec sheets for the enterprise disks claim
+both longer life and higher reliability in operation. If they deliver
+then there is less maintenance cost *and* lower risk of array failure.
+
+Using this option is not all-or-nothing exclusive in that we can mix the
+two classes of disk, even within one array, and get the partial benefits.
+See details on disk specs and how RAID works below.
+
+:Analysis: This section describes RAID tech and our options for build out. 
+
+RAID technology uses standard disks to build arrays which look like one 
+huge disk. RAID supports levels of redundancy which allows rebuilding
+the array when a component disk fails, instead of restoring from backup.
+
+Policy - New arrays will be built with 4TB disks using RAID-6.
+
+Details - PMEL Newport circa 2014 uses mostly 1TB and 2TB disks with
+RAID-5 making arrays above 18TB. We have one array using 4TB disks,
+which is working well. Plans for use of 4TB drives with RAID-6 will
+build arrays up to 50TB, and the backup plans must be updated to match.
+
+RAID uses some disk space for redundancy to allow the array to survive
+and rebuild without shutting down. RAID-5 has a cost of one drive and
+can survive the failure of one drive, and RAID-6 does the same for
+two drives. In an array of eight 1TB disks, RAID-5 gives 7TB of usable
+space and RAID-6 gives 6TB.  Newport will move to RAID-6 because with
+larger disks and arrays we have too high a risk of failure during an
+array rebuild.
+
+RAID-6 can tolerate the failure of two disks at once, RAID-5 only one.
+It may seem unlikely to have two disk failures at once, but there is
+a narrower definition of failure during a RAID rebuild. We see this in
+failure modes.
+
+During a disk lifetime, disks will encounter errors. A single disk
+(even alone in a desktop) can correct an error during a sector write,
+which causes the disk to mark off the bad sector and relocate a good
+sector into that spot, then the data is rewritten. In a RAID array the
+same can happen on a read error, because the data can be recovered from
+elsewhere in the array. So, during normal operation a disk is not failed
+out of an array for a single sector error. A disk is dead when there
+are too many sector errs, it is talking trash, or it is not responding.
+
+However, any single read error is a failed disk during a RAID rebuild.
+When a disk is replaced we must rebuild the array, and the data for
+the new disk is derived from redundant data spread across the whole
+array. Read errors which are handled during normal operation now cause
+loss of data and array failure. This is the most likely risk of a second
+failure under RAID-5.
+
+Bad sectors may be lurking in the array undetected until read, or the
+high volume of data read may trigger a mechanical fail.
+
+Policy - Array verification will be scheduled for weekends and will
+occur at least monthly.
+
+Details - Verification reads all the disk sectors in the array and
+corrects remaps bad sectors.  However, this is 24-48 hours of continuous
+disk activity which contributes to mechanical wear. The schedule may be
+changed based on results, but should be between weekly and monthly.
+
+Policy - PMEL Newport will continue to recommend the less expensive
+desktop class of disks, but we will use enterprise class at request
+of the project manager. The higher quality disks are appropriate as a
+cost/risk trade-off.
+
+Details - Use of enterprise class disks in RAID arrays is advised by
+all manufacturers. This includes all who make and sell disks, RAID
+controllers, and RAID enclosures, as well as industry experts who write
+online blogs (pundits). Altho it is hard to go against such consistent
+advice, our current policy has worked well for us.
+
+Enterprise class disks cost 40% - 80% more than desktop class (consumer)
+disks of similar size and speed. What do we get for that bonus?  Like
+luxury cars, the enterprise disks get the advanced technology first and
+manufacturers best effort at higher build quality. Much of this is inside
+and unseen, good fodder for marketing but hard to judge.  The enterprise
+class disk carries a 5 year warranty vs 3 yr for desktop class to back
+up the alleged benefits. There are two more evident advantages for
+enterprise class important to RAID: a limit on time allowed for Error
+Recovery Control (ERC) and a lower incidence of Unrecoverable Read Error
+(URE) events.
+
+Error Recovery Control (ERC (aka TLER or CCTL)) limits how much time a
+disk is allowed to recover from a read error.  A desktop user wants the
+disks to try very hard recovering data in case of a read error, which
+includes multiple reads with slight disk head jostling and can take up
+to a minute.  A RAID controller wants to keep data flowing, so RAID gives
+up after seven seconds and recovers the lost data from the array. When a
+disk tries too long to recover data in a RAID array the controller will
+assume the disk is unresponsive and fails (drops) the disk from the array.
+
+In 2012 Western Digital released the Red line for Network Attached
+Storage. These disks appear to be desktop class tuned for RAID, with
+the shorter ERC timeout. Newport PMEL plans to focus on WD Red for the
+next round of purchases. Some Hitachi drives have allegedly used the
+shorter ERC as well, but this is not part of the spec so it is harder
+to purchase with assurance.
+
+Disks are built to manage a limited number of sector write errors by
+relocating, which means mapping bad data sectors out and unused good sectors in place. A read after write in hardware finds many of the errors a healthy disk suffers and survives. Read errors also may use the same 
+
+Disk drives are rated for Unrecoverable Read Errors (URE) 
+
+Statistics from the field are hard to come by, most being gathered by
+the manufacturers. Recently a good independent source has shown up,
+google "backblaze hard drive reliability" for a reference. Backblaze
+is a $5/month cloud backup service, so they have a strong interest in
+large data sets at low cost. They publish (blog) their experience
+with over 25,000 disks. The info from backblaze is useful for purchase
+decisions, and also they have found that the enterprise class do not
+show a full ROI. Backblaze is using desktop class disks in their very
+large datacenter.
+
+:Related Docs: Storage Backup Policy, PMEL Newport
+
+:Revisions: 
+Brian Kahn, Draft 0; Tue, Nov 04, 2014  9:52:02 AM
+

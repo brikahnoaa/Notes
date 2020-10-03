@@ -1,0 +1,5 @@
+supermicro C2SBC-Q := PCIex16, PCIex4, PCI33
+  
+.1 9650x8 in ventstore is four lanes
+.2 9650x12 in b2, e2 is 8 lanes
+.3 mv vs:9650x8 to b2, mv e2:9650x12 to vs

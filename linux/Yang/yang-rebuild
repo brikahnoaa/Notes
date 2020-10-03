@@ -1,0 +1,6 @@
+Tue, Mar 22, 2016  2:30:46 PM
+.1 <notes/Linux/redhat-restore>
+.1.1 delete profile from rh portal, to get rid of i686 pkgs
+.2 looks like nvidia driver no longer needed
+.3 also restored some pki/gpg keys
+.4 must remove from AD before running centrify

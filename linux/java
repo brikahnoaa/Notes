@@ -1,0 +1,46 @@
+Tue, Jun 30, 2020  5:10:11 PM
+.1 station2:
+ cd /usr/local/exelis/idl85/idlde/bin.linux.x86_64
+ tar czf jre.tgz jre; rm -r jre
+ vi /etc/profile.d/matlab.sh
+# set matlab path for jre
+export MATLAB_JAVA=/etc/alternatives/jre
+
+Thu, Jul 18, 2019  2:48:55 PM
+.1 removed junk, removed jre directories
+.. to restore, extract tar files where they are found
+
+caldera:/usr/local/idl/idl82/idlde/bin.linux.x86/
+caldera:/usr/local/idl/idl82/idlde/bin.linux.x86_64/
+caldera:/usr/local/idl/idl85/idlde/bin.linux.x86_64/
+# root@caldera 02:46:28 /usr/local/idl/idl82/idlde #
+ ls -l *tar
+-rw-r--r-- 1 root root 207114240 Jul 18 14:42 jre.tar
+# root@caldera 02:48:13 /usr/local/idl/idl85/idlde #
+ ls -l *tar
+-rw-r--r-- 1 root root 144875520 Jul 18 14:48 jre.tar
+
+garfield:/usr/local/MATLAB/R2012a/sys/java/jre/glnxa64/
+garfield:/usr/local/exelis/idl85/idlde/bin.linux.x86_64/
+# root@garfield 02:51:48 /usr/local/MATLAB/R2012a/sys #
+ ls -l *tar
+-rw-r--r-- 1 root root 88709120 Jul 18 14:51 java.tar
+# root@garfield 02:54:40 /usr/local/exelis/idl85/idlde #
+ ls -l *tar
+-rw-r--r-- 1 root root 144875520 Jul 18 14:54 jre.tar
+
+station1:/usr/local/MATLAB/R2011a/sys/java/jre/glnxa64/
+# root@station1 02:42:46 /usr/local/MATLAB/R2011a/sys #
+ ls
+fonts  gs8x  java.tar  namespace  opengl  os  tex
+
+syspc:/usr/local/exelis/idl85/idlde/bin.linux.x86_64/
+# root@syspc 04:11:29 /usr/local/exelis/idl/idlde #
+ ls -l *tar
+-rw-r--r-- 1 root root 144875520 Jul 18 16:11 jre.tar
+
+Ventstore has a ridiculous amount of bad Java versions, because
+apparently it contains backups of most of the other machines.
+These all start with /data1/Archive-RHb/:
+# root@ventstore 04:13:00 /data1/Archive-RHb #
+  find . -name jre | grep -v alternatives | xargs rm -rf

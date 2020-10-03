@@ -1,0 +1,191 @@
+National Oceanic and Atmospheric Administration Mail	Brian Kahn - NOAA Affiliate <brian.kahn@noaa.gov>
+Fwd: [mbsystem] Install Guide for MB-System on Ubuntu 14.04 & 16.04 LTS
+1 message
+Susan Merle - NOAA Affiliate <susan.merle@noaa.gov>	Wed, Nov 2, 2016 at 10:04 AM
+To: Brian Kahn - NOAA Affiliate <brian.kahn@noaa.gov>
+
+---------- Forwarded message ----------
+From: monica <mschwehr@mbari.org>
+Date: Mon, Oct 10, 2016 at 7:05 PM
+Subject: [mbsystem] Install Guide for MB-System on Ubuntu 14.04 & 16.04 LTS
+To: mbsystem@listserver.mbari.org
+
+
+Hi All,
+        In the last week I installed the most recent version of MB-System
+5.5.2279 (8 July 2016) on Ubuntu 14.04LTS, and then again on a clean install
+of Ubuntu 16.04LTS.
+
+        Dave has asked me to post the install procedures here as I did not
+need to install GMT from source (in contrast to the current documentation).  I
+tested the install under both 14.04 and 16.04, and did not encounter any
+problems.
+
+        The methodology will be essentially the same for both versions of
+Ubuntu, with the exception that in 14.04LTS I had to get GMT 5.2.1 directly
+from the website and build from source as the repository only had GMT 4.5. In
+16.04, GMT 5.2.1 is including in the repo.
+
+        You can check which version is available to you by typing:
+
+                apt-cache show gmt
+
+If your repository does not include GMT at all, you can add the UbuntuGIS repo
+by typing:
+     * sudo add-apt-repository ppa:ubuntugis/ppa
+     * sudo apt-get update
+     * sudo apt-get upgrade
+
+        This will add a GIS repository containing GMT, MB-System, gdal, GRASS,
+QGIS, etc (full list: https://launchpad.net/~ubuntugis/+archive/ubuntu/ppa).
+Note that some packages may be a couple versions behind, as this is their
+stable repository.
+
+         There is also an unstable version: https://launchpad.net/~ubuntugis/
++archive/ubuntu/ubuntugis-unstable that includes more recent versions of some
+packages, but they have not all been fully tested. This includes GMT-5.2.1 for
+example (and could possibly work for install on 14.04), but does not include
+MB-System.
+
+
+First let's install GMT by itself, since it is a big package
+        (if anyone ends up needing help building GMT from source on Ubuntu,
+feel free to ping me and hopefully I can be of assistance)
+
+If you have GMT-5.2.1 in your repo:
+
+        sudo apt-get install gmt
+
+assuming that succeeds, then install the documentation, library files,
+development headers, and the hierarchical high resolution geography:
+
+        sudo apt-get install libgmt5 libgmt-dev gmt-gshhg gmt-doc
+
+Now let's install other package dependencies for MB-System, some of these
+might be redundant to GMT, so I apologize:
+
+
+Here is a list of what we are adding:
+
+
+     libx11-dev
+     xorg-dev
+     libmotif-dev
+     libmotif4
+     libxp-dev
+     mesa-common-dev
+     libsdl1.2-dev
+     libsdl-image1.2-dev
+     build-essential
+     gfortran
+     nautilus-open-terminal
+     libfftw3-3
+     libfftw3-dev
+     libnetcdf-dev
+     netcdf-bin
+     libgdal-bin
+     gdal-dev
+     gv
+     csh
+     libgmt-dev
+     libproj-dev
+
+NOTE: to install libmotif4 in 16.04, I needed to add the ubuntu extras repo
+        * sudo su
+        * echo 'deb http://cz.archive.ubuntu.com/ubuntu trusty main universe'
+>> /etc/apt/sources.list.d/extra.list
+        * apt-get install update
+
+        Then open a new terminal to refresh and you can proceed
+
+   *note: if the above echo command has funny lines or symbols in the middle
+when viewed in your email client, they should actually be two greater than
+signs in a row, so ...universe' > > /etc/apt/... but with no spaces between
+the two
+
+
+To make this easy, here is everything written in a command line that you can
+just copy and paste:
+
+        sudo apt-get install libx11-dev xorg-dev libmotif-dev libmotif4 libxp-
+dev mesa-common-dev libsdl1.2-dev libsdl-image1.2-dev build-essential gfortran
+nautilus-open-terminal libfftw3-3 libfftw3-dev libnetcdf-dev netcdf-bin
+libgdal-bin gdal-dev gv csh libgmt-dev libproj-dev
+
+This should all build without a hitch, hopefully.
+
+Now, for MB-System itself:
+        These steps assume you have downloaded a tar.gz file from the website
+
+     * unpack directory (tar -xf command), and cd into it
+     * run ./configure
+            if you are still missing any major packages, configure will let
+you know
+            if you want to install into a specific directory (I do this
+because I test multiple versions), add the prefix option (e.g. ./configure --
+prefix=/home/mschwehr/mb-system-5.5.2279)
+     * run make
+            make ensures it can find all the necessary libraries, so it is
+possible to get make errors complaining about missing libs even if configure
+passes, most missing libraries can be installed with sudo apt-get install
+<name of library>
+     * run sudo make install (must be run as sudo)
+
+  That's it for the install!
+
+If you want to test your install and double check version, try typing:
+mbgrdviz
+
+when the window pops up, click on help and then about and you'll see all the
+info about the installed version
+
+
+ONE MORE STEP: we're not quite done. GMT 5 now packages their tools as
+modules, rather than standalone programs. This means that certain MB-System
+functions such as mbcontour, mbswatch, and mbgrdtiff, that depend on GMT
+functionality, will not run until we edit the gmt-config file.
+
+   To Fix this:
+
+     * cd to /usr/share/gmt/conf  (this is the default config file location)
+     * copy the gmt.config to your home directory
+              this file must be moved, because every update or reinstall of
+GMT will overwrite the file in gmt/conf/
+     * open the file for editing and look for the line GMT_CUSTOM_LIBS under
+GMT Miscellaneous Parameters
+                This setting needs to point to the mbsystem.so library file.
+It's located in the lib directory within your MB-System install location
+                 e.g. my line looks like: MB-System GMT_CUSTOM_LIBS = /home/
+mschwehr/MB-Sys-5.5.2282/lib/mbsystem.so
+      * save the file
+
+Now, you should have full MB-System functionality.
+
+If you find that you get hung up processes running certain commands that
+automatically open ghostview or an image viewer, (e.g: mbm_plot runs, but
+running the resulting .cmd file hangs) make sure your mbdefaults are set for
+postscript viewer and screen image viewer:
+
+Set the postscript viewer using
+
+        mbdefaults -Dgv -V
+
+Set your favorite screen image viewer (e.g. feh) using
+
+        mbdefaults -Ifeh -V
+
+
+
+
+
+
+
+-- 
+Susan G. Merle
+Sr. Research Assistant
+Cooperative Institute of Marine Resource Studies (CIMRS), Oregon State University
+susan.merle@noaa.gov  or  susan.merle@oregonstate.edu
+541-867-0173
+NOAA/PMEL/OERD
+2115 SE OSU Drive. Newport, OR 97365-5258
+

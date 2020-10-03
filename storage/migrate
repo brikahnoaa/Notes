@@ -1,0 +1,327 @@
+Thu, Dec 13, 2018  4:27:16 PM
+.1 expanding embfile2
+SO MUCH EASIER! no partitiion at all on RAID drive, so after reboot xfs_growfs
+
+.2 before / after reboot
+# root@embfile2 04:36:19 /home/kahn #
+ gdisk /dev/sda
+GPT fdisk (gdisk) version 0.8.10
+
+Partition table scan:
+  MBR: not present
+  BSD: not present
+  APM: not present
+  GPT: not present
+  ...
+# root@embfile2 04:39:09 /home/kahn #
+ lsblk
+NAME                           MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdc                              8:32   0 465.8G  0 disk
+├─sdc1                           8:33   0   500M  0 part /boot
+└─sdc2                           8:34   0 465.3G  0 part
+  ├─vg_embfile2-lv_root (dm-0) 253:0    0    50G  0 lvm  /
+  ├─vg_embfile2-lv_swap (dm-1) 253:1    0   7.8G  0 lvm  [SWAP]
+  └─vg_embfile2-lv_home (dm-2) 253:2    0 212.2G  0 lvm  /home
+sda                              8:0    0  36.4T  0 disk /data0
+# root@embfile2 04:49:36 /home/kahn #
+ lsblk
+NAME                           MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdb                              8:16   0 465.8G  0 disk
+├─sdb1                           8:17   0   500M  0 part /boot
+└─sdb2                           8:18   0 465.3G  0 part
+  ├─vg_embfile2-lv_root (dm-0) 253:0    0    50G  0 lvm  /
+  ├─vg_embfile2-lv_swap (dm-1) 253:1    0   7.8G  0 lvm  [SWAP]
+  └─vg_embfile2-lv_home (dm-2) 253:2    0 212.2G  0 lvm  /home
+sda                              8:0    0  47.3T  0 disk /data0
+
+Fri, Dec  7, 2018  4:31:33 PM
+.1 expanding acoustic
+# root@acoustic 04:30:50 /home/acoustic/kahn #
+ df /data0
+Filesystem     1G-blocks  Used Available Use% Mounted on
+/dev/sdb1          44702 34750      9952  78% /data0
+# root@acoustic 04:31:44 /home/acoustic/kahn #
+ gdisk /dev/sdb
+GPT fdisk (gdisk) version 0.8.10
+
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
+
+Found valid GPT with protective MBR; using GPT.
+
+Command (? for help): p
+Disk /dev/sdb: 101562226688 sectors, 47.3 TiB
+Logical sector size: 512 bytes
+Disk identifier (GUID): EC55E6AD-54ED-4B0D-B78D-34E76DE25445
+Partition table holds up to 128 entries
+First usable sector is 34, last usable sector is 101562226654
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 7812483005 sectors (3.6 TiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048     93749745663   43.7 TiB    0700  raid6
+
+Command (? for help): h
+b       back up GPT data to a file
+c       change a partition's name
+d       delete a partition
+i       show detailed information on a partition
+l       list known partition types
+n       add a new partition
+o       create a new empty GUID partition table (GPT)
+p       print the partition table
+q       quit without saving changes
+r       recovery and transformation options (experts only)
+s       sort partitions
+t       change a partition's type code
+v       verify disk
+w       write table to disk and exit
+x       extra functionality (experts only)
+?       print this menu
+
+Command (? for help): b
+Enter backup filename to save: /root/dev-sdb.gpt
+The operation has completed successfully.
+
+Command (? for help): d 1
+Using 1
+
+Command (? for help): p
+Disk /dev/sdb: 101562226688 sectors, 47.3 TiB
+Logical sector size: 512 bytes
+Disk identifier (GUID): EC55E6AD-54ED-4B0D-B78D-34E76DE25445
+Partition table holds up to 128 entries
+First usable sector is 34, last usable sector is 101562226654
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 101562226621 sectors (47.3 TiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+
+Command (? for help): n
+Partition number (1-128, default 1): 1
+First sector (34-101562226654, default = 2048) or {+-}size{KMGTP}: 0T
+Last sector (2048-101562226654, default = 101562226654) or {+-}size{KMGTP}:
+Current type is 'Linux filesystem'
+Hex code or GUID (L to show codes, Enter = 8300): 0700
+Changed type of partition to 'Microsoft basic data'
+
+Command (? for help): p
+Disk /dev/sdb: 101562226688 sectors, 47.3 TiB
+Logical sector size: 512 bytes
+Disk identifier (GUID): EC55E6AD-54ED-4B0D-B78D-34E76DE25445
+Partition table holds up to 128 entries
+First usable sector is 34, last usable sector is 101562226654
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2014 sectors (1007.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048    101562226654   47.3 TiB    0700  Microsoft basic data
+
+Command (? for help): c
+Using 1
+Enter name: raid6
+
+Command (? for help): i
+Using 1
+Partition GUID code: EBD0A0A2-B9E5-4433-87C0-68B6B72699C7 (Microsoft basic data)
+Partition unique GUID: C3502B55-949D-4905-97B0-28901AF5339A
+First sector: 2048 (at 1024.0 KiB)
+Last sector: 101562226654 (at 47.3 TiB)
+Partition size: 101562224607 sectors (47.3 TiB)
+Attribute flags: 0000000000000000
+Partition name: 'raid6'
+
+# root@acoustic 04:45:41 /home/acoustic/kahn #
+ reboot
+
+# root@acoustic 04:48:36 /home/acoustic/kahn #
+ xfs_growfs /data0
+meta-data=/dev/sdb1              isize=256    agcount=44, agsize=268435455 blks
+         =                       sectsz=512   attr=2, projid32bit=0
+         =                       crc=0        finobt=0 spinodes=0
+data     =                       bsize=4096   blocks=11718717952, imaxpct=5
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=0
+log      =internal               bsize=4096   blocks=521728, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 11718717952 to 12695278075
+
+# root@acoustic 04:48:58 /home/acoustic/kahn #
+ df /data0
+Filesystem     1G-blocks  Used Available Use% Mounted on
+/dev/sdb1          48427 34750     13677  72% /data0
+
+Mon, Dec  3, 2018  1:29:02 PM
+.1 added one more disk to e2, filling all slots
+.1.1 NOTE - disk port 23 is above 22 in physical, that's a mistake. Label!
+.2 gdisk seems to give a better result than parted
+Wed, Nov 14, 2018  2:35:33 PM
+.1 growth as estimated for ac, e2. Both have /backup which can be
+converted to data with one spare.
+.2 delete /backup; remove from /etc/fstab, /etc/cron.daily/backup.data.conf
+# root@embfile2 02:09:12 ~ #
+ tw_cli /c0/u1 show
+Unit     UnitType  Status         %RCmpl  %V/I/M  VPort Stripe  Size(GB)
+------------------------------------------------------------------------
+u1       RAID-0    OK             -       -       -     256K    11175.8
+u1-0     DISK      OK             -       -       p20   -       3725.28
+u1-1     DISK      OK             -       -       p21   -       3725.28
+u1-2     DISK      OK             -       -       p22   -       3725.28
+u1/v0    Volume    -              -       -       -     -       11175.8
+# root@embfile2 02:09:17 ~ #
+ tw_cli /c0/u1 del
+.3 add 22 as spare. add 20,21 to u0.
+ tw_cli /c0 add type=spare disk=22
+.. spare first, in case of fail during migrate?
+ tw_cli /c0/u0 migrate type=raid6 disk=20-21
+# root@embfile2 02:50:55 /data0/.catalog #
+ tw_cli /c0 show
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    Migrator  MIGRATING      -       0%      -       37252.8   RiW    ON
+u1    SPARE     OK             -       -       -       3726.01   -      OFF
+# root@embfile2 02:52:08 /data0/.catalog #
+ df /data0
+Filesystem     1G-blocks  Used Available Use% Mounted on
+/dev/sda           37251 28127      9125  76% /data0
+.4 xfs_growfs while mounted
+
+Fri, Feb 12, 2016 10:14:17 AM
+.1 data growth higher than predicted and substantial increase is coming
+.2 b2 is unable to use all slots for mounting disks
+.2.1 strangely inconsistent - maybe a power problem?
+.2.2 abandon plan to limit raid6 to 12, going to x14 for ac
+.3 build of 5 disk R6 took about 16 hours ?
+
+#root@acoustic 10:12:09 /etc/cron.daily#
+ tw_cli /c6/u0 migrate type=raid6 disk=18-23
+Sending migration message to /c6/u0 ... Done.
+
+#root@acoustic 10:13:10 /etc/cron.daily#
+ tw_cli /c6 show
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    Migrator  MIGRATING      -       0%      -       22351.7   RiW    ON
+u1    RAID-0    OK             -       -       256K    7450.56   RiW    ON
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p8    OK             u0   3.63 TB   SATA  -   /c6/e0/slt8  HGST HDN724040ALE640
+p9    OK             u0   3.63 TB   SATA  -   /c6/e0/slt9  HGST HDN724040ALE640
+p10   OK             u0   3.63 TB   SATA  -   /c6/e0/slt10 HGST HDN724040ALE640
+p11   OK             u0   3.63 TB   SATA  -   /c6/e0/slt11 HGST HDN724040ALE640
+p12   OK             u0   3.63 TB   SATA  -   /c6/e0/slt12 HGST HDN724040ALE640
+p13   OK             u0   3.63 TB   SATA  -   /c6/e0/slt13 HGST HDN724040ALE640
+p14   OK             u0   3.63 TB   SATA  -   /c6/e0/slt14 HGST HDN724040ALE640
+p15   OK             u0   3.63 TB   SATA  -   /c6/e0/slt15 HGST HDN724040ALE640
+p16   OK             u1   3.63 TB   SATA  -   /c6/e0/slt22 HGST HDN724040ALE640
+p17   OK             u1   3.63 TB   SATA  -   /c6/e0/slt23 HGST HDN724040ALE640
+p18   OK             u0   3.63 TB   SATA  -   /c6/e0/slt20 HGST HDN724040ALE640
+p19   OK             u0   3.63 TB   SATA  -   /c6/e0/slt19 HGST HDN724040ALE640
+p20   OK             u0   3.63 TB   SATA  -   /c6/e0/slt18 HGST HDN724040ALE640
+p21   OK             u0   3.63 TB   SATA  -   /c6/e0/slt17 HGST HDN724040ALE640
+p22   OK             u0   3.63 TB   SATA  -   /c6/e0/slt16 HGST HDN724040ALE640
+p23   OK             u0   3.63 TB   SATA  -   /c6/e0/slt21 ST4000VN000-1H4168
+
+
+early result :  3% @ 4 hrs --> 6 days
+
+ dd if=/dev/zero of=t1 bs=1M count=1000
+--> same on ac and e2, no migrate penalty!
+
+
+e2:
+$kahn@embfile2 04:23:20 ~$
+ sudo tw_cli /c6/u0 migrate type=raid6 disk=19-22
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    Migrator  MIGRATING      -       0%      -       22351.7   RiW    ON
+u1    SINGLE    OK             -       -       -       3725.28   RiW    ON
+u2    RAID-0    OK             -       -       256K    7450.56   RiW    ON
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p8    OK             u0   3.63 TB   SATA  -   /c6/e0/slt8  ST4000VN000-1H4168
+p9    OK             u0   3.63 TB   SATA  -   /c6/e0/slt9  ST4000VN000-1H4168
+p10   OK             u0   3.63 TB   SATA  -   /c6/e0/slt10 ST4000VN000-1H4168
+p11   OK             u0   3.63 TB   SATA  -   /c6/e0/slt11 ST4000VN000-1H4168
+p12   OK             u0   3.63 TB   SATA  -   /c6/e0/slt12 ST4000VN000-1H4168
+p13   OK             u0   3.63 TB   SATA  -   /c6/e0/slt13 ST4000VN000-1H4168
+p14   OK             u0   3.63 TB   SATA  -   /c6/e0/slt14 HGST HDN724040ALE640
+p15   OK             u0   3.63 TB   SATA  -   /c6/e0/slt15 HGST HDN724040ALE640
+p16   OK             u2   3.63 TB   SATA  -   /c6/e0/slt22 HGST HDN724040ALE640
+p17   OK             u2   3.63 TB   SATA  -   /c6/e0/slt23 HGST HDN724040ALE640
+p18   OK             u1   3.63 TB   SATA  -   /c6/e0/slt20 HGST HDN724040ALE640
+p19   OK             u0   3.63 TB   SATA  -   /c6/e0/slt16 HGST HDN724040ALE640
+p20   OK             u0   3.63 TB   SATA  -   /c6/e0/slt17 HGST HDN724040ALE640
+p21   OK             u0   3.63 TB   SATA  -   /c6/e0/slt19 HGST HDN724040ALE640
+p22   OK             u0   3.63 TB   SATA  -   /c6/e0/slt18 HGST HDN724040ALE640
+
+15T takes about 5 days to migrate
+
+sudo parted /dev/sda
+GNU Parted 2.1
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) p
+Warning: Not all of the space available to /dev/sda appears to be used, you can
+fix the GPT to use all of the space (an extra 31249915904 blocks) or continue
+with the current setting?
+Fix/Ignore? Fix
+Model: LSI 9750-8i DISK (scsi)
+Disk /dev/sda: 40.0TB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number  Start   End     Size    File system  Name   Flags
+ 1      1049kB  24.0TB  24.0TB  xfs          raid6
+
+(parted) rm 1
+Error: Partition /dev/sda1 is being used. You must unmount it before you modify
+it with Parted.
+(parted) q
+
+$ kahn@embfile2 08:24:34 ~ $
+ sudo parted /dev/sda
+GNU Parted 2.1
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) p
+Model: LSI 9750-8i DISK (scsi)
+Disk /dev/sda: 40.0TB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number  Start   End     Size    File system  Name   Flags
+ 1      1049kB  24.0TB  24.0TB  xfs          raid6
+
+(parted) rm 1
+(parted) mkpart raid6 xfs 0T 40T
+(parted) p
+Model: LSI 9750-8i DISK (scsi)
+Disk /dev/sda: 40.0TB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+
+Number  Start   End     Size    File system  Name   Flags
+ 1      1049kB  40.0TB  40.0TB  xfs          raid6
+
+ sudo xfs_growfs /data0
+meta-data=/dev/sda1              isize=256    agcount=22, agsize=268435455 blks
+         =                       sectsz=512   attr=2, projid32bit=0
+data     =                       bsize=4096   blocks=5859358720, imaxpct=5
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0
+log      =internal               bsize=4096   blocks=521728, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 5859358720 to 9765598208
+
+
+

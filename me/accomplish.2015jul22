@@ -1,0 +1,76 @@
+Wed, Jul 22, 2015  1:01:56 PM
+
+
+---
+System Operations: Assist in Desktop and Laptop system generation, tuning,
+security, and configuration within the NOAA/DOC policy framework. Assist
+in the installation and troubleshooting of Printers, Scanners, and various
+other hardware items. Assist in the development of tools and procedures
+for daily operational support.
+
+build:	
+ : parts ordered - embfile2
+ : server build / deploy - bioac3 acoustic, embfile2
+ : PC build / deploy - risso, nemo
+
+restore:
+ : musculus - system disk crash
+ : station1, garfield - OS upgrade
+
+lifecycle:
+ : excess = yoga, macmini, pioneer, phaser printer
+ : server decommission = leopard, nserver, pioneer
+
+infrastructure:
+ : UPS batteries for racks and 3 user stations
+ : re-calibration of all rack UPS batteries (some found low on power)
+ : server caldera moved into rack
+
+planning:
+ : research on server room air conditioning, quotes, options
+ : proposal for move of server racks from big room to adjacent small room
+ : relocation of tech room out of small room, in prep for move
+
+
+---
+System Management: Configure and maintain systems to operate with security
+controls as specified in the federal government IT Security Plan. Monitor
+and report on specific controls as requested. Monitor system performance
+for OSU and NOAA Desktop and Laptop computers. Maintain the integrity and
+security of the NOAA desktop network environment, and ensures continuity
+with the current processing applications. Perform backup and disaster
+recovery operations for OSU and NOAA computers. Maintain documentation
+of existing systems and procedures in the central PMEL Footprint support
+knowledge base.
+
+updates:
+ : regular updates and patches
+ : reinstall of BES (IBM Bigfix) on 5 systems
+ : update several mobile systems to full disk encryption
+ : manage local user administration rights assignment
+ : manage visitor lan access
+
+data storage: 
+ : backup scripts extended to changes in 'static' archives
+ : conversion from raid5 to raid6 for all disk archives on shelf
+ : long term archive of scientific data
+ : expansion of project storage
+
+---
+User Support: Provide first-level desktop support to research scientists
+and staff. Train employees on basic use of OSU and NOAA standard hardware
+and software. Assist in the installation and troubleshooting of various
+enterprise software packages such as Microsoft Office, ESRI ArcGIS,
+Exelis IDL, and McAfee VirusScan. Participate in research projects in
+a desktop/network/server management capacity
+
+support:
+ : one to four visits per day from staff with questions
+ : communication about events such as downtime, reboots, changes in service
+ : cross platform SW development install for hydrophone lab
+ : small program to modify data files, merle
+ : license manager and software installs for matlab, arc
+ : restructure museum display from winNT to win2000, fix hardware
+ : install procedure and debug for mbsystem
+ : engineered use of vnc server for local Xdisplay, caldera processing
+

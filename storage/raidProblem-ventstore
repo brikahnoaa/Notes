@@ -1,0 +1,70 @@
+Mon, Mar 21, 2016 10:34:13 AM
+.1 temps script showed drive at 109C
+.2 replaced drive, note on drive but not discarded
+.3 add new drive into raid6
+ tw_cli /c10/p11 remove
+ tw_cli /c10 rescan
+ tw_cli /c10 add type=spare disk=11
+ tw_cli /c10/u0 start rebuild disk=11
+.4 was spare step needed? not according to docs
+
+/Mon, Nov 03, 2014  8:57:28 AM
+.1 open support request with LSI
+Supermicro H8DA8-2
+SR Number: P00104622 Service Request Type: 3ware Account: NEW PORTAL USER
+	Created Date: 11/3/2014 9:00:00 AM Status: Open Product: 9650SE-8LPML
+	
+.2
+Cannot rebuild raid5, after 'start rebuild' the state shows as REBUILD-PAUSED. If i remove the disk the state falls to DEGRADED as expected. All settings look correct, i.e. rebuild=disable so it should start immediately. The other LSI raid card in the system just did a successful rebuild with the same settings. I have tried two fresh disks which both have the same problem. In between trials of different settings (desperate) I use "killdisk" utility to wipe the drives clean.
+BTW i use tw_cli not the GUI.
+
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c10   9690SA-8I    8         8        1       0       1       1      OK
+c9    9650SE-8LPML 8         6        1       1       1       1      OK
+
+ # tw_cli /c9 show all
+/c9 Driver Version = 2.26.02.014RH
+/c9 Model = 9650SE-8LPML
+/c9 Available Memory = 224MB
+/c9 Firmware Version = FE9X 4.06.00.004
+/c9 Bios Version = BE9X 4.05.00.015
+/c9 Boot Loader Version = BL9X 3.08.00.001
+/c9 Serial Number = L326026A8500816
+/c9 PCB Version = Rev 032
+/c9 PCHIP Version = 2.00
+/c9 ACHIP Version = 1.90
+/c9 Number of Ports = 8
+/c9 Number of Drives = 6
+/c9 Number of Units = 1
+/c9 Total Optimal Units = 0
+/c9 Not Optimal Units = 1
+/c9 JBOD Export Policy = off
+/c9 Disk Spinup Policy = 1
+/c9 Spinup Stagger Time Policy (sec) = 2
+/c9 Auto-Carving Policy = off
+/c9 Auto-Carving Size = 2048 GB
+/c9 Auto-Rebuild Policy = off
+/c9 Rebuild Rate = 1
+/c9 Verify Rate = 1
+/c9 Controller Bus Type = PCIe
+/c9 Controller Bus Width = 4 lanes
+/c9 Controller Bus Speed = 2.5 Gbps/lane
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    RAID-5    REBUILD-PAUSED 0%      -       64K     9313.17   OFF    OFF
+
+VPort Status         Unit Size      Type  Phy Encl-Slot    Model
+------------------------------------------------------------------------------
+p0    OK             u0   1.82 TB   SATA  0   -            WDC WD20EVDS-63T3B0
+p1    OK             u0   1.82 TB   SATA  1   -            WDC WD20EVDS-63T3B0
+p2    OK             u0   1.82 TB   SATA  2   -            WDC WD20EVDS-63T3B0
+p3    DEGRADED       u0   1.82 TB   SATA  3   -            WDC WD20EARS-00MVWB0
+p6    OK             u0   1.82 TB   SATA  6   -            WDC WD20EVDS-63T3B0
+p7    OK             u0   1.82 TB   SATA  7   -            WDC WD20EVDS-63T3B0
+
+Name  OnlineState  BBUReady  Status    Volt     Temp     Hours  LastCapTest
+---------------------------------------------------------------------------
+bbu   On           Yes       OK        OK       OK       0      xx-xxx-xxxx
+

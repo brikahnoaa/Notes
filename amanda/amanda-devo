@@ -1,0 +1,677 @@
+ ::tape backup using amanda::
+. overview
+/var/lib/amanda holds gnutar-lists - critical, must backup
+change defaults so all state is in /var/lib (from advanced.conf)
+#infofile "/etc/amanda/test2/curinfo"      # database DIRECTORY
+#logdir   "/var/lib/amanda/test2"              # log directory
+#indexdir "/etc/amanda/test2/index"        # index directory
+infofile "/var/lib/amanda/test2/curinfo"      # database DIRECTORY
+logdir   "/var/lib/amanda/test2/logs"         # log directory
+indexdir "/var/lib/amanda/test2/index"        # index directory
+
+. ops
+.. init
+tapelist is created by amlabel, use /etc/amanda/tapelist.tmpl to seed
+ amtape full inventory
+ amlabel full full-108 slot 20
+set tape to start with:
+ amtape full inventory
+ amtape full slot 12
+protect used tapes
+ amtape full inventory
+ for i in {07..10}; do amadmin full no-reuse full-3$i; done
+
+.. client setup
+ sudo 
+ echo "# amanda client
+service amanda
+{
+        socket_type             = stream
+        protocol                = tcp
+        wait                    = no
+        user                    = amandabackup
+        group                   = disk
+        server                  = /usr/sbin/amandad
+        server_args             = -auth=bsdtcp amdump
+        disable                 = no
+}" > /etc/xinetd.d/amanda
+ service xinetd restart
+ su amandabackup
+ echo "challenger amandabackup amdump
+challenger-191 amandabackup amdump" >> ~/.amandahosts
+.. reset
+server: rm -rf /var/lib/amanda/test1
+client: cd /var/lib/amanda; rm -rf amandates gnutar-lists/*
+  : cd /etc/amanda/test1; rm -rf curinfo/* index/* tapelist
+
+.. status
+ amreport full; amstatus full
+
+. dump fail
+FAILED DUMP DETAILS:
+  /-- acoustic.pmel.noaa.gov /data lev 0 FAILED [dump (25796) /bin/tar returned 2]
+  sendbackup: start [acoustic.pmel.noaa.gov:/data level 0]
+  sendbackup: info BACKUP=/bin/tar
+  sendbackup: info RECOVER_CMD=/bin/tar -xpGf - ...
+  sendbackup: info end
+  ? /bin/tar: value -2130356034 out of time_t range 0..8589934591
+  ? /bin/tar: value -2130356034 out of time_t range 0..8589934591
+  | Total bytes written: 23303328471040 (22TiB, 97MiB/s)
+  ? /bin/tar: Exiting with failure status due to previous errors
+  ? dump (25796) /bin/tar returned 2
+  sendbackup: error [dump (25796) /bin/tar returned 2]
+  \--------
+.. some bad dates ruin whole dump (ref indiana jones)
+$ kahn@acoustic 02:03:34 ~ $
+..4 problem with too old of file mod dates, so find and touch as jan 1 1980
+ # 1976
+$ kahn@acoustic 02:04:05 ~ $
+ sudo find /data0/ -mtime +15000 -ls | less
+ sudo find /data0/ -mtime +15000 -exec touch -mt 8001010101 \{\} \;
+
+. structure of backup on tape
+.. tools. mt mtx tar amtoc amrecover amfetchdump
+.. parts. amreport says 11 parts, first block is tape header?
+.. gnutar-lists. 
+keep in /etc, for backup.sys. 
+
+
+. issues
+.. x backup for xfs 
+ Q: How can I backup a XFS filesystem and ACLs?
+You can backup a XFS filesystem with utilities like xfsdump(8) and
+standard tar(1) for standard files. If you want to backup ACLs you
+will need to use xfsdump or Bacula (> version 3.1.4) or rsync (>=
+version 3.0.0) to backup ACLs and EAs. xfsdump can also be integrated
+with amanda(8).
+... x backup w gnutar or xfsdump?
+xfsdump expects a partition argument, gnutar accepts directories. 
+sad, gtar fails > 8G files
+ ls -lh /data0/data/GLOC/Cascadia/2012_Cascadia/raw/J25.dat
+-rwxr-x--- 1 root acoustic 18G Jul 17  2012 /data0/data/GLOC/Cascadia/2012_Cascadia/raw/J25.dat
+
+
+.. x tape device and changer varies, sg[0-9]
+here sg5 is the changer 
+ dmesg | grep sg[0-9]
+[   14.647438] scsi 0:0:4:0: Attached scsi generic sg0 type 13
+[   14.647503] sd 0:2:0:0: Attached scsi generic sg1 type 0
+[   14.647438] scsi 0:0:4:0: Attached scsi generic sg0 type 13
+[   14.647503] sd 0:2:0:0: Attached scsi generic sg1 type 0
+[   14.647553] sd 0:2:1:0: Attached scsi generic sg2 type 0
+[   14.647601] sr 8:0:0:0: Attached scsi generic sg3 type 5
+[   14.647652] scsi 1:0:0:0: Attached scsi generic sg4 type 1
+[   14.647703] scsi 1:0:0:1: Attached scsi generic sg5 type 8
+[   14.647745] sd 9:0:0:0: Attached scsi generic sg6 type 0
+ sg=$( dmesg | awk '/scsi.*type 8/ {print $8}' )
+ sudo mtx -f /dev/$sg status
+... device wanders
+/etc/amanda/bash_login: /etc/amanda/bin/dev-changer
+... udev
+http://www.reactivated.net/writing_udev_rules.html
+ sudo udevadm info -q property /dev/sg5
+ sudo udevadm test /sys/class/scsi_generic/sg5
+#< note: /usr/lib/udev/rules.d/60-persistent-storage-tape.rules sets env vars
+ sudo vim /etc/udev/rules.d/61-local.rules
+ENV{ID_MODEL}==FlexStor_II, SYMLINK+="changer"
+#>
+ sudo udevadm test /sys/class/scsi_generic/sg5
+-> DEVLINKS=/dev/tape/by-id/scsi-1BDT_FlexStor_II_00DE64103646_LL0 /dev/changer
+ sudo mtx status
+
+. tape drive
+.. amtapetype
+ amtapetype -f /dev/nst0
+ lto6
+Applying heuristic check for compression.
+Wrote random (uncompressible) data at 64307892.2816901 bytes/sec
+Wrote fixed (compressible) data at 89526673.5686274 bytes/sec
+Compression: enabled
+Writing one file to fill the volume.
+Wrote 2518267396096 bytes at 74830 kb/sec
+Writing smaller files (25182666752 bytes) to determine filemark.
+File 68, block 268971
+define tapetype lto6 {
+    comment "Created by amtapetype; compression enabled"
+    length 2459245504 kbytes
+    filemark 1110 kbytes
+    speed 74830 kps
+    blocksize 32 kbytes
+}
+
+ 
+ lto7 two days 
+
+Applying heuristic check for compression.
+Wrote random (uncompressible) data at 78055976.6349206 bytes/sec
+Wrote fixed (compressible) data at 87812973.7142857 bytes/sec
+Compression: disabled
+Writing one file to fill the volume.
+Wrote 6015700959232 bytes at 82766 kb/sec
+Writing smaller files (60157001728 bytes) to determine filemark.
+define tapetype lto7 {
+    comment "Created by amtapetype; compression disabled"
+    length 5874707968 kbytes
+    filemark 7 kbytes
+    speed 82766 kps
+    blocksize 32 kbytes
+}
+
+  vi /var/lib/amanda/template.d/tapetypes
+
+
+.hw
+#root#
+ ls -l /dev/tape/by-id
+lrwxrwxrwx 1 root root  9 Jun 27 15:46 scsi-1BDT_FlexStor_II_00DE64103646_LL0 -> ../../sg6
+lrwxrwxrwx 1 root root  9 Jun 27 15:44 scsi-35000e111c1a2f001 -> ../../st0
+lrwxrwxrwx 1 root root 10 Jun 27 15:44 scsi-35000e111c1a2f001-nst -> ../../nst0
+
+.install amanda
+#root#
+ yum --enablerepo='rh*' --disablerepo=rhel-workstation-rhscl* search amanda
+ yum --enablerepo=rhel-7-workstation-optional* install mtx mt-st amanda amanda-server
+ sg=$( dmesg | awk '/scsi.*type 8/ {print $8}' )
+ ln -s /dev/$sg /dev/changer
+ mtx -f /dev/changer status
+ mkdir /var/amanda 
+ chown -R amandabackup /etc/amanda /var/amanda
+ cd /etc/amanda
+ amserverconfig --template tape-changer --changerdev /dev/changer --tapetype lto7 --tapedev /dev/nst0 tape0
+
+
+Fri, Jul 15, 2016  9:45:13 AM
+.1 previous tapetype done on rhel6, try on rh7 
+(hoping for leom)
+50MB/s 3GB/m 180GB/h 4.32TB/day
+$ amandabackup@challenger 12:37:09 /etc/amanda/tape0 $
+ amtapetype -p tape0 /dev/nst0
+Checking for FSF_AFTER_FILEMARK requirement
+device-property "FSF_AFTER_FILEMARK" "false"
+$ amandabackup@challenger 12:38:27 /etc/amanda/tape0 $
+ amtapetype -f tape0 /dev/nst0
+
+Checking for FSF_AFTER_FILEMARK requirement
+Applying heuristic check for compression.
+Wrote random (uncompressible) data at 49709545.0746269 bytes/sec
+Wrote fixed (compressible) data at 55508992 bytes/sec
+Compression: disabled
+Writing one file to fill the volume.
+File 1, block 2302662 
+...
+Wrote 2518380871680 bytes at 54314 kb/sec
+Got LEOM indication, so drive and kernel together support LEOM
+Writing smaller files (25183780864 bytes) to determine filemark.
+define tapetype unknown-tapetype {
+    comment "Created by amtapetype; compression disabled"
+    length 2459356320 kbytes
+    filemark 759 kbytes
+    speed 54314 kps
+    blocksize 32 kbytes
+}
+# for this drive and kernel, LEOM is supported; add
+#   device-property "LEOM" "TRUE"
+# for this device.
+.1.1 test result
+got LEOM, good. But rh6 was 50% faster than rh7
+
+.2 config misc
+.2.1 holding disk
+define holdingdisk holdingdisk1 {
+directory "/mnt/amanda-holdingdisk1/"
+use 4500Gb
+chunksize 100Gb
+}
+
+holdingdisk "holdingdisk1"
+
+ amcheck tape0
+.2.2 cache
+(part_cache_max_size > entire dump) or (part_cache_max_size>part_size)?
+.3 misc
+.3.1 break it up - du rhel7 has -t for threshold, only list above X
+
+
+Fri, Aug 05, 2016  9:52:23 AM
+.1 break it down
+.1.1 devices: /dev/sg6 = changer, /dev/nst0 = drive
+ mt -f /dev/nst0 status
+SCSI 2 tape drive:
+File number=-1, block number=-1, partition=0.
+Tape block size 0 bytes. Density code 0x5a (no translation).
+Soft error count since last status=0
+General status bits on (1010000):
+ ONLINE IM_REP_EN
+.1.2 make mtx work
+ ln -s /dev/sg6 /dev/changer
+.1.2.1 after reboot, link is gone and changer is /dev/sg4
+...
+[    3.108801] scsi 1:0:0:0: Sequential-Access IBM      ULTRIUM-HH7      FA11 PQ:
+ 0 ANSI: 6
+[    3.116777] scsi 1:0:0:1: Medium Changer    BDT      FlexStor II      5.10 PQ:
+...
+[   13.328925] scsi 0:0:4:0: Attached scsi generic sg0 type 13
+[   13.328997] sd 0:2:0:0: Attached scsi generic sg1 type 0
+[   13.329063] sd 0:2:1:0: Attached scsi generic sg2 type 0
+[   13.329135] scsi 1:0:0:0: Attached scsi generic sg3 type 1
+[   13.329203] scsi 1:0:0:1: Attached scsi generic sg4 type 8
+[   13.329269] sr 8:0:0:0: Attached scsi generic sg5 type 5
+[   13.329319] sd 9:0:0:0: Attached scsi generic sg6 type 0
+[   13.330687] IPMI SSIF Interface driver
+[   13.527785] st: Version 20101219, fixed bufsize 32768, s/g segs 256
+[   13.528616] st 1:0:0:0: Attached scsi tape st0
+[   13.528623] st 1:0:0:0: st0: try direct i/o: yes (alignment 4 B)
+[   13.544452] osst :I: Tape driver with OnStream support version 0.99.4
+osst :I: $Id: osst.c,v 1.73 2005/01/01 21:13:34 wriede Exp $
+[   13.555017] SCSI Media Changer driver v0.25
+[   13.582075] ch 1:0:0:1: [ch0] type #1 (mt): 0x0+1 [medium transport]
+# root@challenger 12:54:06 /home/kahn #
+ mtx status 
+  Storage Changer /dev/changer:1 Drives, 24 Slots ( 1 Import/Export )
+Data Transfer Element 0:Full (Storage Element 1 Loaded):VolumeTag = 000201L6     
+      Storage Element 1:Empty
+      Storage Element 2:Full :VolumeTag=000202L6
+  ...
+.1.2.2 look here
+ lsscsi
+[0:0:4:0]    enclosu Intel    RES2SV240        0d00  -
+[0:2:0:0]    disk    AVAGO    MR9363-4i        4.65  /dev/sda
+[0:2:1:0]    disk    AVAGO    MR9363-4i        4.65  /dev/sdb
+[1:0:1:0]    tape    IBM      ULTRIUM-HH7      FA11  /dev/st0
+[1:0:1:1]    mediumx BDT      FlexStor II      5.10  /dev/sch0
+[8:0:0:0]    cd/dvd  MATSHITA DVD-ROM UJ8E0    1.00  /dev/sr0
+[9:0:0:0]    disk    ATA      HGST HTS725050A7 A230  /dev/sdc
+.2 dd to tape
+.2.1 bs=32k
+.2.2 speed
+90 MB/s stream speed
+web search says ibm tape can dip down to 40MB/s (hp is higher)
+spec for qualstar q24 says up to 300MB/s raw (uncompressed)
+
+Wed, Aug 10, 2016 11:13:52 AM
+.1 following 15min fast, working
+ventstore /home = test1
+
+Thu, Aug 11, 2016 10:22:26 AM
+.1 test2
+starting with template.d/changer.conf
+.2 to clear state, remove files
+tapelist curinfo *.log
+.3 amcrypt
+aes via aespipe from epel
+looking for it in /usr/bin:/usr/local/bin:/sbin:/usr/sbin
+# root@challenger 03:36:10 /home/kahn #
+ yum --enablerepo=epel install aespipe
+ ln -s /bin/aespipe /sbin
+
+$ amandabackup@challenger 12:37:08 /etc/amanda/test2 $
+ amdump test2 ventstore /data2
+$ amandabackup@challenger 09:10:54 /etc/amanda/test2 $
+ amreport test2
+Hostname: challenger.pmel.noaa.gov
+Org     : test2
+Config  : test2
+Date    : August 12, 2016
+
+These dumps were to tape test2-2.
+The next 3 tapes Amanda expects to use are: 3 new tapes.
+The next 3 new tapes already labelled are: test2-3, test2-4, test2-5
+FAILURE DUMP SUMMARY:
+  ventstore.pmel.noaa.gov /data2 lev 0  FAILED [data timeout]
+  ventstore.pmel.noaa.gov /data2 lev 0  partial taper: dumper failed
+  ventstore.pmel.noaa.gov /data2 lev 0  FAILED [data timeout]
+  ventstore.pmel.noaa.gov /data2 lev 0  partial taper: dumper failed
+
+
+
+STATISTICS:
+                          Total       Full      Incr.   Level:#
+                        --------   --------   --------  --------
+Estimate Time (hrs:min)     0:00
+Run Time (hrs:min)          8:33
+Dump Time (hrs:min)         0:00       0:00       0:00
+Output Size (meg)            0.0        0.0        0.0
+Original Size (meg)          0.0        0.0        0.0
+Avg Compressed Size (%)      --         --         --
+DLEs Dumped                    0          0          0
+Avg Dump Rate (k/s)          --         --         --
+
+Tape Time (hrs:min)         8:32       8:32       0:00
+Tape Size (meg)              0.0        0.0        0.0
+Tape Used (%)                0.0        0.0        0.0
+DLEs Taped                     2          2          0
+Parts Taped                    2          2          0
+Avg Tp Write Rate (k/s)      0.0        0.0        --
+
+USAGE BY TAPE:
+  Label               Time         Size      %  DLEs Parts
+  test2-2             8:32        1661G   70.8     2     2
+
+FAILED DUMP DETAILS:
+  /-- ventstore.pmel.noaa.gov /data2 lev 0 FAILED [data timeout]
+  sendbackup: start [ventstore.pmel.noaa.gov:/data2 level 0]
+  sendbackup: info BACKUP=/bin/tar
+  sendbackup: info RECOVER_CMD=/bin/tar -xpGf - ...
+  sendbackup: info end
+  \--------
+  /-- ventstore.pmel.noaa.gov /data2 lev 0 FAILED [data timeout]
+  sendbackup: start [ventstore.pmel.noaa.gov:/data2 level 0]
+  sendbackup: info BACKUP=/bin/tar
+  sendbackup: info RECOVER_CMD=/bin/tar -xpGf - ...
+  sendbackup: info end
+  \--------
+
+NOTES:
+  planner: Adding new disk ventstore.pmel.noaa.gov:/data2.
+  taper: Slot 2 with label test2-2 is usable
+  taper: tape test2-2 kb 0 fm 2 [OK]
+
+
+DUMP SUMMARY:
+                                                  DUMPER STATS               TAPER STATS
+HOSTNAME                DISK        L ORIG-GB  OUT-GB  COMP%  MMM:SS   KB/s MMM:SS   KB/s
+------------------------------------- ------------------------------------- -------------
+ventstore.pmel.noaa.gov /data2      0                     --    PARTIAL     168:48    0.0 PARTIAL
+
+(brought to you by Amanda version 3.3.3)
+
+Mon, Aug 15, 2016 10:10:08 AM
+.1 backup fails
+appears to try twice and fail, 1.6T x 2 = 8:32
+.2 testing result - need blocksize to read
+note. dd bs=32k <> tar -b 64 ?
+.2.1 amanda header
+# root@challenger 09:45:33 /backup #
+ dd if=/dev/st0  bs=32K of=part1
+1+0 records in
+1+0 records out
+32768 bytes (33 kB) copied, 0.0236699 s, 1.4 MB/s
+# root@challenger 09:46:46 /backup #
+ hd part1
+000000 41 4d 41 4e 44 41 3a 20 54 41 50 45 53 54 41 52  >AMANDA: TAPESTAR<
+000010 54 20 44 41 54 45 20 32 30 31 36 30 38 31 32 31  >T DATE 201608121<
+000020 32 33 37 32 39 20 54 41 50 45 20 74 65 73 74 32  >23729 TAPE test2<
+000030 2d 32 0a 0c 0a 00 00 00 00 00 00 00 00 00 00 00  >-2..............<
+000040 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  >................<
+*
+008000
+
+000110 4c 45 0a 54 6f 20 72 65 73 74 6f 72 65 2c 20 70  >LE.To restore, p<
+000120 6f 73 69 74 69 6f 6e 20 74 61 70 65 20 61 74 20  >osition tape at <
+000130 73 74 61 72 74 20 6f 66 20 66 69 6c 65 20 61 6e  >start of file an<
+000140 64 20 72 75 6e 3a 0a 09 64 64 20 69 66 3d 3c 74  >d run:..dd if=<t<
+000150 61 70 65 3e 20 62 73 3d 33 32 6b 20 73 6b 69 70  >ape> bs=32k skip<
+000160 3d 31 20 7c 20 2f 62 69 6e 2f 74 61 72 20 2d 78  >=1 | /bin/tar -x<
+000170 70 47 66 20 2d 20 2e 2e 2e 20 0a 0c 0a 00 00 00  >pGf -
+.2.2 see failed dump (1.6T?)
+# root@challenger 09:47:38 /backup #
+ mt -f /dev/nst0 fsf 1
+# root@challenger 09:47:52 /backup #
+ dd if=/dev/st0  bs=32K of=part1
+4GB/m (8GB chunks written every 2 minutes)
+
+Tue, Aug 16, 2016  8:16:13 AM
+.1 failure to span tapes
+amdump.xxx log.xxx
+planner: tape_length is set from tape length (2459245504 KB) * runtapes (3) == 7377736512 KB
+ANALYZING ESTIMATES...
+pondering ventstore.pmel.noaa.gov:/data2... next_level0 -17022 last_level -1 (due for level 0) (new disk, can't switch to degraded mode)
+  curr level 0 nsize 2941486470 csize 2941486470 total size 2941489896 total_lev0 2941486470 balanced-lev0size 588297294
+pondering ventstore.pmel.noaa.gov:/home... next_level0 3 last_level 0 (not due for a full dump, picking an incr level)
+   picklev: last night 0, so tonight level 1
+  curr level 1 nsize 2788 csize 2788 total size 2941493826 total_lev0 2941486470 balanced-lev0size 588344342
+INITIAL SCHEDULE (size 2941493826):
+  ventstore.pmel.noaa.gov /data2 pri 17022 lev 0 nsize 2941486470 csize 2941486470
+  ventstore.pmel.noaa.gov /home pri 0 lev 1 nsize 2788 csize 2788
+
+DELAYING DUMPS IF NEEDED, total_size 2941493826, tape length 7377736512 mark 1110
+  delay: Total size now 2941493826.
+
+.2 tar core dump on ventstore
+tar on cr, vs have different defaults but both are gnu
+-rw-r--r--  1 root         root 831G Aug 15 13:04 part1
+ignoring part-size
+
+Thu, Aug 18, 2016 10:05:14 AM
+.1 stepping through to see parts
+# root@challenger 10:04:07 /etc/amanda #
+ dd if=/dev/nst0  bs=32k count=1 | hd | less
+
+# root@challenger 10:04:44 /etc/amanda #
+ mt -f /dev/nst0 fsf 1 ; echo $?
+
+AMANDA: SPLIT_FILE 20160816164250 ventstore.pmel.noaa.gov /data2 part 2/-1
+short part4, last part. total 893
+ dd if=/dev/nst0  bs=32k > /backup/part4
+4177852+0 records in
+4177852+0 records out
+136899854336 bytes (137 GB) copied, 1816.92 s, 75.3 MB/s
+
+raw tape speed, no disk write:
+ dd if=/dev/nst0  bs=32k of=/dev/null
+7685490+0 records in
+7685490+0 records out
+251838136320 bytes (252 GB) copied, 2954.67 s, 85.2 MB/s
+
+.2 strategy - backup local data to span tapes
+.3 strat - backup from acoustic (xinetd/amanda)
+.4 strat - backup auth bsd, not bsdtcp
+
+Mon, Aug 22, 2016  8:51:49 AM
+.1 success!
+$ amandabackup@challenger 08:19:39 ~/test2 $
+ amreport test2
+Hostname: challenger.pmel.noaa.gov
+Org     : test2
+Config  : test2
+Date    : August 19, 2016
+
+These dumps were to tapes test2-3, test2-4.
+The next 3 tapes Amanda expects to use are: test2-5, test2-6, test2-1.
+
+
+STATISTICS:
+                          Total       Full      Incr.   Level:#
+                        --------   --------   --------  --------
+Estimate Time (hrs:min)     0:00
+Run Time (hrs:min)          8:28
+Dump Time (hrs:min)         8:25       8:25       0:00
+Output Size (meg)      2878336.1  2878336.1        0.0
+Original Size (meg)    2878336.1  2878336.1        0.0
+Avg Compressed Size (%)    100.0      100.0        --
+DLEs Dumped                    1          1          0
+Avg Dump Rate (k/s)      97297.6    97297.6        --
+
+Tape Time (hrs:min)         8:25       8:25       0:00
+Tape Size (meg)        2878336.1  2878336.1        0.0
+Tape Used (%)              119.8      119.8        0.0
+DLEs Taped                     1          1          0
+Parts Taped                   13         13          0
+Avg Tp Write Rate (k/s)  97287.3    97287.3        --
+
+USAGE BY TAPE:
+  Label               Time         Size      %  DLEs Parts
+  test2-3             8:17        2790G  118.9     1    12
+  test2-4             0:04          21G    0.9     0     1
+
+NOTES:
+  planner: Adding new disk acoustic.pmel.noaa.gov:/data0/backup-data/b3d1/_recovery_.
+  taper: Slot 2 with label test2-2 is not reusable
+  taper: Slot 3 with label test2-3 is usable
+  taper: tape test2-3 kb 2925020288 fm 12 [OK]
+  taper: Slot 4 with label test2-4 is usable
+  taper: tape test2-4 kb 22395912 fm 1 [OK]
+
+
+DUMP SUMMARY:
+                                                                         DUMPER STATS               TAPER STATS
+HOSTNAME               DISK                               L ORIG-GB  OUT-GB  COMP%  MMM:SS    KB/s MMM:SS    KB/s
+----------------------------------------------------------- -------------------------------------- --------------
+acoustic.pmel.noaa.gov /data0/backup-data/b3d1/_recovery_ 0    2811    2811     --  504:53 97297.6 504:56 97287.3
+
+(brought to you by Amanda version 3.3.3)
+$ amandabackup@challenger 08:19:42 ~/test2 $
+
+.2 client setup
+vi /etc/xinetd.d/amanda
+service xinetd reload
+ su amandabackup
+vi .amandahosts
+
+
+.3 encrypted
+.3.1 need to set up 
+ yum install aespipe
+ gpg --gen-key
+.3.2.1 cannot work
+ yum remove pinentry-gtk seahorse - no help
+https://www.gnupg.org/documentation/manuals/gnupg/Common-Problems.html
+.3.3 gpg setup for amanda
+.3.3.1 pinentry wants to use gui
+many complex answers, one simple: install and use 'screen' to get new tty
+https://bugzilla.redhat.com/show_bug.cgi?id=659512
+success! "0nceinagreatlongwhil3":digit03
+.3.3.2 was setup needed? generating keys still no output from gpg
+
+. questions
+will amdump matching several dl go on one tape?
+what happens if a second amdump command starts?
+how is gnutar-lists named? dumplevels uniq?
+review https://wiki.zmanda.com/index.php/How_To:Split_Dumps_Across_Tapes
+should i be caching parts? different from holding disk
+exclude /users from incrementals? or disky dailys?
+amanda doesn't reuse, ignores tape slot as start?
+
+. tests
+.. vtape config
+local, nohold, level 0 1 2. 
+local, nohold, multi dl.
+local, nohold, amrecover.
+client, nohold, level 0 1 2.
+client, recover.
+client, hold, L0.
+multi-client, hold, L0.
+
+. summary
+.. client 
+clients just have xinetd.d/amanda and challenger in /var/lib/amanda/.amandahosts
+.. server
+config full is on challenger in /etc/amanda/full
+backup initiated by challenger, onto tape in current slot
+. restore
+.. changer
+ -> http://wiki.zmanda.com/index.php/Changers
+ amrestore(8) does not include any tape changer support directly,
+as amrestore knows nothing about the amanda.conf files or server-side
+databases. This is a deliberate decision to keep amrestore independent,
+so it can be run from any host with a tape drive, even if the original
+tape server host is down. To use amrestore in a tape-changer environment,
+use amtape to find the right tape, then run amrestore giving the resulting
+tape device name.
+ amrecover(8) will cause the server to use a tape changer if the
+tape device specified in amrecover matches the string specified by
+amrecover_changer in amanda.conf. This string is often set to changer,
+so that a simple
+  amrecover> setdevice changer
+will cause the server to use its changer to supply tapes for recovery.
+ -> http://www.bic.mni.mcgill.ca/PersonalMalouinjeanfrancois/AmandaHowToRestore
+There are many ways to restore files with amanda, all depending if the amanda config is online and if the index/logs are online.
+Levels of functionality for restore:
+OS	Amanda	Config	Logs	Indexes	Restore program
+X	X	X	X	X	amrecover
+X	X	X	X	 	amfetchdump
+X	X	 	 	 	amrestore(*)
+X	 	 	 	 	Bare metal
+  (*) not changer-aware.
+tape-spanning feature. Note that all the logs must be online to use
+this method. If somehow the logs are lost you can recreate them with
+amfetchdump -i log <config>.
+.. amanda.conf client side
+ -> http://wiki.zmanda.com/index.php/GSWA/Recovering_Files
+# This file normally goes in /etc/amanda/amanda-client.conf.
+conf "full"
+index_server "challenger"
+tape_server  "challenger"
+tapedev      ""
+# if set to empty string "", ask server
+# amrecover will use the changer if set to the value
+# of 'amrecover_changer' in the server amanda.conf.
+auth "bsdtcp"
+#ssh_keys ""                    # your ssh keys file if you use ssh auth
+#resolves "resource temporarily unavailable" bug
+unreserved-tcp-port 1025,65535
+.. recover a file
+$ amandabackup@challenger 11:43:14 ~ $
+ amtape full slot 16
+#root@bioac3# 
+  mkdir tmp; cd tmp
+  amrecover full 
+  # listhost listdisk
+  amrecover> sethost bioac3-191
+  200 Dump host set to bioac3-191.
+  amrecover> setdisk /data1
+  200 Disk set to /data1.
+  amrecover> cd users/kahn/bin
+  /data1/users/kahn/bin
+  amrecover> add fwd.sh
+  Added file /users/kahn/bin/fwd.sh
+  amrecover> extract
+
+Fri, May 25, 2018 10:58:14 AM
+# root@embfile2 
+# we have to fix bad file times
+ sudo find /data/ -mtime +15000 -ls -exec touch -mt 8001010101 \{\} \;
+[amandabackup@challenger 11:58:21 ~/full/logs]
+:; # first client
+ cd /etc/amanda/full
+ rm tapelist
+ ln -s ../tapelist.d/tapelist.300 tapelist
+ sed -i 's/no-reuse/reuse/' tapelist
+ sed -i 's/^[0-9]*/0/' tapelist
+ cp tapelist tapelist.unsorted
+ sort -r tapelist.unsorted > tapelist
+ cat tapelist
+ amtape full slot 1
+:; # each client
+ cd ~/full
+ amadmin full tape
+ amcleanup full
+ amcheck full -cl embfile2-191
+ amdump full embfile2-191 /data0 &
+ tail -f ~/full/logs/log
+...
+FINISH planner date 20180525115904 time 103.702
+...
+START taper datestamp 20180525115904 label full-300 tape 1
+PART taper full-300 1 embfile2-191 /data0 20180525115904 1/-1 0 [sec 6139.714198 bytes 644245094400 kps 102471.479895]
+PART taper full-300 2 embfile2-191 /data0 20180525115904 2/-1 0 [sec 5806.720495 bytes 644245094400 kps 108347.836019]
+ amadmin full no-reuse full-300 
+
+# copy of a backup
+# copybackup [index [from [to]]]
+INDEX=${1:-0}
+FROMSLOT=${2:-1}
+TOSLOT=${3:-12}
+cd /users/amandabackup/temp
+rm part*
+# read
+I=$INDEX
+mtx unload
+mtx load $(($FROMSLOT + $I))
+mt -f /dev/st0 rewind
+for i in {00..32}; do
+  echo dd bs=32k if=/dev/nst0 of=part$i status=progress
+  dd bs=32k if=/dev/nst0 of=part$i status=progress
+  if [ $? -ne 0 ]; then exit 1; fi
+done
+rm part$i
+# save
+mt -f /dev/st0 rewind
+for i in part*; do
+  echo dd bs=32k if=$i of=/dev/nst0 status=progress
+  dd bs=32k if=$i of=/dev/nst0 status=progress
+  if [ $? -ne 0 ]; then exit 1; fi
+  rm $i
+done
+
+copying backup - five tapes took 8 days

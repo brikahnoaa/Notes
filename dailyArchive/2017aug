@@ -1,0 +1,14 @@
+Mon, Aug 14, 2017  9:33:16 AM
+implemented scripts to provide a backup each day of the week + weekly + monthly
+uses rsync --link-dest to reuse files with hard links, copies to cr and /backup
+
+.1 understanding tar used by amanda
+/var/lib/amanda/full/index/bioac3-191/_data1/20170220135856_0.header
+dd if=<tape> bs=32k skip=1 | /bin/tar -xpGf -
+       -p, --preserve-permissions, --same-permissions
+              extract information about file permissions (default for superuser)
+       -G, --incremental
+              Handle old GNU-format incremental backups. Note, not really; amanda
+              uses -g to create the archive, this is a shortcut on extract.
+
+.2 

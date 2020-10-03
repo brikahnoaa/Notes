@@ -1,0 +1,130 @@
+.0 copy lvm volume
+.0.1 edit /etc/udev/rules.d/70-persistent-net.rules
+.0.1.1 new devices added at end
+.0.2 remove HWADDR from /etc/sysconfig/network-scripts/ifc*
+
+.1 install from CD rhel6
+.1.1 name.pmel.noaa.gov
+.1.1.1 do not specify network attribs
+.1.2 do not select expanded FS
+.1.3 if name not set on install, edit /etc/syconfig/network
+.1.3 first user=kahn
+.2 settings
+  vi /etc/selinux/config
+SELINUX=disabled
+  reboot
+.2.1 network
+  use network manager to set IP addr
+ssh kahn@name
+.2.2 iptables
+  chkconfig iptables off; service iptables stop
+.2.2.1 eth0
+  chkconfig NetworkManager off; service NetworkManager stop
+  vi /etc/sysconfig/network-scripts/ifcfg-eth0
+#UUID
+ONBOOT=yes
+NM_CONTROLLED=no
+DOMAIN=pmel.noaa.gov
+DEFROUTE=yes
+IPADDR=161.55.192.254
+NETMASK=255.255.255.0
+GATEWAY=161.55.192.1
+DNS1=161.55.192.11 
+DNS2=161.55.124.21
+  ifdown eth0; ifup eth0
+.2.2.2 eth1
+.2.3 redhat
+https://rhn.redhat.com/rhn/systems/SystemList.do
+remove old system
+  rhn_register  NEW-6WS-64b-yang.pmel
+{ pmel_admin:RHNservices04 }
+add channels
+  yum update
+.2.4 restore
+  lsblk
+  mount /dev/sd?? /mnt
+  export mnt=/mnt
+or
+  mkdir /home/temp
+  export mnt=/home/temp
+  rsync -a ventstore::yang/ $mnt &
+.2.4.1 home root usr/local etc
+  export TODAY=$( date +%F )
+  cd $mnt/etc
+  /bin/cp -af --backup passwd group shadow /etc
+  /bin/cp -af fstab /etc/fstab.$TODAY
+  cd $mnt
+  /bin/cp -af --no-clobber home root usr /
+.2.4.2 motd, sshd, repos epel centos
+ $  scp tar/rpm.tar tar/etc.tar yang:
+  cd /; tar --no-same-owner -xvf ~kahn/etc.tar
+  service sshd restart
+#.3 packages
+#  cat $mnt/root/install/rpm-qa--last | cut -f1 -d' ' > /root/rpm-qa
+#  yum install $( cat /root/rpm-qa ) 
+#  yum install $( cat /root/rpm-qa ) | awk '/no package/{print $3}'
+  yum install xterm
+.4 info
+  cd /root
+  mkdir -p install
+  mv install.* install
+  rpm -qa > install/rpm-qa.$TODAY
+.5 services
+  cd $mnt/etc
+  /bin/cp exports rsyncd.conf /etc
+  /bin/cp -af cron.daily /etc
+.5.1 servers
+.5.1.1 samba - for servers
+  yum install samba 
+  cd $mnt/etc
+  /bin/cp samba/smb.conf /etc/samba
+  net rpc join -U administrator -W pmel -S hatfield
+  chkconfig smb on; service smb start
+  chkconfig nmb on; service nmb start
+.5.1.2 nfs - for servers
+  cp $mnt/etc/exports /etc
+  chkconfig nfs on; service nfs start
+.5.1.3 raid
+tw_cli or storcli
+.5.1.4 apcupsd
+.5.2 for workstations
+.5.2.1 centrify
+.5.3 fresh install
+  vi /etc/cron.daily/back*
+  vi /etc/rsyncd.conf
+.6 drivers
+.6.1 for nvidia cards: brutal:/Downloads/drivers
+.6.2 legacy 340 needs kernel source
+.6.2.1 invoke like this, details differ as updated:
+  init 3
+  yum install kernel-devel
+  ./NVIDIA-Linux-x86_64-[TAB] --kernel-source-path /usr/src/kernels/[TAB]
+  init 5
+.7 packages
+  cd /opt; tar --no-same-owner -xvf ~kahn/rpm.tar; cd rpm
+.7.1 besclient
+  cd bes
+  mkdir -p /var/opt/BESClient/ /etc/opt/BESClient/ /opt/BESClient/bin/
+  cp besclient.config /var/opt/BESClient
+  cp actionsite.afxm /etc/opt/BESClient/
+  cp dcid.skey /opt/BESClient/bin/
+  rpm -ivh *64.rpm
+  service besclient start
+  tail –-follow /var/opt/BESClient/__BESData/__Global/Logs/[TAB]
+.7.2 centrify
+.7.2.1
+  cp -a $mnt/etc/centrifydc/ssh/sshd_config /etc/centrifydc/ssh
+or add to file
+       X11Forwarding yes
+.7.2.2
+/etc/centrifydc/centrifydc.conf
+> pam.mapuser.kahn: kahn@pmel.noaa.gov
+> pam.mapuser.lau: lau@pmel.noaa.gov
+.7.3 epel-release-latest-6.noarch.rpm
+.7.4 nagios ?
+
+.8 reference
+.8.1 EPEL
+ http://fedoraproject.org/wiki/EPEL
+.8.2 ntfs
+ https://access.redhat.com/solutions/23993

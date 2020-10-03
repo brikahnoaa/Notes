@@ -1,0 +1,14 @@
+Fri, Aug 12, 2016  5:25:27 PM
+
+localhost:631
+
+garfield:
+# xeroxPCL5. ipp://trichromatic/ipp, generic pcl5 cups+gutenprint (B&W)
+ (not pcl5 lf xf)
+# trichromaticPS. ipp://trichromatic/ipp, gener PS foo/ps (color, 2side)
+
+xerox-npt. ipp://xerox-npt/ipp, xerox/workcentre7228
+
+challenger:
+# xerox. ipp://trichromatic/ipp, gener PS foo/ps (color, 2side)
+

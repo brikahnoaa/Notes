@@ -1,0 +1,333 @@
+Thu, May 05, 2016 11:38:04 AM
+.1 9361 LSI raid
+.1.1 install
+ ./install.csh -l 
+....
+Checking for any Old Version
+No Old Version Found
+Continuing with installation
+Preparing...                ########################################### [100%]
+Installing....
+   1:Lib_Utils2             ########################################### [100%]
+Installing  MegaRAID_Storage_Manager-16.02.00-04
+Preparing...                ########################################### [100%]
+Installing....
+   1:MegaRAID_Storage_Manage########################################### [100%]
+/
+/
+/
+/etc/X11/xinit/xinitrc.d
+
+/root/rpm/9361/MegaMgr
+error: Failed dependencies:
+        libstdc++.so.5()(64bit) is needed by sas_snmp-16.02-0004.x86_64
+        libstdc++.so.5(CXXABI_1.2)(64bit) is needed by sas_snmp-16.02-0004.x86_64
+        libstdc++.so.5(GLIBCPP_3.2)(64bit) is needed by sas_snmp-16.02-0004.x86_64
+SAS SNMP installation failed
+error: Failed dependencies:
+        libstdc++.so.5()(64bit) is needed by sas_ir_snmp-16.02-0004.x86_64
+        libstdc++.so.5(CXXABI_1.2)(64bit) is needed by sas_ir_snmp-16.02-0004.x86_64
+        libstdc++.so.5(GLIBCPP_3.2)(64bit) is needed by sas_ir_snmp-16.02-0004.x86_64
+SAS-IR SNMP installation failed
+
+.1.2 flash rom
+ storcli64 /c0 show all 
+Basics :
+======
+Controller = 0
+Model = LSI MegaRAID 9361-4i
+Serial Number = SV52953534
+Current Controller Date/Time = 05/05/2016, 11:38:55
+Current System Date/time = 05/05/2016, 11:38:56
+SAS Address = 500605b00a926030
+PCI Address = 00:02:00:00
+Mfg Date = 07/14/15
+Rework Date = 00/00/00
+Revision No = 02D
+Version :
+=======
+Firmware Package Build = 24.3.0-0050
+Firmware Version = 4.230.20-3532
+Bios Version = 6.17.04.0_4.16.08.00_0x06060A01
+Ctrl-R Version = 5.04-0002
+Preboot CLI Version = 01.07-05:#%0000
+NVDATA Version = 3.1403.00-0079
+Boot Block Version = 3.02.00.00-0001
+Driver Name = megaraid_sas
+Driver Version = 06.806.08.00-rh3
+.2 raid
+.2.1 show
+ storcli64 /c0 show
+Generating detailed summary of the adapter, it may take a while to complete.
+
+Controller = 0
+Status = Success
+Description = None
+
+Product Name = LSI MegaRAID 9361-4i
+Serial Number = SV52953534
+SAS Address =  500605b00a926030
+PCI Address = 00:02:00:00
+System Time = 05/05/2016 11:47:59
+Mfg. Date = 07/14/15
+Controller Time = 05/05/2016 11:47:58
+FW Package Build = 24.3.0-0050
+BIOS Version = 6.17.04.0_4.16.08.00_0x06060A01
+FW Version = 4.230.20-3532
+Driver Name = megaraid_sas
+Driver Version = 06.806.08.00-rh3
+Vendor Id = 0x1000
+Device Id = 0x5D
+SubVendor Id = 0x1000
+SubDevice Id = 0x9363
+Host Interface = PCI-E
+Device Interface = SAS-12G
+Bus Number = 2
+Device Number = 0
+Function Number = 0
+Physical Drives = 12
+
+PD LIST :
+=======
+
+---------------------------------------------------------------------------
+EID:Slt DID State DG     Size Intf Med SED PI SeSz Model                Sp
+---------------------------------------------------------------------------
+4:8       6 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:9      15 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:10      5 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:11     13 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:12      7 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:13     17 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:14     10 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:15     16 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:16      9 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:17     14 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:18     12 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+4:19      8 UGood -  5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 D
+---------------------------------------------------------------------------
+
+EID-Enclosure Device ID|Slt-Slot No.|DID-Device ID|DG-DriveGroup
+DHS-Dedicated Hot Spare|UGood-Unconfigured Good|GHS-Global Hotspare
+UBad-Unconfigured Bad|Onln-Online|Offln-Offline|Intf-Interface
+Med-Media Type|SED-Self Encryptive Drive|PI-Protection Info
+SeSz-Sector Size|Sp-Spun|U-Up|D-Down|T-Transition|F-Foreign
+UGUnsp-Unsupported|UGShld-UnConfigured shielded|HSPShld-Hotspare shielded
+CFShld-Configured shielded|Cpybck-CopyBack|CBShld-Copyback Shielded
+
+.2.2 add
+ storcli64 /c0 add vd type=raid6 drives=4:8-19
+Controller = 0
+Status = Success
+Description = Add VD Succeeded
+
+.2.4 status
+ storcli64 /c0 show
+Generating detailed summary of the adapter, it may take a while to complete.
+
+Controller = 0
+Status = Success
+Description = None
+
+Product Name = LSI MegaRAID 9361-4i
+Serial Number = SV52953534
+SAS Address =  500605b00a926030
+PCI Address = 00:02:00:00
+System Time = 05/05/2016 11:50:01
+Mfg. Date = 07/14/15
+Controller Time = 05/05/2016 11:50:00
+FW Package Build = 24.3.0-0050
+BIOS Version = 6.17.04.0_4.16.08.00_0x06060A01
+FW Version = 4.230.20-3532
+Driver Name = megaraid_sas
+Driver Version = 06.806.08.00-rh3
+Vendor Id = 0x1000
+Device Id = 0x5D
+SubVendor Id = 0x1000
+SubDevice Id = 0x9363
+Host Interface = PCI-E
+Device Interface = SAS-12G
+Bus Number = 2
+Device Number = 0
+Function Number = 0
+Drive Groups = 1
+
+TOPOLOGY :
+========
+
+----------------------------------------------------------------------------
+DG Arr Row EID:Slot DID Type  State BT      Size PDC  PI SED DS3  FSpace TR
+----------------------------------------------------------------------------
+ 0 -   -   -        -   RAID6 Optl  N  54.575 TB dflt N  N   dflt N      N
+ 0 0   -   -        -   RAID6 Optl  N  54.575 TB dflt N  N   dflt N      N
+ 0 0   0   4:8      6   DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   1   4:9      15  DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   2   4:10     5   DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   3   4:11     13  DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   4   4:12     7   DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   5   4:13     17  DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   6   4:14     10  DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   7   4:15     16  DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   8   4:16     9   DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   9   4:17     14  DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   10  4:18     12  DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+ 0 0   11  4:19     8   DRIVE Onln  N   5.457 TB dflt N  N   dflt -      N
+----------------------------------------------------------------------------
+
+DG=Disk Group Index|Arr=Array Index|Row=Row Index|EID=Enclosure Device ID
+DID=Device ID|Type=Drive Type|Onln=Online|Rbld=Rebuild|Dgrd=Degraded
+Pdgd=Partially degraded|Offln=Offline|BT=Background Task Active
+PDC=PD Cache|PI=Protection Info|SED=Self Encrypting Drive|Frgn=Foreign
+DS3=Dimmer Switch 3|dflt=Default|Msng=Missing|FSpace=Free Space Present
+TR=Transport Ready
+
+Virtual Drives = 1
+
+VD LIST :
+=======
+
+--------------------------------------------------------------
+DG/VD TYPE  State Access Consist Cache Cac sCC      Size Name
+--------------------------------------------------------------
+0/0   RAID6 Optl  RW     No      NRWTD -   ON  54.575 TB
+--------------------------------------------------------------
+
+Cac=CacheCade|Rec=Recovery|OfLn=OffLine|Pdgd=Partially Degraded|dgrd=Degraded
+Optl=Optimal|RO=Read Only|RW=Read Write|HD=Hidden|TRANS=TransportReady|B=Blocked|
+Consist=ConsistentR=Read Ahead Always|NR=No Read Ahead|WB=WriteBack|
+AWB=Always WriteBack|WT=WriteThrough|C=Cached IO|D=Direct IO|sCC=Scheduled
+Check Consistency
+
+Physical Drives = 12
+
+PD LIST :
+=======
+
+---------------------------------------------------------------------------
+EID:Slt DID State DG     Size Intf Med SED PI SeSz Model                Sp
+---------------------------------------------------------------------------
+4:8       6 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 U
+4:9      15 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 U
+4:10      5 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 U
+4:11     13 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 T
+4:12      7 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 U
+4:13     17 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 U
+4:14     10 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 T
+4:15     16 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 U
+4:16      9 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 U
+4:17     14 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 T
+4:18     12 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 T
+4:19      8 Onln   0 5.457 TB SATA HDD N   N  512B HGST HDN726060ALE610 U
+---------------------------------------------------------------------------
+
+EID-Enclosure Device ID|Slt-Slot No.|DID-Device ID|DG-DriveGroup
+DHS-Dedicated Hot Spare|UGood-Unconfigured Good|GHS-Global Hotspare
+UBad-Unconfigured Bad|Onln-Online|Offln-Offline|Intf-Interface
+Med-Media Type|SED-Self Encryptive Drive|PI-Protection Info
+SeSz-Sector Size|Sp-Spun|U-Up|D-Down|T-Transition|F-Foreign
+UGUnsp-Unsupported|UGShld-UnConfigured shielded|HSPShld-Hotspare shielded
+CFShld-Configured shielded|Cpybck-CopyBack|CBShld-Copyback Shielded
+
+
+# root@challenger 11:50:03 ~/rpm/9361/MegaMgr #
+
+.2.5 init
+ storcli64 /c0/v0 show bgi
+Controller = 0
+Status = Success
+Description = None
+
+
+VD Operation Status :
+===================
+
+-------------------------------------------------------
+VD Operation Progress% Status      Estimated Time Left
+-------------------------------------------------------
+ 0 BGI               0 In progress 15 Hours 36 Minutes
+-------------------------------------------------------
+
+.2.6 finished on schedule
+# root@challenger 11:17:29 /var/lib/amanda/template.d #
+ storcli64 /c0/v0 show bgi
+-------------------------------------------------------
+VD Operation Progress% Status      Estimated Time Left
+-------------------------------------------------------
+ 0 BGI              76 In progress 3 Hours 39 Minutes
+
+.3 rsync from b2 running at same time as init
+# root@challenger 02:42:07 /data #
+ rsync -a bioac2::b3d0 b3d0 &
+[1] 16447
+# root@challenger 02:42:28 /data #
+ rsync -a bioac2::b3d1 b3d1 &
+[2] 16449
+
+.3.1 setup for backup from bioac3
+/etc/rsyncd.conf
+/etc/xinetd.d/rsync
+chkconfig xinetd on; service xinetd start
+
+.3.1 background init
+# root@challenger 08:26:05 /home/kahn #
+ storcli64 /c0/v0 show bgi
+Controller = 0
+Status = Success
+Description = None
+
+
+VD Operation Status :
+===================
+
+-------------------------------------------------------
+VD Operation Progress% Status      Estimated Time Left
+-------------------------------------------------------
+ 0 BGI              58 In progress 6 Hours 33 Minutes
+-------------------------------------------------------
+
+
+# root@challenger 08:26:16 /home/kahn #
+ df
+Filesystem           1G-blocks  Used Available Use% Mounted on
+/dev/mapper/vg_challenger-lv_root
+                            50     5        42  10% /
+tmpfs                        8     1         8   1% /dev/shm
+/dev/sda1                    1     1         1  17% /boot
+/dev/mapper/vg_challenger-lv_home
+                           401     1       381   1% /home
+/dev/sdb                 55884  5786     50098  11% /data
+
+
+.4 amanda
+  Installing : 2:xinetd-2.3.14-39.el6_4.x86_64                               1/3
+  Installing : amanda-2.6.1p2-9.el6_6.x86_64                                 2/3
+  Installing : amanda-client-2.6.1p2-9.el6_6.x86_64                          3/3
+
+  Installing : amanda-server-2.6.1p2-9.el6_6.x86_64                          1/1
+
+.4.1 /var/lib/amanda/template.d/tapetypes
+define tapetype lto6 {
+    comment "HP LTO6 on IBM, Created by amtapetype"
+    length 2459245504 kbytes
+    filemark 1110 kbytes
+    speed 74830 kps
+    blocksize 32 kbytes
+}
+
+define tapetype lto7 {
+    comment "Quantum LTO7 on IBM, Created by amtapetype"
+    length 5874707968 kbytes
+    filemark 7 kbytes
+    speed 82766 kps
+    blocksize 32 kbytes
+}
+
+.4.2 config
+ su amandabackup
+
+.5 samba
+  mkdir /data/users; ln -s /data/users /
+  net join ads -U administrator -S nserver1
+  cp /etc/samba/smb.conf.tmpl /etc/samba/smb.conf
+  vi /etc/samba/smb.conf
+  service smb restart

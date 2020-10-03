@@ -1,0 +1,333 @@
+in case of emergency:
+https://access.redhat.com/solutions/641933
+
+# root@bioac3 03:49:31 /var/log #
+ mount /data1
+mount: /dev/sdb1: can't read superblock
+# root@bioac3 03:49:46 /var/log #
+ lsblk
+NAME                         MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdb                            8:16   0  36.4T  0 disk
+└─sdb1                         8:17   0  36.4T  0 part
+sdc                            8:32   0 465.8G  0 disk
+├─sdc1                         8:33   0   500M  0 part /boot
+└─sdc2                         8:34   0 465.3G  0 part
+  ├─vg_bioac3-lv_root (dm-0) 253:0    0    50G  0 lvm  /
+  ├─vg_bioac3-lv_swap (dm-1) 253:1    0   7.8G  0 lvm  [SWAP]
+  └─vg_bioac3-lv_home (dm-2) 253:2    0 195.3G  0 lvm  /home
+sda                            8:0    0  36.4T  0 disk
+└─sda1                         8:1    0  36.4T  0 part /data0
+# root@bioac3 03:50:47 /var/log #
+ xfs_
+xfs_admin      xfs_db         xfs_growfs     xfs_mdrestore  xfs_quota
+xfs_bmap       xfs_estimate   xfs_info       xfs_metadump   xfs_repair
+xfs_check      xfs_freeze     xfs_io         xfs_mkfile     xfs_rtcp
+xfs_copy       xfs_fsr        xfs_logprint   xfs_ncheck
+# root@bioac3 03:50:47 /var/log #
+ xfs_admin -l /dev/sdb1
+label = "raid-v1"
+# root@bioac3 03:51:57 /var/log #
+ vi /etc/fstab
+# root@bioac3 03:52:16 /var/log #
+ xfs_admin -u /dev/sdb1
+UUID = 06501813-e918-4452-a6b7-eef2ef03b0f5
+# root@bioac3 03:52:51 /var/log #
+ xfs_repair -n /dev/sdb1
+Phase 1 - find and verify superblock...
+Phase 2 - using internal log
+        - scan filesystem freespace and inode maps...
+        - found root inode chunk
+Phase 3 - for each AG...
+        - scan (but don't clear) agi unlinked lists...
+        - process known inodes and perform inode discovery...
+        - agno = 0
+        - agno = 1
+        - agno = 2
+        - agno = 3
+        - agno = 4
+        - agno = 5
+        - agno = 6
+        - agno = 7
+        - agno = 8
+        - agno = 9
+        - agno = 10
+        - agno = 11
+        - agno = 12
+        - agno = 13
+        - agno = 14
+        - agno = 15
+        - agno = 16
+        - agno = 17
+        - agno = 18
+        - agno = 19
+        - agno = 20
+        - agno = 21
+        - agno = 22
+        - agno = 23
+        - agno = 24
+        - agno = 25
+        - agno = 26
+        - agno = 27
+        - agno = 28
+        - agno = 29
+        - agno = 30
+        - agno = 31
+        - agno = 32
+        - agno = 33
+        - agno = 34
+        - agno = 35
+        - agno = 36
+        - process newly discovered inodes...
+Phase 4 - check for duplicate blocks...
+        - setting up duplicate extent list...
+        - check for inodes claiming duplicate blocks...
+        - agno = 0
+        - agno = 1
+        - agno = 4
+        - agno = 3
+        - agno = 5
+        - agno = 6
+        - agno = 7
+        - agno = 8
+        - agno = 9
+        - agno = 2
+        - agno = 12
+        - agno = 10
+        - agno = 11
+        - agno = 14
+        - agno = 15
+        - agno = 16
+        - agno = 17
+        - agno = 18
+        - agno = 19
+        - agno = 20
+        - agno = 21
+        - agno = 22
+        - agno = 13
+        - agno = 23
+        - agno = 26
+        - agno = 27
+        - agno = 28
+        - agno = 24
+        - agno = 25
+        - agno = 31
+        - agno = 32
+        - agno = 33
+        - agno = 34
+        - agno = 35
+        - agno = 36
+        - agno = 30
+        - agno = 29
+No modify flag set, skipping phase 5
+Phase 6 - check inode connectivity...
+        - traversing filesystem ...
+        - traversal finished ...
+        - moving disconnected inodes to lost+found ...
+Phase 7 - verify link counts...
+No modify flag set, skipping filesystem flush and exiting.
+# root@bioac3 03:54:54 /var/log #
+ xfs_repair /dev/sdb1
+Phase 1 - find and verify superblock...
+Phase 2 - using internal log
+        - zero log...
+XFS: Log inconsistent (didn't find previous header)
+XFS: failed to find log head
+zero_log: cannot find log head/tail (xlog_find_tail=5), zeroing it anyway
+        - scan filesystem freespace and inode maps...
+        - found root inode chunk
+Phase 3 - for each AG...
+        - scan and clear agi unlinked lists...
+        - process known inodes and perform inode discovery...
+        - agno = 0
+        - agno = 1
+        - agno = 2
+        - agno = 3
+        - agno = 4
+        - agno = 5
+        - agno = 6
+        - agno = 7
+        - agno = 8
+        - agno = 9
+        - agno = 10
+        - agno = 11
+        - agno = 12
+        - agno = 13
+        - agno = 14
+        - agno = 15
+        - agno = 16
+        - agno = 17
+        - agno = 18
+        - agno = 19
+        - agno = 20
+        - agno = 21
+        - agno = 22
+        - agno = 23
+        - agno = 24
+        - agno = 25
+        - agno = 26
+        - agno = 27
+        - agno = 28
+        - agno = 29
+        - agno = 30
+        - agno = 31
+        - agno = 32
+        - agno = 33
+        - agno = 34
+        - agno = 35
+        - agno = 36
+        - process newly discovered inodes...
+Phase 4 - check for duplicate blocks...
+        - setting up duplicate extent list...
+        - check for inodes claiming duplicate blocks...
+        - agno = 0
+        - agno = 1
+        - agno = 2
+        - agno = 4
+        - agno = 3
+        - agno = 6
+        - agno = 8
+        - agno = 9
+        - agno = 10
+        - agno = 11
+        - agno = 5
+        - agno = 13
+        - agno = 14
+        - agno = 7
+        - agno = 15
+        - agno = 12
+        - agno = 18
+        - agno = 19
+        - agno = 20
+        - agno = 16
+        - agno = 22
+        - agno = 23
+        - agno = 24
+        - agno = 25
+        - agno = 26
+        - agno = 27
+        - agno = 17
+        - agno = 21
+        - agno = 30
+        - agno = 29
+        - agno = 32
+        - agno = 31
+        - agno = 34
+        - agno = 35
+        - agno = 36
+        - agno = 28
+        - agno = 33
+Phase 5 - rebuild AG headers and trees...
+        - reset superblock...
+Phase 6 - check inode connectivity...
+        - resetting contents of realtime bitmap and summary inodes
+        - traversing filesystem ...
+        - traversal finished ...
+        - moving disconnected inodes to lost+found ...
+Phase 7 - verify and correct link counts...
+done
+# root@bioac3 04:01:45 /var/log #
+
+Tue, May 03, 2016  3:53:58 PM
+happened again, but with /dev/sda1
+
+# root@bioac3 03:50:27 /home/kahn #
+ xfs_repair /dev/sda1
+Phase 1 - find and verify superblock...
+Phase 2 - using internal log
+        - zero log...
+XFS: Log inconsistent (didn't find previous header)
+XFS: failed to find log head
+zero_log: cannot find log head/tail (xlog_find_tail=5), zeroing it anyway
+        - scan filesystem freespace and inode maps...
+        - found root inode chunk
+Phase 3 - for each AG...
+        - scan and clear agi unlinked lists...
+        - process known inodes and perform inode discovery...
+        - agno = 0
+        - agno = 1
+        - agno = 2
+        - agno = 3
+        - agno = 4
+        - agno = 5
+        - agno = 6
+        - agno = 7
+        - agno = 8
+        - agno = 9
+        - agno = 10
+        - agno = 11
+        - agno = 12
+        - agno = 13
+        - agno = 14
+        - agno = 15
+        - agno = 16
+        - agno = 17
+        - agno = 18
+        - agno = 19
+        - agno = 20
+        - agno = 21
+        - agno = 22
+        - agno = 23
+        - agno = 24
+        - agno = 25
+        - agno = 26
+        - agno = 27
+        - agno = 28
+        - agno = 29
+        - agno = 30
+        - agno = 31
+        - agno = 32
+        - agno = 33
+        - agno = 34
+        - agno = 35
+        - agno = 36
+        - process newly discovered inodes...
+Phase 4 - check for duplicate blocks...
+        - setting up duplicate extent list...
+        - check for inodes claiming duplicate blocks...
+        - agno = 2
+        - agno = 3
+        - agno = 4
+        - agno = 5
+        - agno = 6
+        - agno = 7
+        - agno = 8
+        - agno = 9
+        - agno = 10
+        - agno = 11
+        - agno = 12
+        - agno = 13
+        - agno = 14
+        - agno = 15
+        - agno = 16
+        - agno = 17
+        - agno = 18
+        - agno = 19
+        - agno = 20
+        - agno = 21
+        - agno = 0
+        - agno = 1
+        - agno = 24
+        - agno = 25
+        - agno = 26
+        - agno = 22
+        - agno = 23
+        - agno = 29
+        - agno = 30
+        - agno = 31
+        - agno = 32
+        - agno = 33
+        - agno = 34
+        - agno = 35
+        - agno = 36
+        - agno = 27
+        - agno = 28
+Phase 5 - rebuild AG headers and trees...
+        - reset superblock...
+Phase 6 - check inode connectivity...
+        - resetting contents of realtime bitmap and summary inodes
+        - traversing filesystem ...
+        - traversal finished ...
+        - moving disconnected inodes to lost+found ...
+Phase 7 - verify and correct link counts...
+done
+

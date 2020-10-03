@@ -1,0 +1,30 @@
+create:
+ storcli64 /c0 add vd type=raid5 drives=4:20-23
+[ storcli64 /c0/v1 start init full ]
+
+delete:
+ storcli64 /c0/v1 delete
+
+remove:
+ sudo storcli /c0/e4/s12-23 set offline
+pull them out
+
+restore:
+.1 replace drives -> uBad unconfig bad 
+.2 make uGood
+ storcli64 /c0/e4/s20-21 set good
+? storcli64 /c0/e4/s20-21 set offline -> online ?
+.3.a import
+ storcli64 /c0/fall import
+.3.b reload config
+ storcli64 /c0 set config file=/root/raid/6x12r6-4x4r0
+.3.c recreate - don't initialize!
+ storcli64 /c0 add vd type=raid5 drives=4:20-23 name=data1 
+.4 consistency check
+ storcli64 /c0/v1 start cc
+
+clean: (2.5 hrs / TB)
+ storcli64 /c0/e4/s20-23 start initialization
+
+spare:
+ storcli /c0/e4/s4,5 add hotsparedrive

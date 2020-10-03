@@ -1,0 +1,123 @@
+Mon, Feb 01, 2016  8:46:34 AM
+[kahn@acoustic 08:45:38 /users/kahn]
+ $ sudo fsck.vfat -w -r -f /dev/loop0
+dosfsck 3.0.9, 31 Jan 2010, FAT32, LFN
+Seek to 512174816768:Invalid argument
+## q2 is smaller than q1
+ $ dd if=/dev/zero count=1008 >> q2b
+ $ sudo losetup -d /dev/loop0
+ $ sudo fsck.vfat -f -l -r -v -w /dev/loop0
+
+
+
+compare two fats, 004000 7735200
+i don't see difference, altho fsck did
+
+mount t1, touch /mnt/test
+18e000 41 74 00 65 00 73 00 74 00 00 00 0f 00 32 ff ff  >At.e.s.t.....2..<
+18e010 ff ff ff ff ff ff ff ff ff ff 00 00 ff ff ff ff  >................<
+18e020 54 45 53 54 20 20 20 20 20 20 20 20 00 00 44 7d  >TEST        ..D}<
+18e030 41 48 41 48 00 00 44 7d 41 48 00 00 00 00 00 00  >AHAH..D}AH......<
+18e040 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  >................<
+
+wisp search 94676240 - x7e00 - x40
+wisp@ x9466E400. /x200 = sector, -x77332 = data sector, /x20 = cluster
+cluster d89 has flac (1 cluster) 
+fatC = d89 * 4 + x4000 = x7624
+
+... wisp x94672400
+
+cluster = sec*clu = x20 * x200 = x4000 bytes
+
+make fat file
+ ;: od -v -A x -t x4 -j 0x4000 -w4 -N 124981760 q001 > fat.q1
+
+# to change a few bytes in a file:
+printf '\x31\xc0\xc3' | dd of=test_blob bs=1 seek=100 count=3 conv=notrunc 
+
+dc <<< "16o 16i  $i  200 / 77332 - 20 / 2 + p q" # data to cluster
+dc <<< "16o 16i  $i  4 * 4000 + p"  # cluster to fatso
+i=33BA4; dc <<< "16o 16i  $i 2 - 20 * 77332 + 200 * p q" # cluster to data
+
+echo -n next? ; read d; i=$( echo $d|tr [:lower:] [:upper:] ); echo data $i; a=$( dc <<< "16o 16i  $i  200 / 77332 - 20 / 2 + p q" ); echo cluster $a; b=$( dc <<< "16o 16i  $a  4 * 4000 + p" ); echo fatso $b
+[kahn@acoustic 05:45:39 /data0/recovery]
+ $ b=$( grep $a fat.q2 ); echo $b; set 0$b; c=${1^^[a-f]}; a=$( printf "%08x" $( dc <<< "16i  $c  4000 - 4 / p" ) )
+10faa0 0007670f --> 1C9C3 2nd cluster?
+
+https://www.pjrc.com/tech/8051/ide/fat32.html
+http://www.codeguru.com/cpp/cpp/cpp_mfc/files/article.php/c13907/Long-File-Name-LFN-Entries-in-the-FAT-Root-Directory-of-Floppy-Disks.htm
+
+
+wisp clusters: 
+2 21604 5955F 7C48F 9F3C0 C1CEE E4C1E 107B4E 12A738 14D668 
+170598 2FF9B6 31EF80 33E131 35DAA7 37E462 39E7B2 3BF4FA 3E12FE 401EEB
+420ED6 43FF43 45F1DB 47E2B4 49D4C3
+
+fats:
+4008 89810 16957C 1F523C 280F00 30B3B8 397078 422D38 4ADCE0 5399A0 
+5C5660 C026D8 C7FE00 CFC4C4 D7AA9C DFD188 E7DEC8 F013E8 F88BF8 100BBAC 
+1087B58 1103D0C 118076C 11FCAD0 127930C
+
+
+wisp@ 
+EE66400 9466E400 1743DA400 20009A400 28BD5E400 
+316216400 3A1ED6400 42DB96400 4B8B3E400 5447FE400 
+5D04BE400 C0D536400 C8AC5E400 D07322400 D858FA400
+E07FE6400 E88D26400 F0C246400 F93A56400 1016A0A400
+10929B6400 110EB6A400 118B5CA400 120792E400 128416A400
+
+
+:; ls -1 /mnt/wispr_7* | wc
+    327     327    9810
+:; od -A x -t x -j 0xee66400 -w16384 q1 | awk '/69007701 70007300/{print $1}'
+
+data 1300FA2400 cluster 4BC851 fatso 12F6144
+data 137EE76400 cluster 4DC006 fatso 1374018
+data 13F5196400 cluster 4F98CE fatso 13EA338
+data 1471D22400 cluster 518BB1 fatso 1466EC4
+data 14EC5B2400 cluster 5375D5 fatso 14E1754
+
+
+156129a400 15d316a400 164050a400 16a7e86400 171fef2400
+17a0842400 181d442400 1898a22400 1916176400 19959ae400
+1a1605e400 1a9697e400 1b16e4e400 1b90d3e400 1c0411a400
+1c6ba2e400 1cd5416400 1d40816400 1dabe62400 1e14efa400
+1e802a2400 1eefd0a400 1f5c066400 1fd49ae400 2045e4e400
+20ad0ea400 2113ce6400 217fc4e400 21f288e400 226e24e400
+22dff46400 234a7ca400 23b4b6a400 24212aa400 24935a2400
+250819e400 257e2d2400 25e4ed6400 264ca42400 26b4b82400
+ ... interrupted
+
+
+[kahn@acoustic 05:55:56 /data0/recovery]
+:; od -A x -t x -j 0xee66400 -w16384 q002 | awk '/69007701 70007300/{print $1}'
+
+ee66400
+3648e400 11a8fe400 1e8a9a400 2bb6f6400 38b98e400
+4518a2400 520396400 5e73a6400 6a97a6400 76522e400
+826e42400 8e6772400 9a4bbe400 a6b9ca400 b37cf2400
+c16e3e400 cee20a400 dc333a400 e97ea2400 f6b656400
+103ab9a400 110154e400 11cd4ea400 12a51ca400 137fb02400
+1458582400 152ea32400 1600622400 16d126e400 1795ae6400
+1851eda400 191a742400 19d843e400 1a961a6400 1b5cc9e400
+1c347e2400 1d0b582400 1e1505e400 1e924aa400 1f0edc6400
+1f8a85a400 2006eea400 208366a400 20ff1ea400 217b87a400
+21f7d4e400 2273836400 22efec6400 236c686400 23e80c6400
+2464726400 24731b2400 24e0d52400 24f6d0a400 255c7ca400
+256c59e400 25d8e56400 25ed4e2400 26554ea400 26732d6400
+26d0fd6400 26fc71a400 274d66e400 2785e0e400 27c9cf6400
+280fe82400 284577a400 28c1e0a400 293e49e400 29b9f86400
+2a3661a400 2ab2cae400 2b2e6de400 2baadaa400 2c2741e400
+2ca2f12400 2d1de5e400 2d7b46e400 2de9cd2400 
+
+2
+9D8C 42EA8 7670F AB226 DF2CC 110A91 14454E 176152 1A6A52 1D58F4
+205FF9 235E45 265758 2972DB 2CA3A5 301FF8 337CEB 36D137 3A2411 3D71FE
+40AF4F 43C9BC 46F9A3 4A58DB 4DC329 5125C9 547EF5 57C5F1 5B0904 5E1B22
+610C1F 642E39 672578 6A1CD2 6D3790 709661 73F1C9 781880 7A0D93 7BFFDA
+7DEE7F 7FE023 81D203 83C0E3 85B287 87A3BC 899276 8B841A 8D760A 8F649A
+915632 9190D5 9347BD 939FAB 95365B 9575D0 9727FE 9779A1 9919A3 99911E
+9B085E 9BB62F 9CFA04 9DDBEC 9EEBA6 A00409 A0DA47 A2CBEB A4BD90 A6AC4A
+A89DEF AA8F94 AC7E20 AE6FD3 B06170 B2502D B43C00 B5B184 B76B9D 
+
+found longest chain. changed 2 -> 42EA8

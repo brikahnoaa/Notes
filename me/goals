@@ -1,0 +1,86 @@
+Wed, Jan 07, 2015 10:08:41 AM
+
+
+---
+System Operations: Assist in Desktop and Laptop system generation, tuning,
+security, and configuration within the NOAA/DOC policy framework. Assist
+in the installation and troubleshooting of Printers, Scanners, and various
+other hardware items. Assist in the development of tools and procedures
+for daily operational support.
+
+systems:
+ : parts selection - bioac3 acoustic embfile2 baleen(PC)
+ : parts ordered - bioac3 acoustic baleen(PC) [embfile2 scheduled]
+ : server build / deploy - bioac3 [acoustic scheduled]
+ : PC build / deploy - baleen
+
+server restore:
+ : syspc - system disk crash
+ : station1 - system disk crash
+
+lifecycle:
+ : excess = orca shepard bioacoustic, 2x dell servers
+ : server decomission = bioacoustic [leopard scheduled]
+
+rack: 
+ : servers bioac2, bioac3, ventstore moved into racks
+ : all racks in server room are now locking
+
+power: 
+ : installed two rackmount UPS units obtained from PMEL excess pool
+ : all rack UPS now monitored by local servers
+ : balanced load on rack UPS units
+ : switch infra moved onto larger UPS, powered longer than servers
+ : metro WAN link onto dedicated UPS, moved to robust power circuit
+ : failing rack UPS removed, some batteries re-used in existing unit
+ : re-calibration of all rack UPS batteries (some found low on power)
+
+infrastructure:
+ : power improvements on network switches and metro WAN
+ : obtained disks from local excess for RAID upgrade on ventstore, oerdftp
+ : extended gigabit LAN to all servers, LAN cable labeling and survey
+
+plotter:
+ : research on costs, performance
+
+
+---
+System Management: Configure and maintain systems to operate with security
+controls as specified in the federal government IT Security Plan. Monitor
+and report on specific controls as requested. Monitor system performance
+for OSU and NOAA Desktop and Laptop computers. Maintain the integrity and
+security of the NOAA desktop network environment, and ensures continuity
+with the current processing applications. Perform backup and disaster
+recovery operations for OSU and NOAA computers. Maintain documentation
+of existing systems and procedures in the central PMEL Footprint support
+knowledge base.
+
+updates:
+ : regular updates and patches
+ : new OS install on pioneer, syspc, station3, smoker(XP)
+ : install of BES (IBM Bigfix) on all systems
+ : install of centrify for activcard on linux workstations
+ : update several mobile systems to full disk encryption
+
+storage for projects: 
+ : 3 - 5 year project data storage plans approved, invested
+ : project backup plans approved, invested
+ : refresh on project raid disks beyond warranty
+ : conversion from raid5 to raid6, needed for large volumes
+ : long term storage of scientific data, 30TB [26TB more scheduled]
+ : expansion of project storage, 50TB [30TB more scheduled]
+
+---
+User Support: Provide first-level desktop support to research scientists
+and staff. Train employees on basic use of OSU and NOAA standard hardware
+and software. Assist in the installation and troubleshooting of various
+enterprise software packages such as Microsoft Office, ESRI ArcGIS,
+Exelis IDL, and McAfee VirusScan. Participate in research projects in
+a desktop/network/server management capacity
+
+support:
+ : one to four visits per day from staff with questions
+ : light programming with andy lau for automated downloads, unix utilities
+ : deeper support on applications and data management with 
+   embley, merle, chadwick, haxel, holger
+

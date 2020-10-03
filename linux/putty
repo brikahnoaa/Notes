@@ -1,0 +1,42 @@
+Fri, Mar 29, 2019  1:22:17 PM
+.1 putty
+.1.1 centrify for smart card ssh, putty settings
+ ssh.kerberos:v-Attempt
+ ssh.x11:v-Forwarding
+ ssh:remoteCommand=
+.1.2 std
+ data:Autologin:username 
+ ssh.x11:v-Forwarding
+.... optionally, putty-keygen
+.2 server side 
+# vi /etc/centrifydc/ssh/sshd_config
+ X11Forwarding yes
+#  service centrify-sshd restart
+#  yum install xterm 
+this is for login by name/pwd
+# vi /etc/centrifydc/centrifydc.conf
+ pam.mapuser.kahn: kahn@pmel.noaa.gov
+
+auth: pre-auth, pageant, keybd-int
+auth:gss attempt
+ssh: upstream, downst
+kerb: attemptK, createtick, userPrinc
+x11: forward, mit 
+
+ vi /etc/centrifydc/ssh/sshd_config
+Banner /etc/issue
+ChallengeResponseAuthentication yes
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials yes
+GSSAPIKeyExchange yes
+PermitRootLogin no
+PrintMotd no
+Protocol 2
+Subsystem       sftp    /usr/share/centrifydc/libexec/sftp-server
+SyslogFacility AUTHPRIV
+UsePAM yes
+UsePrivilegeSeparation sandbox
+X11Forwarding yes
+XAuthLocation /usr/bin/xauth
+
+ # service centrify-sshd restart

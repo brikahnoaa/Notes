@@ -1,0 +1,179 @@
+SOP ­ Centrify Installation on RHEL
+
+INSTALLATION
+
+* Make sure DNS is set to the Active Directory domain controllers (ie PRUE or    PESTO)
+* Obtain the appropriate installer file from eclipse:/home/eclipse/cnsd/centrify As of 9/16/14, the PMEL approved version is  v5.2
+* Decompress the file
+* run the install.sh file
+* Use the following responses for the installer  questions
+* For Centrify package ­ How do you want to  proceed?
+S (for Centrify Standard)
+* Do you want to run adcheck to verify your AD   environment?
+Y
+* Please enter the Active Directory domain to check   [company.com]:
+pmel.noaa.gov
+* Join an Active Directory  domain?
+Y
+* Enter the Active Directory domain to  join:
+pmel.noaa.gov
+* Enter the Active Directory authorized  user:
+administrator
+* Enter the password for the Active Directory  user:
+<AD administrator pw>
+* Enter the computer name:
+<use the fqdn>
+* Enter the container DN:
+Computers (will change later in  AD)
+* Enter the name of the zone:
+Seattle Linux (or Newport  Linux)
+* Enter the name of the domain  controller:
+<auto detect>
+* Reboot the computer after  installation?
+Y (if feasible)
+* Verify the Centrify packages to install. They should be CentrifyDC and CentrifyDC­openssh
+* Do you want to continue?
+         Y (or make the appropriate changes) This should complete the  installation
+
+POST INSTALL
+
+* Enable AD user login functionality in Active Directory ­ PERFORMED on system with Centrify DirectManage Access Manager  installed:
+* Verify the AD user has been defined in DirectManage under Global/Unix Data/Users.
+* Drill down to the appropriate child zone (Seattle Linux or Newport Linux) and select Computers.   Expand the target system and highlight Role  Assignments.
+* If the target user is not defined with a login role, right­click and select Assign Role…  This will bring up the Select Role  applet:
+* Highlight the login role for the target zone and select  OK.
+* The Assign Role applet is then brought up. Add the appropriate AD account and select OK, then OK to complete adding the  role.
+* If unique user information is needed for the system, the user needs to be added to the Unix data for that system and  modified:
+* Expand UNIX Data for the system and highlight  Users.
+* Right­click and Add User to  Zone
+* Select the user from the applet and a Set UNIX User Profile applet will come up. Set the attributes accordingly. IT IS VERY IMPORTANT TO SET THE CORRECT HOME DIRECTORY  HERE.
+* Back on the target system, perform the following to reload the   cache:
+sudo adreload sudo adflush
+You may need to reboot and reload the cache again if the system does not take the users credentials right  away.
+* Move Computer Account to Appropriate AD  Container:
+* In order for Group Policy to propagate to the system, the computer account needs to be in the correct OU container in  AD.
+* On any AD server, open Active Directory Users and   Computers
+* If the system was installed with default values as above, the system is in the default Computers OU
+* Move the computer account to the appropriate OU   container:
+PMEL Systems ­> Core ­> Seattle ­> Linux ­> CAC <choose> PMEL Systems ­> Core ­> Newport ­> Linux ­> CAC   <choose>
+* Configuring Existing and Future Local and Service   Accounts:
+* Add any service accounts to /etc/centrifydc/user.ignore (namely the cnsd account)
+* SSH Configuration:
+* IF THE CENTRIFY SSHD WAS INSTALLED ­  edit
+/etc/centrifydc/ssh/sshd_config:
+* PermitRootLogin ­ Uncomment and set to  no
+* Banner ­ set to previous banner at   /etc/ssh/sshd_banner
+* Existing Local Account  Configuration:
+
+* FOR EXISTING USERS ­ modify /etc/centrifydc/centrifydc.conf file to map existing users to domain accounts. Look for and append to the mapuser section.  Use the following  format:
+pam.mapuser.username: username@pmel.noaa.gov
+*he @pmel.noaa.gov refers to the kerberos realm.
+¿ IF LOCAL ACCOUNT LOGON FUNCTIONALITY IS NEEDED, the control can
+be modified to allow for local user account access overriding AD authentication.
+THis can be handy when AD is down or Centrify is disconnected and no
+aching is available:
+* Modify /etc/centrifydc/centrifydc.conf file and search for the
+pam.allow.override line
+* Add any needed local accounts next to root separated by a space
+* Perform a cache reload via adreload and adflush
+¿ Now login as <username>@localhost (the @localhost is very
+*mportant) and type the local password
+* Add Smart Card Support :r
+* Open terminal, su to root
+* Remove openct, pcscliteopenct
+ rpm -e openct pcsclite openct
+* Install smart card support yum
+groupinstall ¿Smart card support¿
+* Install subordinate packages 
+ yum install krb5workstation krb5authdialog krb5pkinit openssl
+* Enable smartcard authentication with Centrify sctool 
+ sctool -e
+* You may need to manually enable Smart Card authentication by using the
+systemconfigauthentication
+applet on RHEL.
+* Group Policy :
+* In order to refresh AD Group Policy on RHEL, perform as root (or sudo):
+adgpupdate
+* Verify the target system is in the correct OU container in AD:
+PMEL Systems > Core > Seattle > Linux > CAC <choose>
+PMEL Systems > Core > Newport > Linux > CAC <choose>
+* adinGroup Policy objects are edited on any AD controller using the Group
+Policy Management application
+* Verification of any group policy object and/or control can be found by viewing
+the following files on the target system:
+/var/centrifydc/reg/machine/gp.report
+/var/centrifydc/reg/user/<username>/gp.report
+* KERBEROS Ticket Persistence (OPTIONAL) :
+* Kerberos tickets can be configured for persistence when SSH is used and
+authentication is needed when drilling SSH sessions to multiple systems. IF
+THIS FUNCTIONALITY IS NEEDED:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* Open Active Directory Users and  Computers
+* Drill down and find the target system computer  account
+* Right­click and select  Properties
+* Select the Delegation tab
+* Select Trust this computer for delegation to any service (Kerberos only) and hit apply
+* The system will need a cache reflush and gpupdate for the change to take effect. Or simply wait at least 90 minutes before a system AD refresh
+* Setting  up  PREVALIDATION (OPTIONAL):
+* User credentials can be “pre­cached” so that a Centrify system that can be set up and joined and will have immediate offline login   access
+* Any user who is going to be prevalidated will first need to be registered in Active Directory:
+* On a Windows AD server, open a command prompt and   run:
+setspn  ­A  preval/<username> <username>
+(ie setspn ­A preval/joe joe)
+* To view who in AD has already been configured for   prevalidation:
+setspn ­Q preval/*
+* On the target system:
+* Edit  /etc/centrifydc/centrifydc.conf file
+* Search for the adclient.prevalidate.allow.users section and create a new line below and enter:
+adclient.prevalidate.allow.users:  <username>
+or
+adclient.prevalidate.allow.groups:  <groupname>
+Separate multiple entries with a  comma.
+* Save and reload the cache:
+sudo adreload sudo adflush
+When using prevalidation by group, make sure that the AD group is recognised by the Centrify agent. To check which groupnames can be seen for a specific user, run the following command from the Centrify system:
+adquery user ­­groups  <username>

@@ -1,0 +1,162 @@
+Tue, Sep 24, 2019 11:39:56 AM
+Disabling VSC & TRAC - 2001-2002 4Runner with VSC & TRAC Systems
+Article By: Rock Slide
+
+Application Vehicle: 2001-2002 4Runner with VSC & TRAC Systems
+
+The purpose of this mod is to show you how to install a rocker switch that will disable the VSC & TRAC systems with the push of a button.
+
+Parts Required:
+
+(1) On/Off rocker switch. I used an OEM, two-pronged, fog light switch. Toyota part# PT297-89013sw.
+It?s about $10.00 from Toyota.
+8' of 18 gauge automotive wire.
+This is for two lengths between the switch and the master cylinder.
+(2) female spade connectors to be used at the switch.
+(2) barrel connectors, crimp-on style.
+Or you may choose to use a soldering gun to secure the connections.
+Electrical tape
+Heat shrink tubing (optional)
+Zip ties
+
+Tools Needed:
+
+Wire cutters
+Wire stripper/crimper
+Razor blade
+Socket Wrench
+Soldering gun (optional)
+
+**WARNING**
+
+If you have not worked on automotive wiring before, or are unsure of stripping, crimping, etc., please do not attempt this mod by your self.
+
+
+**SPECIAL NOTE**
+
+Before I begin, I would like to give complete credit to fellow YT member, aowRS for creating this mod.
+The pictures I have included in this write-up and the majority of the instructions, if not all, belong to him.
+
+I have simply taken his instructions and pictures from the many posts and threads on this subject and elaborated on them below; thus creating a formal write-up of the Andy Mod.
+
+Any questions or comments on this mod should be directed to him. I can say I have since done this mod to my 4Runner and love it.
+Thanks for all the hard work in figuring out this mod Andreas!
+
+Step 1:
+
+I made a wiring harness using the rocker switch, spade connectors, and wiring.
+The actual distance from where the switch mounts to where you will tie in to the ground wire is very short.
+I just used two 4' lengths of wire to make sure I had plenty of slack and also to make feeding it through the firewall grommet easier.
+
+If you insert your wires through the firewall grommet, be careful not to pierce the grommet itself when inserting the wires through it.
+I did and when ever it rained, water rolled off my hood onto these wires and ran right into the cab of my 4Runner causing the carpet to mildew!
+Took me forever to find out how water was entering my cab.
+You may want to think about drilling a new hole and run the wires through that and waterproof it accordingly, or stick with the existing firewall grommet, but be sure after you are done to coat the wires at the grommet with a lot of black silicone to prevent water from entering.
+I did this on the engine bay side and cab side to make sure I did not have any more leaking problems.
+Problem solved.
+
+If you go this route, you can choose to heat shrink the spade connectors and the wire, or use electrical tape.
+Others have tried using a 3-prong switch with no luck.
+I have found this mod works great with the OEM 2-prong rocker switch.
+
+
+
+Step 2:
+
+Once you have the 'harness' made, take it and the barrel connectors to the truck.
+Before doing any electrical work on your 4Runner, disconnect the battery (socket wrench).
+
+Pop one of the remaining factory switch blanks out and insert your harness into the void.
+It may help to pop the fuse access panel off.
+From there you will need to get the two wires through the firewall grommet (directly below the master cylinder).
+I found that inserting a long zip tie through the grommet from within the engine compartment was sufficient to use as a 'fish' tool.
+I then took my two wires from the switch and taped them to that same zip tie inside the vehicle.
+Now go back to the engine compartment and carefully pull the zip tie out with your 2 new wires attached.
+
+Once you have pulled the wires through the grommet, check to see if they come in contact with any sharp edges under the dash and throw away the ?fishing? zip tie tool.
+In my case, I routed them cleanly and then zip tied them on to existing wire bundles.
+
+Step 3:
+
+Now you are ready to identify and cut the correct wire at the master cylinder. Pull the pressure sensor connector out from the master cylinder and undo any tape that keeps it bound to the other harnesses.
+
+
+
+You will see red, black, and white wires right at the connector.
+The red wire is the ground wire and is used for this modification.
+Rather than spend 10 minutes explaining how to expose the wire, I'll just state that you will need to make your splice a few inches back from the connector.
+
+Carefully open up the black plastic covering and then the gray shielding that covers the three wires (razor blade).
+When you have exposed the wires enough, you will need to cut the red wire in half.
+
+Now you have two options:
+
+1. You can choose to use crimp-on barrel connectors to attach your new wires to each of the exposed ends of the previously cut red wire.
+
+Or
+
+2. For a more secure connection, you can solder your new wires to the exposed ends of the previously cut red wire.
+
+If you choose Option 1, make sure to crimp your connectors properly.
+I have seen others who have done Option 1, and the crimping action actually broke the fine wire, thus giving them intermittent results. .
+
+I chose Option 2.
+To do so, simply take one of your new wires and solder it to one of the exposed ends of the previously cut red wire.
+Next, take your other new wire and solder it to the other exposed end of the previously cut red wire.
+It does NOT matter which of the 2 new wires you solder to the red wires.
+All you are doing is adding a longer connection to the pressure sensor connector via your 2 new wires.
+The switch itself, when turned on, is what breaks the current to disable VSC & TRAC systems.
+
+Once your harness is spliced in and covered (tape or heat shrink), you will want to get everything wrapped again properly. At this point you are almost done.
+
+Step 4:
+
+I situated my rocker switch so that the bottom half is pressed in when it is in the off position.
+This matches the orientation of my two other rocker switches.
+If you find later that it is reversed, you can simply switch the connectors on the back of the switch (see Step 5).
+
+For what its worth, I made my own "TRAC OFF" label by scanning the factory TRAC OFF switch, darkening the image, and printing it on a standard mailing label.
+A few coats of satin polyurethane spray on the actual rocker portion, and it turned out nice.
+
+
+
+Step 5:
+
+Reconnect your battery.
+Plug the pressure connector into the master cylinder and start your truck.
+
+Now, one of two outcomes will happen:
+
+1. After you have started your truck and the ABS, TRAC & VSC lights all light up on the dash (might take a couple seconds), then the switch is in the "ON" position and working properly.
+You have interrupted the ground for the pressure sensor connector and can operate the truck without any TRAC or VSC intervention!
+You are now able disable TRAC & VSC while in ?Park? or on the fly.
+
+2. If you start your truck and the ABS, TRAC & VSC lights DO NOT all light up on the dash, then the switch is in the "OFF" position.
+Simply flip the switch and the ABS, TRAC & VSC lights should all come on.
+If you find that your switch is reversed than what you would like to be, pull the switch out and switch the connectors on the back of the switch.
+
+I wish it were as easy as flipping the switch to turn VSC & TRAC back on, but it?s not.
+First, flip the switch to the ?Off? position and then turn your truck off.
+Now restart your truck and all the systems should be back online.
+Hence TRAC & VSC are working properly.
+
+Since the system only needs to sense a break in the ground wire to cause a shutdown, you can also flip the switch ON, wait a few seconds, and then flip it back OFF.
+TRAC & VSC will remain shut down (until you restart your truck), but this might help you remember the switch is OFF when you turn your truck off.
+
+Enjoy the benefits of disabling TRAC & VSC!
+
+Wed, Sep 25, 2019 10:37:50 AM
+https://www.toyota-4runner.org/3rd-gen-t4rs/59727-how-changing-fog-lamps-3rd-gen-stock-fogs-post494016.html#post494016
+Since I had to do it anyway, and didn't find a straightforward 'how to' on changing the lamps on stock 3rd-gen fogs, I thought I would go ahead and do a step-by-step while I figured it out for myself so the next guy would know what he's in for.
+Since I have a '99 Limited, it came with stock fog lamps, so this is not for SR5's that might have the Hella DE's installed. It's not a hard job for either one, but the first time I looked up under the bumper at the stock fogs, I thought "how the heck are you supposed to change those things???". After removing the assembly, I started disassembling the lens part first, thinking that was how to get to the lamp, but that turned out to be totally wrong, so here it is.
+Removing the stock fog assembly is easy. Disconnect the harness and remove one 8mm bolt.
+Then slide the assembly out sideways (towards the center of the vehicle), and here's where you'll see the 2 mounting holes on the outboard side.
+Next is to clean off the assemblies (since they are not protected from any road grime), and flip them over so the cap is on top. Obviously you'll have wanted to purchase your replacement bulbs ahead of time. I chose the Hella H3 110W Yellow Stars (Amazon price $6 each) because after all, these are fog lights:
+Then remove the three small screws from the cap. You may want to spray them with PB Blaster and let them set a spell before attempting to remove, as you don't want to bugger up these small screws.
+Note there is no need to remove the screws around the lens, nor the side screws, nor to touch the aiming adjustment screws. (These are all screws I messed with when I didn't now how to get to the bulb.) Other than spraying these with silicone spray right before reinstallation, there is no need to touch these.
+Flip the top up, and you'll see a wire spring latch holding the H3 bulb in the socket. Unlatch and rotate the spring out of the way to remove the bulb. Note the path of the bulb wire so that you get it routed the same way when you put in the new bulb.
+Remove the bulb and pull the spade end of the wire out of the harness. This part is much easier said than done, and I ended up splitting the white rubber boot to get to the spade and prying it out of the connector with a small screwdriver rather than yanking it out and risking pulling the connector off the harness. That required me to then wrap the boot with electrical tape after reassembly.
+Reinstall the new bulb, taking care not to touch the glass. If you do, clean it up with alcohol and dry with a lint-free cloth. Insert the spade lug back into the connector inside the white rubber boot, and re-install the white boot back into the cap as shown:
+Reinstall the wire spring clip over the bulb and make sure the spring clamp is securely under the clip, and the electrical wire is not under the clamp.
+Now you can reinstall the cap and the three screws. Turn down the screws in rotation so that you get an even seating of the cap all the way around the seal. Don't tighten one down all the way then go to the next our you may cause a gap in the seal.
+Now you can reinstall the fogs. Spray the side screws, adjustment screw, and 8mm bolt with silicon spray to give them a little protection from the elements.

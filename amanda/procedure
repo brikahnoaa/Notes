@@ -1,0 +1,51 @@
+$ kahn@bioac3 09:19:31 ~ $
+ sudo find /data0/ -mtime +15000 -ls -exec touch -mt 8001010101 \{\} \;
+
+[amandabackup@challenger 09:20:09 ~]
+# prepare tapes for use, 0 existing timestamp in tapelist
+ rsync -ai /var/lib/amanda/full/index /etc/amanda/index
+ amtape full inventory
+ cat /etc/amanda/full/tapelist
+ first=1
+ :; echo create tapelist
+ :; tapelist=/etc/amanda/full/tapelist 
+ :; firstTape=120
+ :; for i in {0..23}; do t=$((firstTape+i)); 
+ :;  echo "0 full-$t reuse BARCODE:000${t}L7 BLOCKSIZE:32"; done > $tapelist
+ :; vi $tapelist
+ :; amtape full inventory
+ :; amtape full update; amtape full inventory
+ amtape full slot 1 ## change
+  amdump full acoustic-191 &
+  amdump full bioac3-191 /data0 &
+  amdump full bioac3-191 /data1 &
+  amdump full embfile2-191 &
+   tail -f /var/lib/amanda/full/logs/amdump
+   grep PARTDONE /var/lib/amanda/full/logs/amdump
+# after each backup completes!!
+  rsync -ai /var/lib/amanda/full/index/ /etc/amanda/full/index
+
+# after all backups complete
+$ amandabackup@challenger
+#  backup current daily onto 300 series - do not until index is saved!
+  amdump full localhost &
+# root@challenger
+ rsync -ai --exclude='*.header' /etc/amanda/full/index/ ~kahn/index
+ chown -R kahn.root ~kahn/index
+: kahn@BRUTE :
+  scp -r challenger:index ~
+  for h in acoustic bioac3 embfile2; do \
+    cd ~/index/$h-191; for d in *; do \
+      f=$(ls -1 $d | tail -1); scp $d/$f $h:$d-$f ; \
+      LC_COLLATE=C zcat $d/$f |sed 's|^/||; /^$/d' |sort > tapeL0 ; \
+      scp tapeL0 $h:$d-tapeL0; rm tapeL0 ; \
+    done; done
+# kahn@embfile2
+ cd /data0/.catalog
+ mv tapeL0 tapeL0.old
+ cp ~kahn/_data0-t* tapeL0
+ cp ~kahn/_data0-2* gz
+ vi /etc/cron.daily/backup.data.conf
+ # hint one day before e.g. 20190214
+
+# rm tapelist; for i in {1..23}; do amlabel full full-$((i+120)) slot $i; done

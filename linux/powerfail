@@ -1,0 +1,73 @@
+Wed, Jul 13, 2016  9:37:45 AM
+
+Thanks for that!  I have someone checking the UPS units and server power.
+Jonathan
+
+On Mon, Jul 11, 2016 at 9:04 AM, Jim Miller - NOAA Federal <jim.h.miller@noaa.gov> wrote:
+Jonathan,
+The entire APC enclosure in your old office went down due to a tripped circuit breaker. Rick Brown located and reset the breaker on Sunday in RSF166 on the back wall.
+Jim
+
+On Mon, Jul 11, 2016 at 8:58 AM, Jonathan Klay - NOAA Federal <jonathan.klay@noaa.gov> wrote:
+Everyone,  Sorry I didn't check e-mail over the weekend, we had 2 sets of visitors.  PMEL has several workgroup servers that went down, although a couple came back up it seems.  PMEL did not loose our tunnel.
+
+What is your current status?  Our local IT support, Brian Kahn, has been out on leave but should be in shortly.
+Thanks, Jonathan
+
+On Sun, Jul 10, 2016 at 1:08 AM, Anthony Yang - NOAA Federal <tony.yang@noaa.gov> wrote:
+Thanks for checking Jim, hopefully maintenance will get your note and reset the breakers before Monday.
+Tony
+
+On Sun, Jul 10, 2016 at 12:25 AM, Jim Miller - NOAA Federal <jim.h.miller@noaa.gov> wrote:
+I was unable to contact maintenance. I left a note on the -80 freezer in the BFB warehouse for them to check RSF104 power.
+Jim
+
+On Sunday, July 10, 2016, Jim Miller - NOAA Federal <jim.h.miller@noaa.gov> wrote:
+Jonathan,
+The entire tall APC cabinet that was moved into your old office is without power. I suspect a electrical breaker. I was able to test power using a power strip on the floor connected to the lower wall mounted power strip. It looks like circuits 32,34 and 31,33 and 25 need a reset. I will see if maintenance is still here. Please let me know if there's anything else I can do.
+Jim
+
+
+On Saturday, July 9, 2016, Jim Miller - NOAA Federal <jim.h.miller@noaa.gov> wrote:
+Tony,
+Newport BFB and NAL connections look good. RSF166 had three UPS's alarming. I reset the APC1500. The APC5000 in the Tripp-Lite cabinet and the APC UPS in the Ortronics cabinet both have replace battery warning LED's flashing. I will see if i have acess to RSF104 to possibly provide on site info to Johnathan Klay.
+Jim
+
+On Saturday, July 9, 2016, Anthony Yang - NOAA Federal <tony.yang@noaa.gov> wrote:
+Hi Troy,
+Thanks for the update, I also emailed Jonathan Klay from PMEL regarding to the outage, but haven't heard back from him yet. Hopefully someone will be able to check if there's power in the WAN router.
+Thanks, Tony Yang
+
+On Jul 9, 2016, at 5:51 PM, Troy Martin - NOAA Federal <troy.martin@noaa.gov> wrote:
+Hey NWC guys- We've been seeing some alarms related to the AKC Newport OR switch since 6 PM last night. I checked in with Chris Magel (Newport staffer) and Frank Amankwah (WAN engineer). It looks like there was a power outage that may have started the problem. But power appears to be back online; at least in the AKC building on the Newport campus. However, the alarms are still going off. Frank also reports the entire site is in alarm state. So perhaps a device closer to the WAN point may not have powered back up after the outage.
+I'm out of the office on Monday. Let me know if there is anything I can do when I get back to work on Tuesday morning.
+Troy Martin
+
+---------- Forwarded message ----------
+From: <nagios@afsc-s43.afsc.noaa.gov>
+Date: Sat, Jul 9, 2016 at 5:29 PM
+Subject: PROBLEM Host: Newport_1-1 Network Switch
+To: Troy.Martin@noaa.gov
+Notification: PROBLEM
+Host: Newport_1-1 Network Switch Address: 161.55.181.13
+Date/Time: 07-09-2016 17:29:09
+More Info: http://afsc-s43.afsc.noaa.gov/nagios/cgi-bin/extinfo.cgi?type=1&host=Newport_1-1
+Additional Info: CRITICAL - 161.55.181.13: rta nan, lost 100%
+Total Servers Up: 11
+Total Servers Down: 1
+Actions: Acknowledge Problem
+
+
+
+2014-11-12
+acoustic: shut 2:26
+acq1: not
+bioac2: shut 3:23
+bioacoustic: last shut 1103
+embfile2: no sw
+leopard: error shut 10:03
+oerd: error shut 9:38, 12:38
+syspc: shut 3:31
+ventstore: no sw
+yang: not
+

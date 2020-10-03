@@ -1,0 +1,91 @@
+  Purpose: keep a backup of a linux server which can be easily 
+installed as a virtual machine clone
+Tue, Oct 13, 2015  2:06:42 PM
+
+  Overview: prepare for lvm snapshots, make clean backup of live filesystems,
+convert backups to virtual disks, install backup as a clone.
+
+  Prepare:
+ .1 need free space in vg for lvm snapshot, steal from swap if no PFree
+ myhost# pvs
+ myhost# swapoff -a
+ myhost# lvresize -L 1g vg_myhost/lv_swap
+ myhost# mkswap /devvg_myhost/lv_swap
+ myhost# swapon -a
+ myhost# pvs
+notes:
+- only do this once (or plan for it during install)
+- snap uses free "extents" in the volume group, pvs shows you PFree
+- snap copies original when a file is changed, so space is slowly consumed
+- default install uses all disk space, nothing left for snapshots
+- typical linux use rarely touches swap, but you can add a swapfile if needed
+- how much is needed? not much for /, maybe more if /home is in same partition
+
+  Backup: 
+ .1 /boot file system is idle and static, can simply be copied
+ myhost# rsync -a --delete /boot/ backupServer::myhost.boot
+notes:
+- set up rsync daemon on backupServer for write-only access by IP addr
+- consider using '-e "ssh -i id_file"' and set /bin/rsh as the login shell
+
+ .2 / is dynamic (same for /home), with LVM we can make a snapshot
+ myhost# lvs
+ myhost# lvcreate -l 200 --name snap --snapshot vg_myhost/lv_root
+ myhost# mount /dev/vg_myhost/snap /mnt
+ myhost# rsync -a --delete /mnt/ backupServer::$(hostname).root
+ myhost# umount /mnt
+ myhost# lvremove vg_myhost/snap
+ myhost# lvs
+notes:
+- lvm is the default in rhel6 install process for /, /swap, /home
+- "-l 200" is # of 4MiB chunks allocated, so 800M for the snapshot here
+- if there are more partitions (e.g. /home), do same for those
+- if lvm was not used try rsync -x, it will probably work
+
+  Convert:
+ .1 create virtual disks from backup for /boot, / (and other parts)
+ backupServer# virt-make-fs --size=40G myhost-root/ sda.img
+
+ .1.1 or to save space on virt host, create qcow2 - file size grows as needed
+ backupServer# qemu-img create -f qcow2 sda1.q2 40G
+ backupServer# virt-format -a sda1.q2 
+ backupServer# guest-mount -a sda1.q2 -m /dev/sda1 /mnt
+ backupServer# rsync -a myhost-root/ /mnt
+ backupServer# umount /mnt
+notes:
+- with qcow2, 40G is the maximum size for filesystem (and disk file)
+- qcow2 is meant to work in virt-make-fs, but inflates to maximum on redhat
+
+ .2 same for each filesystem
+notes:
+- at least / and /boot, maybe /home and others
+ 
+  Install:
+ .1 use a VM with multiple disks, 3 or more
+ vmServer# ln -s /opt/images/myhost-sda /var/lib/libvirt/images/vm3-sda
+notes:
+- virtual disks are files, by default in /var/lib/libvirt/images
+- create links from defined virtual disk names to the created virt drives
+
+ .2 change filesystem mounts and network card ID's
+ vmServer# guestmount -a /opt/images/myhost-sda -m /dev/sda1 /mnt/clone
+ vmServer# cd /mnt/clone/etc/udev/rules.d/
+ vmServer# mv 70-persistent-net.rules 70-persistent-net.rules.orig
+ vmServer# touch 70-persistent-net.rules
+ vmServer# cd /etc
+ vmServer# mv fstab fstab.orig
+ vmServer# cat > fstab << _END_
+tmpfs                   /dev/shm                tmpfs   defaults        0 0
+devpts                  /dev/pts                devpts  gid=5,mode=620  0 0
+sysfs                   /sys                    sysfs   defaults        0 0
+proc                    /proc                   proc    defaults        0 0
+/dev/sda1	swap	
+/dev/sdb1	/boot	defaults	0 1
+/dev/sdc1	/	defaults	0 2
+#/dev/sdd1	/home	defaults	0 3
+_END_
+ vmServer# cd udev/rules.d
+ vmServer# mv 70-persistent-net.rules 70-persistent-net.rules.orig
+notes:
+- net.rules will regenerate
+- edit fstab, it may need additional disks

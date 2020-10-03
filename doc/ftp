@@ -1,0 +1,6 @@
+ftp
+.1 copy files to \\syspc\ftpdata\username
+.2 transfer to external using http://syspc.pmel.noaa.gov/newportftp.html
+.3 verify files in web browser ftp://ftp.pmel.noaa.gov/newport/username
+.4 send email to associate with that browser URL (ftp:...)
+

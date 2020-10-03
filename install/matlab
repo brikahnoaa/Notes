@@ -1,0 +1,44 @@
+Fri, Aug 04, 2017 10:00:47 AM
+# root@caldera 09:59:48 /usr/local/MATLAB/etc #
+  glnxa64/lmutil lmpath -status
+                 /usr/local/MATLAB/flexnet-11.13.02/etc/license.dat
+                 Warning: Invalid license file path in .flexlmrc file
+
+..
+# usage:        setlmenv.sh
+#
+# abstract:     This Bourne Shell script determines the values of the
+#               following license manager environment variables.
+
+
+..
+# root@caldera 10:21:48 /usr/local/MATLAB/etc #
+ lmutil --help
+..
+
+
+Mon, Jan 25, 2016  3:13:45 PM
+.1 mathworks has bad documentation
+http://www.mathworks.com/support/install/license_manager_files.html
+ = location of flexnet install files and docs
+.2 docs do not correctly describe install process
+.3 2014->2015 matlab version required update flexnet, but error was uncertain
+.3.1 flexnet_glnxa64-11.13.02.zip has no install routine
+.3.2 matlab_R2015b_glnxa64.zip exits with no obvious actions, but says success
+.4 to upgrade, moved extracted files to install /usr/local/matlab
+.4.1 check links in /usr/local/bin
+.4.2 downloaded license.lic file needs 2 header files id server
+
+R2015b File Installation Key:
+30301-25379-00130-50461-09924-44914
+
+R2014b File Installation Key:
+31653-43733-33374-04201-15167-25517
+
+R2013a File Installation Key:
+12698-05537-14862-59820-46518-39480
+
+license file on brutal:/install2/matlab/license.dat
+
+activation key: 17725-62676-59430-76158-44545
+

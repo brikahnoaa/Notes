@@ -1,0 +1,24 @@
+Mon, Aug 17, 2015 11:40:13 AM
+
+.1 rebuild manatee, disk problems
+.1.1 add teraterm, 7zip, winscp, X
+.2 software at c:\store\haru
+.3 latest eagle
+.3 ftp://web.cadsoft.de/eagle/program/...
+.4 codewarrior
+.4.1 cannot get code online anymore
+http://www.freescale.com/webapp/sps/site/overview.jsp?code=CW_DOWNLOADS
+.4.2 we have two copies of 9.0 disk, 1 persistor
+disks copied to manatee [administrator@manatee:Desktop]
+.4.3 install per instructions
+ [brutal\Store\haru\codewarrior]
+.5 codewarrior setup
+.5.1 install to Program Files, not (x86)
+.5.2 shorten name used in Start:Programs
+.6 persistor cf2 setup
+.6.1 target metroworks in Program Files, not (x86)
+.6.2 copy Persistor into Program Files, from (x86)
+.6.3 template
+ CodewarriorIDE>Edit>Preferences
+ General::SourceTrees::ImportPanel
+ ..\..\Persistor\Motocross\CFX\XMLsettings\IDE\*CF2*

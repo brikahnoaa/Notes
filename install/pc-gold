@@ -1,0 +1,16 @@
+Tue, Sep 05, 2017  9:32:27 AM
+.0 pndi entry, dns name
+.1 off network install gold. user Local_Admin:trek (cnsd:weather)
+.2 remove BES with bestools
+.3 update sw, manually
+.3.1 update firefox, twice. ?, about, update
+.3.2 remove scp
+.3.3 update java
+.3.4 start chrome
+.4 join AD domain
+.4.1 move computer to pmel systems.windows.tempCACwaived
+.4.2 update comment
+.4.3 mac addr to pndi
+.5 gpupdate (after restart)
+.6 windows updates, several rounds; optional updates last
+.7 install new besclient

@@ -1,0 +1,248 @@
+q1:
+ $ grep -ci "new file" wispr.log
+13551
+
+ $ grep -cF libFLAC q1
+15657
+
+dosfsck 3.0.9 (31 Jan 2010)
+dosfsck 3.0.9, 31 Jan 2010, FAT32, LFN
+Checking we can access the last sector of the filesystem
+There are differences between boot sector and its backup.
+Differences: (offset:original/backup)
+  65:01/00
+1) Copy original to backup
+2) Copy backup to original
+3) No action
+? 2
+Boot sector contents:
+System ID "mkdosfs"
+Media byte 0xf8 (hard disk)
+       512 bytes per logical sector (x200)
+     16384 bytes per cluster (x4000)
+        32 reserved sectors (x20)
+First FAT starts at byte 16384 (x4000) (sector 32)
+         2 FATs, 32 bit entries
+ 124981760 bytes (x7731200) per FAT (= 244105 sectors x3b989)
+Root directory start at cluster 2 (arbitrary size)
+Data area starts at byte 249979904 (xee66400) (sector 488242 x77332)
+  31245412 data clusters (511924830208 bytes)
+63 sectors/track, 255 heads
+         0 hidden sectors
+1000341440 sectors total
+FATs differ but appear to be intact. Use which FAT ?
+1) Use first FAT
+2) Use second FAT
+? 2
+Checking file /
+/
+  Contains a free cluster (211876). Assuming EOF.
+Checking file /wispr.log (WISPR.LOG)
+
+
+!! / contains free? 211876 = 33BA4, that is linked from sector 2
+need hex editor for rhel - hexedit? lde.
+bvi! use r to change a byte
+bvi q1 -> out of memory
+ $ bvi -s 0x4000 -n 2M q1
+
+
+[kahn@acoustic 03:20:04 /mnt]
+:; sudo fsck.vfat -w -v -r /dev/loop1
+dosfsck 3.0.9, 31 Jan 2010, FAT32, LFN
+There are differences between boot sector and its backup.
+Differences: (offset:original/backup)
+  65:01/00
+1) Copy original to backup
+2) Copy backup to original
+3) No action
+? 3
+Boot sector contents:
+System ID "mkdosfs"
+Media byte 0xf8 (hard disk)
+       512 bytes per logical sector
+     16384 bytes per cluster
+        32 reserved sectors
+First FAT starts at byte 16384 (sector 32)
+         2 FATs, 32 bit entries
+ 124981760 bytes per FAT (= 244105 sectors)
+Root directory start at cluster 2 (arbitrary size)
+Data area starts at byte 249979904 (sector 488242)
+  31245412 data clusters (511924830208 bytes)
+63 sectors/track, 255 heads
+         0 hidden sectors
+1000341440 sectors total
+FATs differ but appear to be intact. Use which FAT ?
+1) Use first FAT
+2) Use second FAT
+? 1
+/console_prompt
+  File size is 20924 bytes, cluster chain length is > 32768 bytes.
+  Truncating file to 20924 bytes.
+/BW_TEST.WAV
+  Contains a free cluster (21). Assuming EOF.
+/BW_TEST.WAV
+  File size is 6497788 bytes, cluster chain length is 0 bytes.
+  Truncating file to 0 bytes.
+/wispr_bw_06_18
+  File size is 236244 bytes, cluster chain length is 49152 bytes.
+  Truncating file to 49152 bytes.
+/wispr_151225_063224.flac
+  File size is 12833038 bytes, cluster chain length is 11681792 bytes.
+  Truncating file to 11681792 bytes.
+/wispr_151225_063344.flac
+  File size is 12673042 bytes, cluster chain length is 5668864 bytes.
+  Truncating file to 5668864 bytes.
+/wispr_151227_155540.flac
+  File size is 10780809 bytes, cluster chain length is 10780672 bytes.
+  Truncating file to 10780672 bytes.
+/wispr_151228_153944.flac
+  File size is 9783857 bytes, cluster chain length is > 9797632 bytes.
+  Truncating file to 9783857 bytes.
+/wispr_151229_154204.flac
+  File size is 7834293 bytes, cluster chain length is 7831552 bytes.
+  Truncating file to 7831552 bytes.
+/wispr_150101_152219.flac  File size is 2921940 bytes, cluster chain length is > 2932736 bytes.
+  Truncating file to 2921940 bytes.
+/wispr_150102_154003.flac
+  File size is 2622278 bytes, cluster chain length is > 2637824 bytes.
+  Truncating file to 2622278 bytes.
+/wispr_160104_200358.flac
+  File size is 8708123 bytes, cluster chain length is > 8716288 bytes.
+  Truncating file to 8708123 bytes.
+Reclaimed 494 unused clusters (8093696 bytes).
+Free cluster summary wrong (21528305 vs. really 21529224)
+1) Correct
+2) Don't correct
+
+
+
+[kahn@acoustic 10:55:05 /data0/recovery]
+ $ sudo fsck.vfat -f -w -r -v /dev/loop2
+[sudo] password for kahn:
+dosfsck 3.0.9 (31 Jan 2010)
+dosfsck 3.0.9, 31 Jan 2010, FAT32, LFN
+Checking we can access the last sector of the filesystem
+There are differences between boot sector and its backup.
+Differences: (offset:original/backup)
+  65:01/00
+1) Copy original to backup
+2) Copy backup to original
+3) No action
+? 3
+Boot sector contents:
+System ID "mkdosfs"
+Media byte 0xf8 (hard disk)
+       512 bytes per logical sector
+     16384 bytes per cluster
+        32 reserved sectors
+First FAT starts at byte 16384 (sector 32)
+         2 FATs, 32 bit entries
+ 124981760 bytes per FAT (= 244105 sectors)
+Root directory start at cluster 2 (arbitrary size)
+Data area starts at byte 249979904 (sector 488242)
+  31245380 data clusters (511924305920 bytes)
+63 sectors/track, 255 heads
+         0 hidden sectors
+1000340432 sectors total
+FATs differ but appear to be intact. Use which FAT ?
+1) Use first FAT
+2) Use second FAT
+? 1
+/START
+  File size is 1129 bytes, cluster chain length is > 16384 bytes.
+  Truncating file to 1129 bytes.
+/console_prompt
+  Contains a free cluster (19). Assuming EOF.
+/console_prompt
+  File size is 20924 bytes, cluster chain length is 0 bytes.
+  Truncating file to 0 bytes.
+/wispr_151222_102856.flac
+  File size is 12198023 bytes, cluster chain length is > 12206080 bytes.
+  Truncating file to 12198023 bytes.
+/wispr_151223_155108.flac
+  File size is 7700616 bytes, cluster chain length is 7700480 bytes.
+  Truncating file to 7700480 bytes.
+/wispr_151224_154734.flac
+  File size is 9340918 bytes, cluster chain length is > 9355264 bytes.
+  Truncating file to 9340918 bytes.
+/wispr_151225_155423.flac
+  File size is 12329848 bytes, cluster chain length is > 12337152 bytes.
+  Truncating file to 12329848 bytes.
+/wispr_151226_163113.flac
+  File size is 9276548 bytes, cluster chain length is 9273344 bytes.
+  Truncating file to 9273344 bytes.
+/wispr_151227_163438.flac
+  File size is 10319776 bytes, cluster chain length is > 10321920 bytes.
+  Truncating file to 10319776 bytes.
+/wispr_151228_161019.flac
+  File size is 4702988 bytes, cluster chain length is > 4718592 bytes.
+  Truncating file to 4702988 bytes.
+/wispr_150102_160757.flac
+  File size is 2238379 bytes, cluster chain length is > 2244608 bytes.
+  Truncating file to 2238379 bytes.
+Reclaiming unconnected clusters.
+
+
+
+Tue, Feb 09, 2016 10:20:04 AM
+128GB katie
+:; sudo dd if=/dev/sdd of=kate/k1.mbr count=63
+:; sudo dd if=/dev/sdd1 of=kate/k001
+:; fsck.vfat -avn k1 | head -24
+Boot sector contents:
+System ID "PicoDOS "
+Media byte 0xf8 (hard disk)
+       512 bytes per logical sector
+     32768 bytes per cluster
+	32 reserved sectors
+First FAT starts at byte 16384 (sector 32)
+	 2 FATs, 32 bit entries
+  15623680 bytes per FAT (= 30515 sectors)
+Root directory start at cluster 2 (arbitrary size)
+Data area starts at byte 31263744 (sector 61062)
+   3905348 data clusters (127970443264 bytes)
+63 sectors/track, 16 heads
+	63 hidden sectors
+ 250003393 sectors total
+
+# look at fathead
+:; hd -j 16384 k1 | head
+004000 f8 ff ff ff ff ff ff 7f 01 3a 03 00 4c 3d 00 00  >.........:..L=..<
+004010 dc cc 02 00 06 00 00 00 07 00 00 00 08 00 00 00  >................<
+004020 09 00 00 00 ff ff ff 0f 0b 00 00 00 0c 00 00 00  >................<
+004030 0d 00 00 00 0e 00 00 00 0f 00 00 00 ff ff ff 0f  >................<
+# look at cluster 2, start of / 
+:; dc <<< '16 o 31263744 p 32768 + p q'
+1DD0C00
+1DD8C00
+:; hd -j 31263744 k1 | less
+# log file 
+1dd0c00 48 32 34 5f 32 30 31 33 4c 4f 47 20 00 00 00 00  >H24_2013LOG ....<
+# data files
+1dd0ce0 30 30 30 30 30 30 30 34 44 41 54 20 00 00 00 00  >00000004DAT ....<
+# cluster 2 is full
+1dd8be0 30 30 30 30 31 30 32 30 44 41 54 20 00 00 00 00  >00001020DAT ....<
+# find next cluster by file name; note grep -boa can run out of memory
+:; grep -boa 00001021DAT k1
+6960221184:00001021DAT
+# what cluster is that?
+:; dc <<< '16 o 6960221184 p 31263744 - 512 / 32 / 2 + p q'
+67400
+# where is data?
+:; dc <<< '16 o 6960221184 p 32768 + p q'
+19EDC8C00
+19EDD0C00
+# where is that fatso?
+:; bin/c2f.sh 67400
+1A1000
+# another full cluster
+# look at second cluster in fat, maybe a chain starts there?
+19edd0be0 30 30 30 30 32 30 34 34 44 41 54 20 00 00 00 00  >00002044DAT ....<
+# another full cluster, search again for third cluster
+:; 
+
+# try to force cluster 67400 into cluster 2, chaining is failing
+:; dd if=k1 skip=13594182 count=64 of=cluster67400
+:; hd cluster67400 | less
+:; dd if=cluster67400 seek=61062 conv=notrunc of=k1

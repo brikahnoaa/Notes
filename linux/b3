@@ -1,0 +1,256 @@
+Mar 25  2015
+ # du -s -B1000000000 *
+1389    analysis
+18712   datasilo
+1       notes
+11458   silo
+2387    users
+
+
+1.3T    analysis
+18T     datasilo
+8.0K    notes
+1.9T    users
+11T     silo
+
+smartctl -a -d sat+megaraid,20 /dev/sda
+note - /dev/sd[ab] work the same
+note - Warning: device does not support SCT (Get) Error Recovery Control command
+
+rebuild RAID6 takes 24-36 hours for 12 disk array, depending on usage load
+
+restore from bioac2 of 40T would take 200 hours
+
+
+Dec  5  2014
+
+ # ../MegaRAID/storcli/storcli64 /c0 show
+Generating detailed summary of the adapter, it may take a while to complete.
+
+Controller = 0
+Status = Success
+Description = None
+
+Product Name = LSI MegaRAID SAS 9271-4i
+Serial Number = SV42939184
+SAS Address =  500605b0091e6ad0
+PCI Address = 00:02:00:00
+System Time = 12/02/2014 13:43:10
+Mfg. Date = 07/18/14
+Controller Time = 12/02/2014 13:43:09
+FW Package Build = 23.12.0-0011
+BIOS Version = 5.38.00_4.12.05.00_0x05270000
+FW Version = 3.240.05-2282
+Driver Name = megaraid_sas
+Driver Version = 06.803.01.00-rh1
+Vendor Id = 0x1000
+Device Id = 0x5B
+SubVendor Id = 0x1000
+SubDevice Id = 0x9276
+Host Interface = PCIE
+Device Interface = SAS-6G
+Bus Number = 2
+Device Number = 0
+Function Number = 0
+Physical Drives = 12
+
+PD LIST :
+=======
+
+-----------------------------------------------------------------------------
+EID:Slt DID State DG     Size Intf Med SED PI SeSz Model                  Sp
+-----------------------------------------------------------------------------
+4:0       9 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L0 U
+4:1      10 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L0 U
+4:2      11 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:3      12 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:4      13 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:5       7 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:6      14 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:7      15 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:8      16 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:9      17 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:10     18 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+4:11      5 UGood -  3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+-----------------------------------------------------------------------------
+
+
+usb3:
+7.5GB/min
+125MB/s
+2:15/TB
+
+GBether:
+4GB/m
+65MB/s nfs
+75MB/s dd|netcat
+60MB/s tar|lz4|nc
+
+24TB == 4.25 days
+
+
+
+Dec  3  2014
+install:
+
+add:
+passwd, shadow, group from bioacoustic
+/etc/samba/ from ba
+
+megaraid:
+megacli is helpful, but left errs on install:
+ # yum check dependencies
+Loaded plugins: product-id, refresh-packagekit, rhnplugin, security,
+              : subscription-manager
+This system is receiving updates from RHN Classic or RHN Satellite.
+Lib_Utils2-1.00-07.noarch has missing requires of libcrypto.so.4()(64bit)
+Lib_Utils2-1.00-07.noarch has missing requires of libpegquerycommon.so.1()(64bit)
+Lib_Utils2-1.00-07.noarch has missing requires of libpegqueryexpression.so.1()(64bit)
+Lib_Utils2-1.00-07.noarch has missing requires of libssl.so.4()(64bit)
+Error: check ['dependencies']
+
+xfs:
+- added epel.repo:
+ # wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+ # rpm -ivh epel-release-6-8.noarch.rpm
+ # yum --enablerepo=epel install xfsprogs
+- not found
+- added /etc/yum.repos.d/centos.repo:
+[centos]
+name=CentOS $releasever - $basearch
+baseurl=http://mirror.centos.org/centos/6.6/os/x86_64/
+enabled=0
+gpgcheck=0
+- success
+ # mkfs.xfs /dev/sda1
+ # xfs_admin -L raid-v0 /dev/sda1
+
+fstab:
+LABEL=raid-v0                   /data3          xfs     defaults        1 3
+
+
+
+move:
+backupSet:: 
+cp user&anal -> d7
+cp d4/Ex/scripps fodder, cp scripps datasilo, rm d4/scripps, cp Beau d4/
+backupShelf::
+make sure fodder is redundant.
+clear fodder, backup datasilo -> 8 x 2TB (fodder), load datasilo on b3, shelf
+
+Fri, Feb 05, 2016  2:27:14 PM
+.1 bioac3 hung (not crash) 
+.1.1 /var/log/messages
+Feb  3 03:11:15 bioac3 kernel: {11}[Hardware Error]: Hardware error from APEI Gen
+eric Hardware Error Source: 1
+Feb  3 03:11:15 bioac3 kernel: {11}[Hardware Error]: It has been corrected by h/w
+ and requires no further action
+Feb  3 03:11:15 bioac3 kernel: {11}[Hardware Error]: event severity: corrected
+Feb  3 03:11:15 bioac3 kernel: {11}[Hardware Error]:  Error 0, type: corrected
+Feb  3 03:11:15 bioac3 kernel: {11}[Hardware Error]:  fru_text: CorrectedErr
+Feb  3 03:11:15 bioac3 kernel: {11}[Hardware Error]:   section_type: memory error
+Feb  3 03:11:15 bioac3 kernel: [Firmware Warn]: error section length is too small
+..
+Feb  4 12:59:53 bioac3 MR_MONITOR[7754]: <MRMON039> Controller ID:  0   Patrol Re
+ad started
+Feb  4 12:59:53 bioac3 MR_MONITOR[7754]: <MRMON066> Controller ID:  0   Consisten
+cy Check started on VD:  #012    0
+Feb  4 12:59:53 bioac3 MR_MONITOR[7754]: <MRMON066> Controller ID:  0   Consistency Check started on VD:  #012    1
+Feb  4 12:59:53 bioac3 MR_MONITOR[7754]: <MRMON445> Controller ID:  0  Patrol Read aborted on PD:   -:-:4
+Feb  4 12:59:53 bioac3 MR_MONITOR[7754]: <MRMON445> Controller ID:  0  Patrol Read aborted on PD:   -:-:11
+..
+Feb  4 13:56:10 bioac3 kernel: INFO: task xfsbufd/sdc1:1488 blocked for more than 120 seconds.
+Feb  4 13:56:10 bioac3 kernel:      Not tainted 2.6.32-573.12.1.el6.x86_64 #1
+Feb  4 13:56:10 bioac3 kernel: "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+Feb  4 13:56:10 bioac3 kernel: xfsbufd/sdc1  D 0000000000000002     0  1488      2 0x00000000
+Feb  4 13:56:10 bioac3 kernel: ffff8802164afb40 0000000000000046 0000000000000000 ffff880143795200
+Feb  4 13:56:10 bioac3 kernel: 0000000000000000 ffff880214f71520 0004dc6367f7839d ffff880117d65d40
+Feb  4 13:56:10 bioac3 kernel: ffff880214f71520 00000001519cebe9 ffff880214f71ad8 ffff8802164affd8
+Feb  4 13:56:10 bioac3 kernel: Call Trace:
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81539123>] io_schedule+0x73/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81276388>] get_request_wait+0x108/0x1d0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a1460>] ? autoremove_wake_function+0x0/0x40
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff812764e9>] blk_queue_bio+0x99/0x610
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81066053>] ? perf_event_task_sched_out+0x33/0x70
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81274cb0>] generic_make_request+0x240/0x5a0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81129cf5>] ? mempool_alloc_slab+0x15/0x20
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8153892e>] ? thread_return+0x4e/0x7d0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0089dae>] ? megasas_build_and_issue_cmd_fusion+0xae/0x110 [megaraid_sas]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81275080>] submit_bio+0x70/0x120
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0283caa>] _xfs_buf_ioapply+0x16a/0x200 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0285d95>] ? xfs_bdstrat_cb+0x65/0xb0 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa028595f>] xfs_buf_iorequest+0x4f/0xe0 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0285d95>] xfs_bdstrat_cb+0x65/0xb0 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa02860bc>] xfsbufd+0x10c/0x180 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0285fb0>] ? xfsbufd+0x0/0x180 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a0fce>] kthread+0x9e/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8100c28a>] child_rip+0xa/0x20
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a0f30>] ? kthread+0x0/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8100c280>] ? child_rip+0x0/0x20
+Feb  4 13:56:10 bioac3 kernel: INFO: task xfsaild/sdc1:1491 blocked for more than 120 seconds.
+Feb  4 13:56:10 bioac3 kernel:      Not tainted 2.6.32-573.12.1.el6.x86_64 #1
+Feb  4 13:56:10 bioac3 kernel: "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+Feb  4 13:56:10 bioac3 kernel: xfsaild/sdc1  D 0000000000000001     0  1491      2 0x00000000
+Feb  4 13:56:10 bioac3 kernel: ffff880216aefce0 0000000000000046 0000000000000000 ffffffff8109b357
+Feb  4 13:56:10 bioac3 kernel: ffff880028295a28 ffff8802155b6078 0004dc636aefa0a9 ffffffff8106f193
+Feb  4 13:56:10 bioac3 kernel: 0000000000000001 00000001519cebce ffff8802155b65f8 ffff880216aeffd8
+Feb  4 13:56:10 bioac3 kernel: Call Trace:
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8109b357>] ? flush_work+0x37/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8106f193>] ? dequeue_entity+0x113/0x2e0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa026a572>] xlog_wait+0x72/0x90 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810672b0>] ? default_wake_function+0x0/0x20
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa026c44e>] _xfs_log_force+0x1ae/0x240 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa026c6a8>] xfs_log_force+0x38/0x90 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa027a8a8>] xfsaild_push+0xf8/0x5e0 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff815397ba>] ? schedule_timeout+0x19a/0x2e0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81089be0>] ? process_timeout+0x0/0x10
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa028e71a>] xfsaild+0x9a/0xf0 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa028e680>] ? xfsaild+0x0/0xf0 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a0fce>] kthread+0x9e/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8100c28a>] child_rip+0xa/0x20
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a0f30>] ? kthread+0x0/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8100c280>] ? child_rip+0x0/0x20
+Feb  4 13:56:10 bioac3 kernel: INFO: task flush-8:32:23450 blocked for more than 120 seconds.
+Feb  4 13:56:10 bioac3 kernel:      Not tainted 2.6.32-573.12.1.el6.x86_64 #1
+Feb  4 13:56:10 bioac3 kernel: "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+Feb  4 13:56:10 bioac3 kernel: flush-8:32    D 0000000000000002     0 23450      2 0x00000080
+Feb  4 13:56:10 bioac3 kernel: ffff88010b2a3690 0000000000000046 0000000000000000 ffffffffa0080723
+Feb  4 13:56:10 bioac3 kernel: ffff88010b2a35f0 ffff88013aba9520 0004dc5d427ca6ae ffff880117d65a40
+Feb  4 13:56:10 bioac3 kernel: ffff88013aba9520 00000001519c84ad ffff88013aba9ad8 ffff88010b2a3fd8
+Feb  4 13:56:10 bioac3 kernel: Call Trace:
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0080723>] ? megasas_queue_command+0x113/0x1e0 [megaraid_sas]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81539123>] io_schedule+0x73/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81276388>] get_request_wait+0x108/0x1d0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a1460>] ? autoremove_wake_function+0x0/0x40
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff812764e9>] blk_queue_bio+0x99/0x610
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81274cb0>] generic_make_request+0x240/0x5a0Feb  4 13:56:10 bioac3 kernel: [<ffffffff81129e93>] ? mempool_alloc+0x63/0x140
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff811cded2>] ? bvec_alloc_bs+0x62/0x110
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff81275080>] submit_bio+0x70/0x120
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0282513>] xfs_submit_ioend_bio+0x33/0x40 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0282616>] xfs_submit_ioend+0xf6/0x140 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa0282f38>] xfs_vm_writepage+0x308/0x590 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8113b387>] __writepage+0x17/0x40
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8113c64d>] write_cache_pages+0x1fd/0x4c0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8113b370>] ? __writepage+0x0/0x40
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8113c934>] generic_writepages+0x24/0x30
+Feb  4 13:56:10 bioac3 kernel: [<ffffffffa028216d>] xfs_vm_writepages+0x5d/0x80 [xfs]
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8113c961>] do_writepages+0x21/0x40
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff811bedfd>] writeback_single_inode+0xdd/0x290
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff811bf1fd>] writeback_sb_inodes+0xbd/0x170
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff811bf35b>] writeback_inodes_wb+0xab/0x1b0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff811bf753>] wb_writeback+0x2f3/0x410
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff811bf92b>] wb_do_writeback+0xbb/0x240
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff811bfb13>] bdi_writeback_task+0x63/0x1b0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a12e7>] ? bit_waitqueue+0x17/0xd0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8114b760>] ? bdi_start_fn+0x0/0x100
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8114b7e6>] bdi_start_fn+0x86/0x100
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8114b760>] ? bdi_start_fn+0x0/0x100
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a0fce>] kthread+0x9e/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8100c28a>] child_rip+0xa/0x20
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff810a0f30>] ? kthread+0x0/0xc0
+Feb  4 13:56:10 bioac3 kernel: [<ffffffff8100c280>] ? child_rip+0x0/0x20
+Feb  5 14:18:11 bioac3 kernel: imklog 5.8.10, log source = /proc/kmsg started.
+Feb  5 14:18:11 bioac3 rsyslogd: [origin software="rsyslogd" swVersion="5.8.10" x-pid="1954" x-info="http://www.rsyslog.com"] start
+Feb  5 14:18:11 bioac3 kernel: Initializing cgroup subsys cpuset
+Feb  5 14:18:11 bioac3 kernel: Initializing cgroup subsys cpu
+Feb  5 14:18:11 bioac3 kernel: Linux version 2.6.32-573.12.1.el6.x86_64 (mockbuild@x86-031.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-16

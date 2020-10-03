@@ -1,0 +1,74 @@
+Fri, Jul 22, 2016 12:07:53 PM
+
+
+---
+System Operations: Assist in Desktop and Laptop system generation, tuning,
+security, and configuration within the NOAA/DOC policy framework. Assist
+in the installation and troubleshooting of Printers, Scanners, and various
+other hardware items. Assist in the development of tools and procedures
+for daily operational support.
+
+build:	
+ : server build / deploy - challenger, syspc, oerdftp
+ : PC build / deploy - seamount, OSU laptops, ruggedized laptops
+ : upgrades to seagoing laptops, chindog
+
+restore:
+ : full restore - golddog, manatee, physeter, toughbook53
+ : embfile2 - 24TB data set
+
+lifecycle:
+ : excess = he3, CD0001699482, quake
+ : server decommission = old syspc, old oerdftp, bioac2
+
+infrastructure:
+ : UPS batteries, test and update
+ : major move of all network gear and servers from room 110 to 110A
+ : relocation of tech room out of 110A
+
+planning:
+ : server room air conditioning specification
+ : move of server racks from big room to adjacent small room
+ : policy / procedure for data transfers
+
+
+---
+System Management: Configure and maintain systems to operate with security
+controls as specified in the federal government IT Security Plan. Monitor
+and report on specific controls as requested. Monitor system performance
+for OSU and NOAA Desktop and Laptop computers. Maintain the integrity and
+security of the NOAA desktop network environment, and ensures continuity
+with the current processing applications. Perform backup and disaster
+recovery operations for OSU and NOAA computers. Maintain documentation
+of existing systems and procedures in the central PMEL Footprint support
+knowledge base.
+
+updates:
+ : regular OS updates and patches
+ : software updates as staff privileges are restricted
+ : manage local user administration rights assignment
+ : manage visitor lan access
+
+data storage: 
+ : specification and selection of new backup storage system
+ : long term archive of scientific data, yearly and daily
+ : expansion of project storage, new server purchased and installed
+
+---
+User Support: Provide first-level desktop support to research scientists
+and staff. Train employees on basic use of OSU and NOAA standard hardware
+and software. Assist in the installation and troubleshooting of various
+enterprise software packages such as Microsoft Office, ESRI ArcGIS,
+Exelis IDL, and McAfee VirusScan. Participate in research projects in
+a desktop/network/server management capacity
+
+support:
+ : one to four visits per day from staff with questions
+ : communication about events such as downtime, reboots, changes in service
+ : cross platform SW development install for hydrophone lab
+ : small program to modify data files, merle
+ : license manager and software installs for matlab, arc
+ : data recovery for scientific instruments
+ : small items inventory, purchasing
+ : sonic visualizer software for acoustic processing
+ : IDL, ArcGIS, and Matlab license server upgrade

@@ -1,0 +1,43 @@
+CNSD support for servers in Newport
+
+Tue, Apr 04, 2017  
+
+.1 Servers and their use
+windows: hatfield newpserv nserver1
+linux: acoustic bioac3 caldera challenger embfile2 syspc ventstore
+.1.1 hatfield = server 2016. DC, ArcGIS licenses, print, modest file service
+.1.2 newpserv = server 2012. DC, ArcGIS licenses, print, modest file service
+.1.3 nserver1 = server 2008R2. retiring soon, backup until newpserv rebuilt
+.1.4 acoustic = rhel6. RAID6 48TB, samba file service
+.1.5 bioac3 = rhel6. RAID6 94TB, samba file service
+.1.6 caldera = rhel6. compute server, matlab licenses
+.1.7 challenger = rhel7. RAID6 72TB, samba file service, tape library 
+.1.8 embfile2 = rhel6. RAID6 48TB, samba file service
+.1.9 syspc = general purpose, compute server, samba file service
+.1.10 ventstore = RAID5 25TB, OS backup for linux servers and images for PC's
+
+.2 CNSD support
+.2.1 HW support on all servers, desktops, laptops
+.2.2 OS install, updates, recovery on all servers
+.2.2.1 Microsoft backup images on internal disk for DC's (newpserv, hatfield)
+.2.2.2 Data disk mirror for syspc on internal disks
+.2.2.3 /etc rsync'd to ventstore for all rhel
+.2.3 OS install, updates, SW package install on all desktops, laptops
+.2.3.1 users or projects responsible for backup after system install
+.2.3.2 admin will execute restore from image when available
+.2.4 license services for NOAA SW - Matlab, ArcGIS (2 groups)
+.2.5 NFS mounts, samba configuration on linux servers
+.2.6 User file space on DC's is small and lightly used for sharing, transfer
+.2.7 print services
+Xerox 6605 color multifunction, main printer
+Brother 8890 black only, backup when xerox is down
+Large format HP 44" (aka plotter), paid for by projects
+
+.3 Special cases
+.3.1 Automated transfer services from syspc
+.3.1.1 syspc ftp to/from external ftp
+.3.2.2 syspc web pages to eclipse to external web
+.3.2 ventstore joint support
+.3.2.1 set up by CNSD for local server restore
+.3.2.2 disk array donated by projects, majority space used by projects
+

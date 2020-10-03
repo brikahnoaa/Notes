@@ -1,0 +1,136 @@
+.1 install from CD rhel6
+sdc                            8:32   0 465.8G  0 disk
+├─sdc1                         8:33   0   500M  0 part /boot
+└─sdc2                         8:34   0 465.3G  0 part
+  ├─vg_bioac3-lv_root (dm-0) 253:0    0    50G  0 lvm  /
+  ├─vg_bioac3-lv_swap (dm-1) 253:1    0   7.8G  0 lvm  [SWAP]
+  └─vg_bioac3-lv_home (dm-2) 253:2    0 195.3G  0 lvm  /home
+.1.1 do not specify network attribs
+.1.2 do not select expanded FS
+.1.3 first user=cnsd (trek)
+.2 settings
+ chkconfig iptables off; service iptables stop
+ setenforce 0
+ vi /etc/selinux/config
+SELINUX=disabled
+ export SYS=  #systemname
+.2.2 network
+ chkconfig NetworkManager off; service NetworkManager stop
+ vi /etc/sysconfig/network-scripts/ifcfg-eth*
+ONBOOT=yes
+NM_CONTROLLED=no
+BOOTPROTO=static
+DOMAIN=pmel.noaa.gov
+# on eth0
+DNS1=161.55.192.11 
+GATEWAY=161.55.192.1
+DEFROUTE=yes
+#
+PREFIX=24
+IPADDR=161.55.192.3
+ hostname $SYS.pmel.noaa.gov
+ ifdown eth0; ifup eth0
+.2.3 redhat
+ subscription-manager register --username pmel_admin --password RHNservices04 --auto-attach --name=NEW-6WS-64b-$SYS.pmel
+https://access.redhat.com/management/systems    to verify
+ subscription-manager repos \
+   --enable=rhel-6-workstation-optional-rpms \
+   --enable=rhel-6-workstation-supplementary-rpms \
+   --enable=rhel-6-workstation-extras-rpms
+ yum update
+ reboot
+ getenforce
+.3 accounts
+.3.1 root custom
+ echo "brian.kahn@noaa.gov" > /root/.forward
+ mkdir /root/install; mv anac* install.* /root/install
+ rpm -qa > /root/install/rpm-qa
+ $  tar/maketar.sh
+ $  scp tar/*.tar cnsd@$SYS:
+ mv ~cnsd/*.tar /root
+.3.1 kahn
+ adduser kahn -u 1256 -g 1100
+ # echo 'kahn    ALL=(ALL)       ALL' > /etc/sudoers.d/kahn
+ cd
+ chown kahn kahn.tar notes.tar
+ mv kahn.tar notes.tar ~kahn
+ su - kahn
+ tar xvf kahn.tar
+ tar xvf notes.tar
+.4 localize
+.. motd, sshd, repos epel centos
+ $  scp tar/rpm.tar tar/etc.tar $SYS:
+ cd /; tar --no-same-owner -xvf ~kahn/etc.tar
+.. file server packages
+ yum --enablerepo centos install xfsprogs
+ yum --enablerepo epel install ntfs-3g ntfsprogs iftop
+.5 services
+.2.1 samba
+ <notes/linux/centrify>
+ mkdir /data0 /data1
+ ln -s /data0 /data
+ ln -s /data/users /users
+ cd /etc/samba; mv smb.conf smb.conf.orig; cp smb.conf.tmpl smb.conf
+ vi smb.conf
+.5.1 backups
+ yum install xinetd amanda-client
+ a="challenger amandabackup amdump
+challenger-191 amandabackup amdump"
+ echo "$a" >> /var/lib/amanda/.amandahosts
+ vi /etc/xinetd.d/amanda # see <notes/storage/amanda/amanda-devo>
+ a="# amanda client
+service amanda
+{
+        socket_type             = stream
+        protocol                = tcp
+        wait                    = no
+        user                    = amandabackup
+        group                   = disk
+        server                  = /usr/sbin/amandad
+        server_args             = -auth=bsdtcp amdump
+        disable                 = no
+}"
+ echo "$a" > /etc/xinetd.d/amanda
+ service xinetd restart
+##
+ cd /etc/cron.daily
+ cp backup.data.conf.tmpl backup.data.conf
+ vi backup.data.conf
+ $ ssh ventstore
+ $vs$ sudo mkdir -p /data1/RHbackup/$SYS
+ $vs$ cd !$
+ $vs$ sudo mkdir day{1,2,3,4,5,6,7}
+ $vs$ sudo vi /etc/rsyncd.conf
+add host
+.5.2 rsync
+ vi /etc/xinetd.d/rsync
+ vi /etc/rsyncd.conf
+ service xinetd start
+.5.3 nfs
+ cp /etc/exports.tmpl /etc/exports
+ vi /etc/exports
+ chkconfig nfs on; service nfs start
+.6 drivers
+.6.1 for nvidia cards: brutal:/Downloads/drivers
+.6.2 legacy 340 needs kernel source
+.6.2.1 invoke like this, details differ as updated:
+ init 3
+ yum install kernel-devel
+ ./NVIDIA-Linux-x86_64-[TAB] --kernel-source-path /usr/src/kernels/[TAB]
+ init 5
+.7 packages
+.7.1 besclient
+.7.1.1 README
+ cd /root; tar xvf ~kahn/rpm.tar
+ cd /root/rpm/LinuxBESclient
+ mkdir -p /var/opt/BESClient/ /etc/opt/BESClient/ /opt/BESClient/bin/
+ cp besclient.config /var/opt/BESClient
+ cp actionsite.afxm /etc/opt/BESClient/
+ cp dcid.skey /opt/BESClient/bin/
+ rpm -ivh *64.rpm
+ service besclient start
+ tail –f $( echo /var/opt/BESClient/__BESData/__Global/Logs/*.log )
+.7.2 apcupsd
+ cd ~/rpm
+ rpm -i apcupsd-3.14.10-1.el5.x86_64.rpm
+ cp /etc/apcupsd/apcupsd.conf.tmpl /etc/apcupsd/apcupsd.conf

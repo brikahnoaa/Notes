@@ -1,0 +1,130 @@
+Tue, Jun 25, 2019  2:45:53 PM
+.1 andy bill blk
+
+
+Wed, Jun 26, 2019  2:40:54 PM
+.1 info on ooi data processing, caldera
+.. <myDoc/project/ooi/andySummary.txt,/RSN-IDLfiles.Info>
+TK Andy Lau - NOAA Affiliate
+Attachments
+Tue, Jun 25, 5:25 PM (21 hours ago)
+to William, me
+
+Hi Bill, Hi Brian,
+
+Attached is the file: RSN-IDLfiles.Info showing what output files: *.idl
+& *.png generated and used by which IDL programs (the *.pro).  It also
+shows other status files such as LastProcessedFileName.MJ03? ,
+LastProcessedCTD.FileName and UpLiftAlertStatus.MJ03? used by some of
+the IDL programs.
+
+At the end of the RSN-IDLfiles.Info  It shows the Orders of the RSN and
+CTD data processing.
+
+The data directory structure is following:
+/home/lau/4Chadwick/RSN/   and it has 3 subdirectories:  MJ03B/, MJ03D/,
+...,  MJ03F/.
+Each one of the subdirectories contains the IDL save files ( e.g.
+MJ03B1HrAveLILY.idl),
+status files (e.g. LILY-XtiltAlertStatus.MJ03B &
+LastProcessedFileName.MJ03B)
+and graphic files (e.g. MJ03B25Apr2015onIRIS.png)
+All these files will be updated either every 15 minutes or once a day.
+
+At the main directory: /home/lau/4Chadwick/RSN/, there are tidal cycle
+data stored in the IDL save files.  The current ones being used are
+Dec2018-2019AxialTidalDataMJ03[B/D/E/F].idl by the program:
+ProcessRSNdata.pro in the procedure: DETIDE_NANO_DATA.  In mid-December
+this year, the new files: Dec2019-2020AxialTidalDataMJ03[B/D/E/F].idl
+need to be used.
+
+Also in the directory: /home/lau/4Chadwick/RSN/ are the IDL programs for
+processing the RSN and CTD data.  One of them is the
+RunPrintRSNdata2Files.pro which shows the steps for printing out the
+NANO or LILY data by specify the time range into a text file.
+
+Another file: RunGetRates2Start.pro, shows the steps for relevelling the
+tilt data from beginning to the end of the available data.
+
+That's it for now.
+
+Tue Oct  2 10:46:47 PDT 2018
+.1 run as 'python downsample03.py', will need path change to run in cron
+.2 setup
+ sudo /opt/anaconda2/bin/conda install netcdf4 xarray
+.3 convert from .ipynb
+cat samp.ipynb | perl -ne 'print if (/"source": \[$/ .. /^   \]$/)' > samp.py
+
+Fri Sep 28 09:43:27 PDT 2018
+bill, i have some good progress. I have converted your jupyter notebook to straight anaconda python and it runs on caldera. The script takes about 3 1/2 minutes to complete and uses little CPU.
+
+Next steps:
+. use current time or supplied start date/time, optional end date/time
+. detect errors
+. run from cron
+. combine 15min files into daily files useful to andy
+. report errors via email
+. method to retry and renew missing data, manual and automatic
+
+Wed, May  1, 2019  4:05:16 PM
+filled in missing days, mostly
+# root@syspc 02:57:59 /data/chadwick/4andy/ooiapi #
+
+# files smaller than 4,900,000
+-rw-r--r-- 1 546 1100 4727928 Nov 20 16:05 2018-11-20.csv
+-rw-r--r-- 1 546 1100 4887196 Dec 13 11:01 2018-12-07.csv
+-rw-r--r-- 1 546 1100 4690402 Dec 20 16:05 2018-12-20.csv
+-rw-r--r-- 1 546 1100 4172404 Dec 25 16:05 2018-12-25.csv
+-rw-r--r-- 1 546 1100 1545062 Jan 29 16:05 2019-01-29.csv
+-rw-r--r-- 1 546 1100 3141280 Feb 13 16:05 2019-02-13.csv
+-rw-r--r-- 1 546 1100 4893866 Feb 23 16:05 2019-02-23.csv
+-rw-r--r-- 1 546 1100 4750258 Mar 15 17:05 2019-03-15.csv
+-rw-r--r-- 1 546 1100 4067656 Mar 20 17:05 2019-03-20.csv
+-rw-r--r-- 1 546 1100 4016384 Mar 28 17:05 2019-03-28.csv
+-rw-r--r-- 1 546 1100 4172230 Apr  2 17:05 2019-04-02.csv
+-rw-r--r-- 1 546 1100 4790800 Apr  4 17:05 2019-04-04.csv
+-rw-r--r-- 1 546 1100 4626544 Apr  5 17:05 2019-04-05.csv
+-rw-r--r-- 1 546 1100  669436 Apr 16 17:05 2019-04-16.csv
+-rw-r--r-- 1 546 1100 3072318 Apr 19 17:05 2019-04-19.csv
+-rw-r--r-- 1 546 1100 1140570 Apr 22 17:05 2019-04-22.csv
+-rw-r--r-- 1 546 1100 4744052 Apr 26 17:05 2019-04-26.csv
+-rw-r--r-- 1 546 1100 4688372 Apr 30 15:50 2019-04-30.csv
+
+# line counts, sorted by size
+# 96 queries/day, 887 or 888 data points on most, 96*888=85248
+ wc -l *   | sort
+    19665 2019-04-22.csv
+    69248 2019-03-28.csv
+    70132 2019-03-20.csv
+    71935 2019-04-02.csv
+    71938 2018-12-25.csv
+    79768 2019-04-05.csv
+    80869 2018-12-20.csv
+    81516 2018-11-20.csv
+    81794 2019-04-26.csv
+    81901 2019-03-15.csv
+    82581 2019-05-01.csv
+    82600 2019-04-04.csv
+    84262 2018-12-07.csv
+    84377 2019-02-23.csv
+    84743 2018-11-08.csv
+    84936 2019-02-14.csv
+    84937 2019-01-25.csv
+    85076 2019-04-18.csv
+    85126 2019-01-30.csv
+    85181 2019-03-26.csv
+    85183 2019-03-27.csv
+    85190 2019-03-29.csv
+    85207 2019-03-23.csv
+    85209 2019-03-18.csv
+    85211 2019-02-06.csv
+    85213 2019-03-14.csv
+    85217 2019-03-13.csv
+    85217 2019-03-25.csv
+    85218 2019-03-19.csv
+    85219 2019-03-30.csv
+    85220 2019-03-17.csv
+...
+    85330 2018-11-21.csv
+    85334 2018-11-10.csv
+    85342 2018-11-05.csv

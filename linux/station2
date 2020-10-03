@@ -1,0 +1,238 @@
+
+
+add instance: PUMICE
+Tue Aug 21 11:59:54 PDT 2012
+Submitted by : Michael.T.Knezevich@noaa.gov
+
+Instance ID : 1502
+CNSD ID : 1073
+MAC Address : 00-0C-29-B0-DD-4F
+DNS Name : spurr
+Domainname : pmel.noaa.gov
+IP Address : 161.55.192.44
+Instance Type : virtual
+Connection Type : wired
+VLAN : Newport Core
+OS : Windows-7
+Connection Point : 0
+Last on Network : 
+NAC Action : 
+Notes : 
+Last Scanned : 
+Status : active
+
+Comments : 
+
+Change Instance: 
+Tue Jun 24 09:29:42 PDT 2014
+Submitted by: tony.h.ung
+
+Instance ID: 1502
+CNSD ID: 1073
+Instance Type: virtual
+VLAN: Newport Core
+Connection Type: wired
+DNS Name: spurr
+Domain Name: pmel.noaa.gov
+MAC Address: 00-0C-29-B0-DD-4F
+Status: active
+OS: Windows 7
+Function: ecmo=true
+Operation Priority: 
+Last Action: 
+Notes: 
+Comments: 
+
+Change Instance: pumice(PUMICE)
+Wed Aug 30 13:31:55 PDT 2017
+Submitted by: brian.kahn
+
+Instance ID: 1454
+CNSD ID: 1073
+Instance Type: primary
+VLAN: Newport Core
+Connection Type: wired
+DNS Name: pumice (was PUMICE)
+Domain Name: pmel.noaa.gov
+IP Address: 161.55.192.39
+MAC Address: 78:7b:8a:aa:ab:6d (was C4-2C-03-25-93-85)
+Network Authentication: 
+Last On Network: 2017-08-29 09:23:57
+Status: active
+OS: Mac OS X
+Service Descr: 
+Operation Priority: lowest
+Nessus Scan: 2017-08-28 20:05:49
+ECMO Checkin: 
+Last Action: 
+Notes: 
+Comments: 
+
+Change Device: STATION2 (was PUMICE)
+Thu Sep 21 16:28:24 PDT 2017
+Submitted by: brian.kahn
+
+Identifier(s): 
+  CD Number: CD0001524797 
+
+CNSD ID: 1073
+Contact: Brian.Kahn (was William.W.Chadwick)
+Bill To: Robert.P.Dziak (was William.W.Chadwick)
+Location: Newport
+
+Device Type: Desktop
+Manufacturer: Apple
+Model: iMac Intel 27in - Mid 2010
+Status: active
+Instrument Only:  false
+Foreign Travel:  false
+Full Disk Encryption:  false
+Function: 
+Touched: 
+Device Notes:
+Expiration: 
+
+PPTY Type: DOC-PMEL
+IT:  false
+Accountable:  false
+Sunflower:  false
+CDNumber:  true
+PPTY Notes: 
+
+Comments: 
+
+Change Instance: station2(STATION2)
+Thu Sep 21 16:31:58 PDT 2017
+Submitted by: brian.kahn
+
+Instance ID: 1454
+CNSD ID: 1073
+Instance Type: primary
+VLAN: Newport Core
+Connection Type: wired
+DNS Name: station2 (was pumice)
+Domain Name: pmel.noaa.gov
+IP Address: 161.55.192.77 (was 161.55.192.39)
+MAC Address: c42c.0325.9385 (was 78:7b:8a:aa:ab:6d)
+Network Authentication: none
+Last On Network: 2017-08-29 09:23:57
+Status: active
+OS: RHEL 6 (was Mac OS X)
+Service Descr: 
+Operation Priority: lowest
+Nessus Scan: 2017-09-18 20:04:11
+ECMO Checkin: 
+Last Action: 
+Notes: 
+Comments: 
+
+Deleted Instance: spurr
+Thu Sep 21 16:33:00 PDT 2017
+Submitted by: dale.gamble
+
+Instance ID: 1502
+CNSD ID: 1073
+Instance Type: virtual
+VLAN: unregistered (was Newport Core)
+Connection Type: wired
+DNS Name: spurr
+Domain Name: pmel.noaa.gov
+IP Address: 161.55.192.44
+MAC Address: 00-0C-29-B0-DD-4F
+Network Authentication: 
+Status: inactive (was active)
+OS: Windows 7
+Service Descr: ecmo=true
+Operation Priority: lowest
+Nessus Scan: 2017-09-18 21:11:41
+ECMO Checkin: 2017-09-20 04:02:13
+Last Action: spurr deleted from database, Thu Sep 21 16:33:00 PDT 2017
+Notes: 
+Comments: changing service
+
+Change Instance: station2(STATION2)
+Thu Sep 21 16:34:21 PDT 2017
+Submitted by: brian.kahn
+
+Instance ID: 1502
+CNSD ID: 1073
+Instance Type: interface (was virtual)
+VLAN: Newport Core
+Connection Type: wired
+DNS Name: station2 (was spurr)
+Domain Name: pmel.noaa.gov
+IP Address: 161.55.192.77 (was 161.55.192.44)
+MAC Address:  (was 00-0C-29-B0-DD-4F)
+Network Authentication: 
+Last On Network: 2017-09-06 17:38:38
+Status: unknown
+OS: None (was Windows 7)
+Service Descr:  (was ecmo=true)
+Operation Priority: lowest
+Nessus Scan: 2017-09-18 21:11:41
+ECMO Checkin: 2017-09-20 04:02:13
+Last Action: 
+Notes: 
+Comments: 
+
+Change Device: STATION2
+Mon Sep 25 16:05:55 PDT 2017
+Submitted by: achim.h.nicklis
+
+Identifier(s): 
+  CD Number: CD0001524797 
+
+CNSD ID: 1073
+Contact: Robert.P.Dziak (was Brian.Kahn)
+Location: Newport
+
+Device Type: Desktop
+Manufacturer: Apple
+Model: iMac Intel 27in - Mid 2010
+Status: active
+Instrument Only:  false
+Foreign Travel:  false
+Full Disk Encryption:  false
+Function: 
+Touched: 
+Device Notes:
+Expiration: 
+
+PPTY Type: DOC-PMEL
+IT:  false
+Accountable:  false
+Sunflower:  false
+CDNumber:  true
+PPTY Notes: 
+
+Comments: 
+
+Change Instance: cd0001524797(STATION2)
+Thu Oct 05 07:26:32 PDT 2017
+Submitted by: dale.gamble
+
+Instance ID: 1502
+CNSD ID: 1073
+Instance Type: interface
+VLAN: unregistered (was Newport Core)
+Connection Type: wireless (was wired)
+DNS Name: cd0001524797
+Domain Name: pmel.noaa.gov
+IP Address: 
+MAC Address: D8-30-62-56-DC-42
+Network Authentication: none
+Last On Network: 2017-09-06 17:38:38
+Status: unknown
+OS: None
+Service Descr: 
+Operation Priority: none (was )
+Nessus Scan: 2017-09-29 12:23:42
+ECMO Checkin: 2017-09-20 04:02:13
+Last Action: 
+Notes: 
+Comments: 
+
+primary Newport Core: station2.pmel.noaa.gov[ 161.55.192.77 ] wired: C4-2C-03-25-93-85 --RHEL 6 Debug: 1
+interface unregistered: cd0001524797.pmel.noaa.gov[ ] wireless: D8-30-62-56-DC-42 --RHEL 6 Debug: 2
+
+PNDI | Node DB | CNSD info | DOC | NOAA | OAR | PMEL | Disclaimer | Privacy Policy | Contact Webmaster

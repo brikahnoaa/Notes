@@ -1,0 +1,35 @@
+Hi Brian -
+   Looks like the RSN2 web site is still up.  Please disable it ASAP and let me know when you do.  Thought I'd send the relevant path for the html files on ECLIPSE, in case that would help you.
+   To disable the the RSN2 web pages, here's what I would do:
+1) Create a new subdirectory here:
+eclipse/home/web/eoi/htdocs/rsn2/temp
+
+2) Move the index.html, mj03d.html, mj03e.html, mj03f.html, and alarms.html files from:
+eclipse/home/web/eoi/htdocs/rsn2/
+to:
+eclipse/home/web/eoi/htdocs/rsn2/temp
+
+3) Then copy this file:
+eclipse/home/web/eoi/htdocs/rsn/index.html
+to:
+eclipse/home/web/eoi/htdocs/rsn2/index.html
+
+That should do the trick.  Thanks.
+
+-Bill
+
+
+On Sat, Dec 6, 2014 at 9:30 AM, Brian Kahn - NOAA Affiliate <brian.kahn@noaa.gov> wrote:
+Bill, the data feed has been shut off. I will have to study up a bit
+to get a password onto the web site, so the smart choice is to take
+that page down until we get data back. I'll work with Andy.
+Meanwhile Andy stopped the processing and i've stopped hitting the web
+site (being declined) because its more polite. If you hear that
+they've let us back into the data feed, please let me know, UW may not
+tell me directly.
+
+thx brian
+
+solution- use rsync from syspc to update eclipse files
+[cnsd@syspc /internet/httpd/html/new-eoi/rsn2]
+rsync --exclude='.?*' --exclude='_*' -dot -i -e "ssh -q" --delete /internet/httpd/html/new-eoi/rsn2/ bobbitt@eclipse:/home/web/eoi/htdocs/rsn2

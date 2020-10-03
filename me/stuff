@@ -1,0 +1,162 @@
+4runner
+A340F tranny
+Applications (calendar years):
+    1985-2004 Toyota 4Runner
+    2000-2004 Toyota Tundra (4x4)
+    1985-1995 Toyota Pickup (4x4 w/ 4 cyl)
+    1995-1998 Toyota T-100 (4x4)
+    1995-2015 Toyota Tacoma (4x4, 2005-2015 4 cyl only)
+    2001-2004 Toyota Sequoia (4x4)1st
+1st 	2nd 	3rd 	O/D 	Reverse
+2.804 	1.531 	1.000 	0.705 	2.393
+
+deere
+The GT235 does not have a filter, 
+It has a tuff torq K71B which has no external Hyd so no filter. 
+
+The GT225, GT235, GT245, LX280, LX289 and GX255 all use the same
+frame. The GT225 GT235 and GT245 use the Tuff Torq K71B transaxle. The
+GX255 uses the K71C with differential lock. So you should be able to
+exchange the K71B and K71C. The K71C is also used in the GX335 GX345
+GX355 and the GX255. The K71A is used on some of these too, but that
+does not have differential lock apparently. So, you should be able to
+swap out a K71C to get differential lock. I can't find where the GX345
+or GX series used the K72. The GX series used the K71 series. The K71A
+without diff lock and the K71C with diff lock.
+
+The new X300 and X500 series use the same frame AM137099. The X300
+uses the K46 transaxle. This is also used in the L120, L130 155c LA130,
+LA135, LA140, LA150 LA155, LA165, LA175 X300, (X304 after 2007) LT160,
+LT180. The X534 and X540 use the new K72A transaxle with hydraulics and
+other X500 series use the K72C with all wheel steer. The earlier X304
+used the K58; which is also used by the X320, X324, X340, x360. I can't
+find yet any connection to where a machine that fits the K71 series will
+also fit the K72 series.
+
+
+K40 - L100, L108, L110, L111, L118 102, 115, 125, 135, 145 LA110, LA120
+LA115, LA125, LA135, LA145
+
+K46 - L120, L130 155c LA130, LA135, LA140, LA150 LA155, LA165, LA175
+X300, (X304 after 2007) LT160, LT180
+
+K58 - (X304 before 2008), X320, X324, X340, x360
+
+K60 - LX176, LX188
+
+K62 - 190c, LX277, LX280
+
+K66 - Husqvarna GT, GLS, GXLS and some of the Craftsman GT's
+
+K70 - 325, 335, 345, 355
+
+K71 - GT225 GT235, GT245, GX255, GX325, GX335, GX345, GX355
+
+K72 - X500, X520, X530, X534, X540
+
+K91 - 425, 445, 455
+
+K92 - X700, X720, X724, X728, X729, X740, X744, X748, X749
+
+Model X500, X520 K72B
+
+Model X534 K72C
+
+Model X540 K72A
+
+Model X300 K46
+
+Model X304, X320, X324, and X340 K58
+
+The K series narrow drive axles use an internal wet disc brake
+configuration allowing several brake lever mounting orientations,
+depending on the reduction ratio. Brake capacity is 181 or 139 lb.ft,
+at 94 lb.in, of brake arm force for the K46; 432, 347 or 240 lb.ft,
+at 92.6 lb. of brake arm force for the K62; 243 or 159 lb.ft, at 67.5
+lb. of brake arm force for the K66; and 535 lb.ft, at 21.2 lb.ft. of
+brake arm torque for the K71 transaxle.
+
+All four K series narrow drive transaxle models use automotive-type
+heat-treated bevel gears in the differential. A differential lock is
+not available on the K46, but is optional on the K62, K66 and K71. A
+factory set return-to-neutral mechanism is standard on the K46, K62,
+K66 and K71 transaxles with foot control applications. All four narrow
+drive transaxle models include a roll release mechanism.
+
+The K46 is designed for rear-engined riders and lawn tractors. The
+standard axle torque rating for the K46 is 166 lb. ft. with the standard
+20 in. maximum diameter tires and a reduction ratio of 28.04:1. The axle
+is also available with a 127 lb.ft. rating and 21.53:1 reduction ratio
+and a maximum tire diameter of 18 in., giving travel speeds of 5.5 mph.
+
+The K46 transaxle hydraulic pump and motor have displacements of 7.06
+cc and 10.93 cc respectively. Maximum input speed is 3000 rpm through a
+0.58 in. input shaft. The axle shaft diameter measures 0.75 in. Maximum
+static weight capacity for the K46 transaxle is 675 lb. and its dry
+weight is 27.6 lb.
+
+All of the narrow drive transaxles use 10W 30 class CD motor oil. The K66
+uses 5W 50 synthetic motor oil for ground engagement applications. The
+K46 has an oil capacity of 0.63 gallons while the K62 and K66 have a 0.66
+gallon capacity and the K71 has a 1.22 gallon capacity. The K46 and K62
+models use a non-changeable internal oil filter while the K66 and K71
+units are available with an external changeable filter. All transaxles
+are prefilled and air bled at the factory.
+
+The K62 is designed for heavy-duty lawn tractor and yard tractor
+applications. Pump and motor displacement for the K62 is 10 cc
+each. Maximum input shaft speed is 3000 rpm. The input shaft has a 0.58
+in. diameter and the axle shaft is 1.0 in. in diameter.
+
+The K62 has a maximum static weight rating of 584 lb. and a dry weight of
+38.6 lb. The K62 has rated axle torque of 268, 215, and 149 lb.ft. with
+reduction ratios of 33.50:1, 26.90:1 and 18.65:1 using 23, 20 and 18
+in. maximum diameter tires respectively. The standard axle is available
+with a reduction ratio of 26.90:1 at 215 lb.ft.
+
+Tuff Torq's New K Series Transaxles
+
+Model Type Standard Maximum dry weight
+	Continuous Axle Input Shaft lb.
+		Torque (lb. ft.) Speed
+
+K46 Hydrostatic 166 3000 27.6
+K62 Hydrostatic 215 3000 38.6
+K66 Hydrostatic 310 3400 50.7
+K71 Hydrostatic 406 3400 60.5
+
+The model K66 is intended to replace the K65 for yard tractor and
+light-duty garden tractor applications. This unit can be equipped
+with external hydraulic outlets for power steering, lift and other
+applications. These outlets provide a flow of 3.7 gpm with a maximum
+pressure of 653 psi at 3400 rpm. The K66 is available with axle torque
+ratings of 310 and 203 lb.ft. Displacement for the pump and motor is 10
+cc. Maximum input speed for the 0.58 in input shaft is 3400 rpm. The
+addition of a charge pump allows the higher input speed, according
+to Winfree.
+
+Reduction ratios for the K66 are 37.22:1 and 22.19:1 with maximum tire
+diameters of 23 and 18 in. The axle shaft is 1.0 in. in diameter. The
+K66 is similar in size to the K62 and in fact, uses the same upper
+housing as the K62. The main internal differences include the addition
+of a charge pump and strengthened gear train to cope with the demand of
+ground engaging, according to Winfree.
+
+The K66 has a maximum static weight capacity of 584 lb. and a dry weight
+of 50.7 lb., including the external hydraulics and differential lock. The
+K66 also has optional changeable oil filter.
+
+The model K71 narrow drive transaxle is designed for medium-duty garden
+tractor applications and is available with an axle torque rating of
+406 lb.ft. The pump and motor each have a displacement of 18 cc and
+the transaxle input shaft has a maximum input speed of 3400 rpm. The
+input shaft is 0.58 in. in diameter, while the axle shaft is 1.0 in. in
+diameter. The reduction ratio is 26.673:1 with a maximum tire diameter
+of 23 in. The K71 has a maximum static weight capacity of 728 lb. and
+a dry weight of 60.5 lb.
+
+External hydraulic outlets are optional for power steering, lift and
+other hydraulic accessories. An external inline filter is required for
+these accessories as on the K66 transaxle. The external hydraulic ports
+provide a flow of 3.7 gpm and a pressure of 653 psi at 3400 rpm.
+

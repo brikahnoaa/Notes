@@ -1,0 +1,32 @@
+:Title: PC support policy, PMEL Newport
+
+:Summary: PCbackup
+
+:Overview: Backup of user data is a service of CNSD costing $/month.
+Newport has a infrastructure set up to help users do their own backups.
+Plan for aging PC fleet is to stock parts, monitor disks.
+
+:PCbackup: The main purpose of CNSD server ventstore (VS) is to store
+system backups of Linux systems at Newport.  VS has room for a second
+array, which has been populated with 8x2TB excess disks aged out from
+project file servers. This RAID6 array should be sufficiently robust
+despite the age of the disks. It provides 12TB of space for user PC
+backup.
+
+Most of the Newport PCs are now set up to backup nightly onto VS, and
+have completed a system image as of 4/1/2015. The system image should
+not be run nightly because a) it is not incremental, so it is slow,
+and b) when a system is restored we want a known good image not a daily
+which may be damaged.  A new system image is needed every 6-12 months or
+after application install.  The backups run during the night, staggered
+to manage load on the network.
+
+A few PCs have local backup regime (e.g. Chadwick). Most laptops do not
+attach to the network regularly or overnight.
+
+Windows7 Backup is set up to run under pmel/administrator to keep it
+secure (e.g. not readable by all) so initial setup or restore needs help
+from IT. However, users can change which folders are selected for backup,
+using the Backup function from Control Panel.
+
+

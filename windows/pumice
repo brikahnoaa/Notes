@@ -1,0 +1,113 @@
+
+
+Add Device: PUMICE
+Thu Sep 21 16:44:06 PDT 2017
+Submitted by: brian.kahn
+
+Identifier(s): 
+  CD Number: CD0001529346 
+
+
+CNSD ID: 1678
+Contact: William.W.Chadwick
+Location: newport
+
+Device Type: Desktop
+Manufacturer: Apple
+Model: imac intel - late 2017
+Status: active
+Instrument Only: 
+Foreign Travel: 
+Full Disk Encryption: 
+Touched: 2017-09-21
+Function: Primary Desktop
+Device Notes:
+
+PPTY Type: DOC-PMEL
+IT: 
+Accountable: 
+Sunflower: 
+CDNumber: YES
+PPTY Notes: 
+
+Comments:  has virtual PC named SPURR
+replaces CD0001524797
+
+Add Instance: PUMICE
+Thu Sep 21 16:46:22 PDT 2017
+Submitted by: brian.kahn
+
+Instance ID: 2309
+CNSD ID: 1678
+Instance Type: primary
+VLAN: Newport Core
+Connection Type: wired
+DNS Name: pumice
+Domain Name: pmel.noaa.gov
+IP Address: 161.55.192.39
+MAC Address: 78-7B-8A-AA-AB-6D
+Network Authentication: none
+Last On Network: 
+Status: active
+OS: OS X 10.12
+Service Descr: desktop
+Operation Priority: medium
+Last Action: 
+Notes: 
+Comments: 
+
+Change Device: PUMICE
+Mon Oct 02 11:58:18 PDT 2017
+Submitted by: achim.h.nicklis
+
+Identifier(s): 
+  CD Number: CD0001529346 
+
+CNSD ID: 1678
+Contact: William.W.Chadwick
+Location: newport
+
+Device Type: Desktop
+Manufacturer: Apple
+Model: imac intel - late 2017
+Status: active
+Instrument Only:  false
+Foreign Travel:  false
+Full Disk Encryption:  false
+Function: Primary Desktop
+Touched:  2017-09-21 (was 2017-09-21 00:00:00)
+Device Notes:
+Expiration: 
+
+PPTY Type: PMEL-SUNFL (was DOC-PMEL)
+IT:  false
+Accountable:  false
+Sunflower:  false
+CDNumber:  true
+PPTY Notes: 
+
+Comments: 
+
+Add Instance: PUMICE
+Thu Oct 05 07:50:34 PDT 2017
+Submitted by: dale.gamble
+
+Instance ID: 2313
+CNSD ID: 1678
+Instance Type: interface
+VLAN: unregistered
+Connection Type: wireless
+DNS Name: cd0001529346
+Domain Name: pmel.noaa.gov
+IP Address: 
+MAC Address: 98-9E-63-43-C3-84
+Network Authentication: none
+Last On Network: 
+Status: inactive
+OS: OS X 10.12
+Service Descr: desktop
+Operation Priority: medium
+Last Action: 
+Notes: 
+Comments: 
+

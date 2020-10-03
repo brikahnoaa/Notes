@@ -1,0 +1,45 @@
+Fri, Aug 16, 2019  3:39:04 PM
+
+.1 install
+rpm -i CentrifyDC-5.5.3-704.x86_64 CentrifyDC-openldap-5.5.3-704.x86_64 CentrifyDC-openssl-5.5.3-704.x86_64 CentrifyDC-curl-5.5.3-704.x86_64 CentrifyDC-adbindproxy-5.5.0-201.x86_64
+
+Mar 21, 2019, 2:24 PM from ridge:
+yum install samba samba-client samba-winbind samba-winbind-clients
+Install Centrify DC package
+Modify as below:
+1) cd /etc/centrifydc/scripts/
+2) vi functions.cdc
+3) Comment out the following 2 lines:
+
+LD_LIBRARY_PATH=/usr/share/centrifydc/lib64: /usr/share/centrifydc/kerberos/lib64: $LD_LIBRARY_PATH
+
+export LD_LIBRARY_PATH
+
+perl /usr/share/centrifydc/bin/adbindproxy.pl
+Specify Samba install path:
+   /usr
+Modify as below:
+By default, /sbin/adkeytab is a symbolic link to /usr/share/centrifydc/bin/cdcexec, and this needs to be changed.
+
+# ls -l /sbin/adkeytab
+lrwxrwxrwx. 1 root root 33 May  2 15:19 /sbin/adkeytab -> /usr/share/centrifydc/bin/cdcexec
+# rm /sbin/adkeytab
+# ln -s /usr/share/centrifydc/libexec/adkeytab /sbin/adkeytab
+# ls -l /sbin/adkeytab
+lrwxrwxrwx. 1 root root 38 May  4 08:50 /sbin/adkeytab -> /usr/share/centrifydc/libexec/adkeytab
+
+6) Run 'net cache flush'
+7) Verify it is working:
+# systemctl status centrifydc-samba.service
+
+IF SELINUX:
+  # setsebool -P samba_export_all_ro on
+IF FIREWALL:
+   open both kerberos and samba:
+               # firewall-cmd --permanent --add-service=samba
+               # firewall-cmd --permanent --add-service=kerberos
+               # firewall-cmd --reload
+To restart samba:
+   /etc/init.d/centrifydc-samba restart
+Enable the service at reboot:
+   chkconfig centrify-samba on

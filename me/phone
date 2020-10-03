@@ -1,0 +1,34 @@
+Tue, Feb 28, 2017  9:52:41 AM
+How to Easily Fix Low Audio Volume after Installing Custom ROMs
+(Compatible with CyanogenMod)
+
+.1   The first thing to do will be to download ES File Explorer app on
+your device from Google Play – open Google Play, search for the app
+and install it on your Android device.
+
+.2   Next, you have to enable root explorer in the same app, as this
+option comes disabled by default.
+
+.3   So, runt the app and then tap on icon at top left to open its menu;
+from there choose Tools and then turn on the Root Explorer option.
+
+.4   Write capabilities must also be ensured on ES File Explorer. In
+order to achieve that, you have to tap once on the “Root Explorer”
+text in order to launch general options. Now tap on Mount R/W, and then
+select /system as R/W. Save your changes in the end.
+
+.5   Up next, from the ES File Explorer app, navigate towards
+“/device/etc/sound” and find the file dubbed as “to3g”.
+
+.6   Tap on that file and select “open as text”.
+
+.7   What you need to do next is to change the default sound volume
+values as in the following examples:
+.. <ctl name="Speaker Volume" val="57"/> -> "60" or "63"
+.. <ctl name="Output Volume" val="xx"/> -> "62"
+.. optional
+... <ctl name="AIF1 Boost Volume" val="2"/>
+... <ctl name="AIF2 Boost Volume" val="2"/>
+
+.8 That’s it; save the file when you’re done.
+

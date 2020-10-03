@@ -1,0 +1,87 @@
+=== lvm create
+ # lsblk
+ # pvcreate /dev/sdd1 /dev/sde1 /dev/sdf1
+ # vgcreate vg1 /dev/sdd1 /dev/sde1 /dev/sdf1
+ # lvcreate -l '100%VG' -n lv1 vg1
+ # mkfs.xfs /dev/vg1/lv1
+ # xfs_admin -L backup /dev/vg1/lv1
+
+=== lvm destroy
+ # lsblk
+ # lvchange -an vg1/lv1
+ # lvremove vg1/lv1 
+ # vgchange -an vg1
+ # vgremove vg1
+ # pvremove /dev/sdd1 /dev/sde1 /dev/sdf1
+
+=== put an archive on shelf
+
+lvm export
+ # df
+ # umount /silo
+see who we have, make not active, export
+ # dmsetup ls
+ # vgscan
+ # vgchange -an folio1vg
+ # vgexport folio1vg
+remove from raid
+ # tw_cli /cx/ux remove 
+
+lvm import
+ # tw_cli /cx rescan
+ # pvscan
+ # vgimport design
+ # vgchange -ay
+ # lvscan
+
+lvm remount (not exported)
+ # tw_cli /cx rescan
+ # pvscan
+ # vgchange -ay
+ # mount /dev/folio1vg/folio1lv /mnt
+
+== raid units can be removed and later rescan'd (portable)
+remove noscan to force
+ # tw_cli /cx/ux remove [noscan]
+ # tw_cli /cx rescan
+
+  lvm create
+ # pvcreate /dev/sd[cde]1
+ # vgcreate vge2 /dev/sd[cde]1
+ # lvcreate -l 100%free -n lve2 vge2
+ # mkfs.xfs -L e2 /dev/vge2/lve2
+
+  lvm remove
+raid units can be removed and later reinserted (portable)
+tw_cli /cx/ux remove [noscan]
+tw_cli /cx rescan
+remove noscan to force
+
+lvm export
+ df
+ umount /silo
+see who we have, make not active, export
+ vgscan
+ vgchange -an vgx
+ vgexport vgx
+
+remove from raid
+# tw_cli /cx/ux remove 
+
+blinky blinky
+ pvdisplay | grep Name
+ while sleep 1; do for d in sdc sde; do smartctl -i /dev/$d; done; done          
+
+
+lvm import
+ tw_cli /cx rescan
+ pvscan
+# vgimport vgx
+ vgchange -ay
+ lvscan
+
+lvm remount (not exported)
+# tw_cli /cx rescan
+# pvscan
+# vgchange -ay
+# mount /dev/vgx/lvx /mnt

@@ -1,0 +1,17 @@
+Thu, Jan 12, 2017  4:38:11 PM
+.1 install codewarrior 9.0
+.1.1 use default paths
+.1.2 custom install -> CW IDE, CW Manuals, CW for Palm Support
+.2 install persistor, all defaults
+.3 dos window
+C:\Windows\system32>cd "\Program Files"
+C:\Program Files>mklink /D Metrowerks  "\Program Files (x86)\Metrowerks"
+C:\Program Files>mklink /D Persistor "\Program Files (x86)\Persistor"
+.4 template
+ CodewarriorIDE>Edit>Preferences>General.SourceTrees[ImportPanel]
+ ..\..\Persistor\Motocross\CFX\XMLsettings\IDE\*CF2*
+.5 update to CW 9.2
+.6 open and make BuildAll.mcp
+c:\Prog(x86)\Metro\CW\CW for Palm Support\BuildAll.mcp
+.7 dos format by default
+Edit -> Preferences... : Editor Settings : Default File Format = Unix

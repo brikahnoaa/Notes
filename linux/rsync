@@ -1,0 +1,35 @@
+run as a service
+/etc/xinetd.d/rsync:
+# default: off
+# description: The rsync server is a good addition to an ftp server, as it \
+#       allows crc checksumming etc.
+service rsync
+{
+        disable = no
+#       flags           = IPv6
+        socket_type     = stream
+        wait            = no
+        user            = root
+        server          = /usr/bin/rsync
+        server_args     = --daemon
+        log_on_failure  += USERID
+}
+
+/etc/rsyncd.conf:
+uid = 0
+gid = 0
+comment = backup
+read only = false
+write only = true
+use chroot = yes
+transfer logging = yes
+log file = /data2/RHbackup/rsync.log
+
+[acoustic]
+hosts allow = 161.55.191.142 161.55.192.142
+path = /data2/RHbackup/acoustic
+
+[acq1]
+hosts allow = 161.55.191.101 161.55.192.101
+path = /data2/RHbackup/acq1
+...

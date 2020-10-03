@@ -1,0 +1,40 @@
+Wed, Aug 28, 2019 10:13:43 AM
+.1 ve bad disk
+  5 Reallocated_Sector_Ct   0x0033   001   001   005    Pre-fail  Always   FAILING_NOW 1990
+.2 find
+.. while sleep 1; do smartctl -A -d 3ware,5 /dev/twa0; done
+.3 replace
+ tw_cli  show
+ tw_cli /c8 show
+p4    OK             u0   1.82 TB   SATA  4   -            Hitachi HDS5C3020AL
+p5    SMART-FAILURE  u0   1.82 TB   SATA  5   -            Hitachi HDS5C3020AL
+p6    DEGRADED       u0   1.82 TB   SATA  6   -            Hitachi HDS5C3020AL
+p7    OK             u0   1.82 TB   SATA  7   -            Hitachi HDS5C3020AL
+ tw_cli /c8/p5 show rasect
+/c8/p5 Reallocated Sectors = 1990
+ tw_cli /c8/p5 remove 
+
+.4 alternate chosen - convert raid10,4x2T into raid1,2x4T due to plenty of 4TB
+ tw_cli /c8/u0 remove
+swap 4T for 2T, create 4T mirror and 8T striped
+ tw_cli /c8 add type=raid1 disk=4:5
+ tw_cli /c8 add type=raid0 disk=6:7
+
+Tue, Apr 30, 2019 10:37:01 AM
+.1 smart shows bad sector
+odd - notes below suggest problems in same slot
+.. no alarms, all shows good
+.. remove and replace, check with other tools for smart
+
+Fri, Sep 16, 2016  8:18:58 AM
+.1 storcli bad disk - red light, alarm
+.1.1 replace disk, silence
+ storcli /c0 set alarm=silence
+.1.3 if rebuild doesn't start ...
+ storcli /c0/e4/s16 set offline
+ storcli /c0/e4/s16 start rebuild
+.2 do not insert disk, offline, online - it thinks all is well!
+.3 status
+ storcli /c0/e4/s16 show rebuild
+.4 time
+ 36 hours for 12x6T

@@ -1,0 +1,40 @@
+
+build sequence used in --vm-brutal: (kahn:b.1./9)
+.0 build mbsys from source, packages all else
+.1 add repos from redhat and EPEL
+.2 use repoquery --plugins -R --resolve [--location] to figure dependencies
+.3 use yumdownload [wget] to fetch packages
+.4 install with yum, but don't allow any fetching of packages
+.5 install all but mbsys
+.6 unpack GMT from EPEL SRPM, run ./configure
+.7 mbystem:./configure --with-gmt-include=/home/kahn/build/gmt-4.5.11/src/ 
+.8 ln -s /usr/lib64/xxx.so.4 xxx.so for libgmt*, others
+.9 OTPSnc NCLIB=/usr/lib64 NCINCLUDE=/usr/include NCLIBS=-lnetcdff
+
+
+best sources:
+1. EPEL
+2. rpmfind
+3. pbone.net
+4. http://sts.ucsd.edu/repos/centos-6/local
+
+use netcdf from EPEL, not sts
+use perl:parallel 1.5 not 1.6
+
+geotiff only supported on rh5 rh7, trying rh5
+
+do not install all the junk as stated in install mb-system
+  http://www.mbari.org/data/mbsystem/html/mbsystem_how_to_get.html
+install gmt source, find .bz2 in ~/buildrpm, unpack
+configure gmt source before mbsystem/configure 
+copy build/annual /usr/local/levitus/annual
+
+
+REFS::
+building GMT:
+http://gmt.soest.hawaii.edu/projects/gmt/wiki/BuildingGMT
+install mbs
+http://www.mbari.org/data/mbsystem/html/mbsystem_how_to_get.html
+mbsys rpm
+http://sts.ucsd.edu/repos/centos-6/local/x86_64/RPMS/
+

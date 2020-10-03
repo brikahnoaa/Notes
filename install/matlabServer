@@ -1,0 +1,8 @@
+Wed, Feb 13, 2019 11:24:35 AM
+.2 matlab on caldera
+LicenseNo: 575045 is valid
+.. lmgrd
+broke sw at https://www.mathworks.com/support/install/license_manager_files.html
+use matlab_R2016a_glnxa64.zip
+install: https://www.mathworks.com/help/install/ug/installing-the-license-manager-on-a-server.html
+client: https://www.mathworks.com/help/install/ug/installing-the-license-manager-on-a-server.html#brl8feo-1

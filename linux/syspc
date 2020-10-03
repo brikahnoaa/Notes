@@ -1,0 +1,281 @@
+Thu, Jul  2, 2020  3:38:24 PM
+/data1
+.1 rebuild /data1
+ umount /data1
+.. from <linux/lvm>
+=== lvm destroy
+ # lsblk
+ # while true; do smartctl -A /dev/sdd | grep Reall; done
+  umount /data1
+  lvchange -an vg1/lv1
+  lvremove vg1/lv1
+  vgchange -an vg1
+  vgremove vg1
+  pvremove /dev/sdd /dev/sde
+  lsblk
+=== lvm create
+  lsblk
+  pvcreate /dev/sdd /dev/sde
+  vgcreate vg1 /dev/sdd /dev/sde
+  lvcreate -l '100%VG' -n lv1 vg1
+  mkfs.xfs /dev/vg1/lv1
+  xfs_admin -L data1 /dev/vg1/lv1
+  mount -a
+  lsblk
+
+Tue, May 12, 2020 11:52:09 AM
+/data0
+
+.1 cron.daily/backup.data /data0 -> /data1
+.1.1 data0 is 2x4TB vg0, data1 is 2x1TB+2x3TB vg2
+.1.2 about 50% used
+.1.3 no raid - 2 virt drives made by lvm
+ dmsetup ls
+vg_syspc-lv_home        (253:4)
+vg_syspc-lv_swap        (253:1)
+vg_syspc-lv_root        (253:0)
+vg1-lv1 (253:2)
+vg2-lv2 (253:3)
+
+# root@syspc 03:06:22 /data1 #
+  pvdisplay
+  --- Physical volume ---
+  PV Name               /dev/sde
+  VG Name               vg1
+  PV Size               3.64 TiB / not usable 3.84 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              953861
+  Free PE               0
+  Allocated PE          953861
+  PV UUID               BnvwWz-UndV-qlj5-anfb-w9Bs-CZSf-98c0pZ
+
+  --- Physical volume ---
+  PV Name               /dev/sdd
+  VG Name               vg1
+  PV Size               3.64 TiB / not usable 3.84 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              953861
+  Free PE               0
+  Allocated PE          953861
+  PV UUID               WDG9mb-Acb0-Ac53-kR2J-1aDr-51Dk-6dg7UN
+
+  --- Physical volume ---
+  PV Name               /dev/sdb
+  VG Name               vg2
+  PV Size               3.64 TiB / not usable 3.84 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              953861
+  Free PE               0
+  Allocated PE          953861
+  PV UUID               Pb30nl-Kl1B-Uf4V-qAAW-u68y-9tWg-RLw2Nt
+
+  --- Physical volume ---
+  PV Name               /dev/sdc
+  VG Name               vg2
+  PV Size               3.64 TiB / not usable 3.84 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              953861
+  Free PE               0
+  Allocated PE          953861
+  PV UUID               Khgbjd-kA4s-TxSy-zyzH-5OKL-Ld7r-c39FtL
+
+  --- Physical volume ---
+  PV Name               /dev/sda2
+  VG Name               vg_syspc
+  PV Size               465.27 GiB / not usable 3.00 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              119109
+  Free PE               0
+  Allocated PE          119109
+  PV UUID               13pRP2-VUYO-ERUl-lrYZ-H2To-sqZp-SOuYfW
+
+# root@syspc 03:06:22 /data1 #
+ vgdisplay
+  --- Volume group ---
+  VG Name               vg1
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               7.28 TiB
+  PE Size               4.00 MiB
+  Total PE              1907722
+  Alloc PE / Size       1907722 / 7.28 TiB
+  Free  PE / Size       0 / 0
+  VG UUID               oaFWXl-JetR-WoAl-b9Pg-8a73-c8gF-RzuG45
+
+  --- Volume group ---
+  VG Name               vg2
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               7.28 TiB
+  PE Size               4.00 MiB
+  Total PE              1907722
+  Alloc PE / Size       1907722 / 7.28 TiB
+  Free  PE / Size       0 / 0
+  VG UUID               ArpyfJ-Rzkl-5BzQ-44Ge-iDhc-sbHJ-1QxzWB
+
+  --- Volume group ---
+  VG Name               vg_syspc
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                3
+  Open LV               3
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               465.27 GiB
+  PE Size               4.00 MiB
+  Total PE              119109
+  Alloc PE / Size       119109 / 465.27 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               nubky5-xGfp-d3U4-Fd01-LEVH-GSfS-GQndTP
+
+# root@syspc 03:08:36 /data1 #
+ lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/vg1/lv1
+  LV Name                lv1
+  VG Name                vg1
+  LV UUID                7fGzPp-N2KX-C4Po-LAiC-pW48-E7ZH-pzthcY
+  LV Write Access        read/write
+  LV Creation host, time syspc.pmel.noaa.gov, 2015-12-21 10:44:53 -0800
+  LV Status              available
+  # open                 1
+  LV Size                7.28 TiB
+  Current LE             1907722
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:2
+
+  --- Logical volume ---
+  LV Path                /dev/vg2/lv2
+  LV Name                lv2
+  VG Name                vg2
+  LV UUID                2MtraD-4SkT-dMrm-P1da-5Okd-04NZ-y7zx1f
+  LV Write Access        read/write
+  LV Creation host, time syspc.pmel.noaa.gov, 2015-01-20 16:02:59 -0800
+  LV Status              available
+  # open                 1
+  LV Size                7.28 TiB
+  Current LE             1907722
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:3
+
+  --- Logical volume ---
+  LV Path                /dev/vg_syspc/lv_root
+  LV Name                lv_root
+  VG Name                vg_syspc
+  LV UUID                v6ixcI-P44i-kSeB-0kaB-8Rdv-URJj-5k1tUh
+  LV Write Access        read/write
+  LV Creation host, time syspc.pmel.noaa.gov, 2016-06-20 11:04:25 -0700
+  LV Status              available
+  # open                 1
+  LV Size                50.00 GiB
+  Current LE             12800
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Logical volume ---
+  LV Path                /dev/vg_syspc/lv_home
+  LV Name                lv_home
+  VG Name                vg_syspc
+  LV UUID                OV4Pro-6s1T-csqi-j5w9-fo3c-w3GP-ZYpYvK
+  LV Write Access        read/write
+  LV Creation host, time syspc.pmel.noaa.gov, 2016-06-20 11:04:34 -0700
+  LV Status              available
+  # open                 1
+  LV Size                407.54 GiB
+  Current LE             104329
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:4
+
+  --- Logical volume ---
+  LV Path                /dev/vg_syspc/lv_swap
+  LV Name                lv_swap
+  VG Name                vg_syspc
+  LV UUID                CFSXcm-4Bwv-JETP-09Mu-r2Nj-O5O9-wYcfL1
+  LV Write Access        read/write
+  LV Creation host, time syspc.pmel.noaa.gov, 2016-06-20 11:05:53 -0700
+  LV Status              available
+  # open                 1
+  LV Size                7.73 GiB
+  Current LE             1980
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:1
+
+# root@syspc 03:09:53 /data1 #
+ lsblk
+NAME                        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda                           8:0    0 465.8G  0 disk
+├─sda1                        8:1    0   500M  0 part /boot
+└─sda2                        8:2    0 465.3G  0 part
+  ├─vg_syspc-lv_root (dm-0) 253:0    0    50G  0 lvm  /
+  ├─vg_syspc-lv_swap (dm-1) 253:1    0   7.8G  0 lvm  [SWAP]
+  └─vg_syspc-lv_home (dm-4) 253:4    0 407.5G  0 lvm  /home
+sde                           8:64   0   3.7T  0 disk
+└─vg1-lv1 (dm-2)            253:2    0   7.3T  0 lvm  /data1
+sdd                           8:48   0   3.7T  0 disk
+└─vg1-lv1 (dm-2)            253:2    0   7.3T  0 lvm  /data1
+sdc                           8:32   0   3.7T  0 disk
+└─vg2-lv2 (dm-3)            253:3    0   7.3T  0 lvm  /data0
+sdb                           8:16   0   3.7T  0 disk
+└─vg2-lv2 (dm-3)            253:3    0   7.3T  0 lvm  /data0
+sr0                          11:0    1  1024M  0 rom
+
+.2 HW
+Dell PowerEdge R530
+Xeon(R) CPU E5-2620 v4 @ 2.10GHz
+1x 16GB DDR4 2400
+
+.3 swap disk packs
+exportfs -ua
+service smb stop
+umount /data0 /data1
+xfs_admin -L data0 /dev/vg1/lv1
+xfs_admin -L data1 /dev/vg2/lv2
+mount -a
+service smb start
+exportfs -a

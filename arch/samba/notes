@@ -1,0 +1,85 @@
+Mon, Nov 19, 2018  3:47:31 PM
+.1 https://lists.samba.org/archive/samba/2010-September/158214.html
+ wbinfo -u
+ getent passwd
+.2 name2sid, sid2name
+ wbinfo -n kahn
+S-1-5-21-1659004503-2139871995-1801674531-11105 SID_USER (1)
+ wbinfo -s S-1-5-21-1659004503-2139871995-1801674531-11105
+PMEL\kahn 1
+.3 id "pmel.noaa.gov\\kahn"
+uid=2011105(PMEL\kahn) gid=2000513(PMEL\domain users) groups=2000513(PMEL\domain users),2011105(PMEL\kahn),2001332(PMEL\oerd - newport),2004806(PMEL\fdcc_wg),2017635(PMEL\cac enforcement exception),2010359(PMEL\pmel science network users (rodc)),2010377(PMEL\science rodc users),2001551(PMEL\app - maestro 8),2001313(PMEL\cnsd global),2010197(PMEL\macprint),2010531(PMEL\scvmmadmins),2001326(PMEL\oerd global),2001550(PMEL\app - exceed 8),2001533(PMEL\app - office 2000 pro),2001534(PMEL\app - office xp pro),2001529(PMEL\app - maestro 7),2001527(PMEL\app - exceed 7.1),2011716(PMEL\configmgr remote control users),2011717(PMEL\offer remote assistance helpers),2001519(PMEL\app - exceed 7),2001528(PMEL\app - maestro 6),2001532(PMEL\app - frontpage 2002),2001531(PMEL\app - frontpage 2000),2001507(PMEL\app - acrobat 5),2001530(PMEL\app - maestro 7.1),2001518(PMEL\app - exceed 6),10001(BUILTIN\users)
+
+.1 control access (embfile2)
+.1.1 share access
+.1.1.1 valid users = linux group who can access share
+.1.1.2 write list = linux group who can change:   read only = yes
+.1.1.3 read list = group who can only read:   writable = yes
+.1.1.4 https://www.samba.org/samba/docs/man/Samba3-HOWTO/AccessControls.html
+.1.2 directory traversal by group/other r-xr-x
+.1.3 make new files in group with directory sgid  # chmod g+s dir
+.2 samba server for pmel
+.2.1 net rpc join -U administrator  -S NSERVER1
+.2.1.1 note: adcli join will break smb
+# adcli delete-computer syspc
+# net rpc join -U administrator -S hatfield
+.2.2 smb.conf
+[global]
+        workgroup = PMEL
+        ? interfaces = eth0, eth1
+        ? bind interfaces only = Yes
+        server string = oerdftp
+        hosts allow = 161.55.192. 161.55.191. 161.55.168. 127.
+        security = domain
+        password server = NSERVER1
+        local master = no
+        load printers = no
+# don't know what this is
+        server signing = auto
+        socket options = TCP_NODELAY SO_RCVBUF=8192 SO_SNDBUF=8192
+        smb ports = 445
+        kernel oplocks = no
+        lock spin time = 15
+
+when you make a new directory in /mdisk at the top level, you need to do these two commands to keep others out:
+ $ chgrp geo /mdisk/dirname
+ $ chmod o-rwx /mdisk/dirname
+
+
+::description of controls on embfile2::
+
+goal: partial access
+  full read/write/create/delete for four main users,
+  read only for two others in certain top-level directories on /mdisk.
+
+controls: some on the share and some in linux
+  share - read/write access to /mdata for four main users in linux group 'geo'
+  share - readonly access to /mdisk for users in 'geo' plus others in 'geoplus'
+  share - write access to /mdisk for 'geo'
+  linux - all directories in /mdisk should be set to group 'geo'
+ $ chgrp geo /mdisk/dirname
+  linux - directories used by group 'geo' only, not shared with 'geoplus'
+ $ chmod o-rwx /mdisk/dirname
+
+example: listing of /mdisk 
+ # ls -l /mdisk
+total 1
+drwxr-x---.  4 root  geo   32 Jan 14 15:38 backup-oerdftp
+drwxrwxr-x.  5 merle geo 4096 Jan  5 16:14 cruise-data
+drwxrwx---.  6 merle geo 4096 Jan 13 15:01 fledermaus
+drwxrwxr-x. 35 merle geo 4096 Jan 14 11:33 gis-data
+drwxrwx---.  5 merle geo   43 Aug  4 22:11 google-earth
+drwxrwx---.  6 merle geo 4096 Dec  2 16:41 lidar
+drwxrwx---.  5 merle geo   59 Jan 13 10:05 OLD-erdas-gloria-seismic
+drwxrwx---. 23 merle geo 4096 Aug  4 10:34 OLD-gisdata-emb
+drwxrwx---.  4 merle geo   45 Jan 13 10:17 pc-archives
+drwxrwx---. 14 merle geo 4096 Jan  7 16:13 regions-linux
+drwxr-x---.  5 merle geo   52 Jan 12 16:28 satellite-data
+drwxr-x---.  4 merle geo   32 Jan 13 10:45 users-misc
+
+Tue, Aug 14, 2018  1:50:23 PM
+.1 centrify samba
+In previous releases, Centrify would modify the Samba package and
+provide a unique, Centrify version of Samba for different operating
+systems. In this release, Centrify provides a couple of components that
+work with the stock Samba package

@@ -1,0 +1,10 @@
+Thu, Feb 26, 2015 11:20:34 AM
+raid disk health
+.1 9750
+ # smartctl -a -d 3ware,$i /dev/twl0
+.2 9650
+ # smartctl -a -d 3ware,$i /dev/twa0
+
+.3 acoustic:/etc/rc.d/rc.local (9750)
+# set timeout for disks RAID style
+for (( i=8; i<24; i++ )); do smartctl -l scterc,70,70 -d 3ware,$i /dev/twl0; done

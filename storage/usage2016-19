@@ -1,0 +1,27 @@
+Thu, Aug 29, 2019 11:19:35 AM
+summary: ac=48T@71% b3=55T@85%,37T@71% e2=55T@53%
+ac:
+/dev/sdb1                        48T   34T   14T  71% /data0
+b3:
+/dev/sdb                  55T   47T  8.6T  85% /data1
+/dev/sda1                 37T   26T   11T  71% /data0
+e2:
+/dev/sda               55T   29T   26T  53% /data0
+ve:
+/dev/sdc               33T   21T   13T  63% /data0
+/dev/sdb              3.7T  1.6T  2.1T  43% /data1
+/dev/sdd              7.3T  5.3T  2.1T  72% /data2
+
+Fri, Jan 22, 2016  2:43:03 PM
+Subject: Data space usage on acoustic, bioac3
+Summary: acoustic = 15 of 40TB, growth 7TB/yr. Bioac = 44 of 80TB, ++19TB/yr.
+
+Details: 
+.1 opinions differ on whether bio data will grow as fast in the next years.
+.2 the current backup plan limits acoustic to 40TB, but the server could be 
+expanded as high as 56TB with the proposed use of tape for backup.
+.3 we backup onto disks, stored on shelf. when we add disk space, we add backup.
+.4 backup tape is half the price of disk.
+.4 a new server costs $2200. 
+.4 disks have a four year lifetime. Disks have double capacity each 2 years.
+.5 

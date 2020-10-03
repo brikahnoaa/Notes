@@ -1,0 +1,55 @@
+Wed, Jul 31, 2019  9:58:11 AM
+.1 dd returns 0 reading 0length file at eod
+.2 mt knows file and block # (-1 when at eod)
+.3 i think dd writes 2 eof and backs up one? 
+.4 after dd, status is eof not eod
+
+# root@challenger 09:51:06 /backup/tapes/test #
+ dd if=/dev/nst0 of=t3 bs=32k
+4+0 records in
+4+0 records out
+131072 bytes (131 kB) copied, 0.00416503 s, 31.5 MB/s
+# root@challenger 09:51:08 /backup/tapes/test #
+ mt status
+SCSI 2 tape drive:
+File number=3, block number=0, partition=0.
+Tape block size 0 bytes. Density code 0x5a (no translation).
+Soft error count since last status=0
+General status bits on (81010000):
+ EOF ONLINE IM_REP_EN
+# root@challenger 09:51:35 /backup/tapes/test #
+ echo $?
+0
+# root@challenger 09:51:55 /backup/tapes/test #
+ dd if=/dev/nst0 of=t3 bs=32k
+0+0 records in
+0+0 records out
+0 bytes (0 B) copied, 0.0150416 s, 0.0 kB/s
+# root@challenger 09:52:01 /backup/tapes/test #
+ mt status
+SCSI 2 tape drive:
+File number=3, block number=-1, partition=0.
+Tape block size 0 bytes. Density code 0x5a (no translation).
+Soft error count since last status=0
+General status bits on (9010000):
+ EOD ONLINE IM_REP_EN
+# root@challenger 09:52:07 /backup/tapes/test #
+ echo $?
+0
+# root@challenger 09:52:11 /backup/tapes/test #
+ dd if=/dev/nst0 of=t3 bs=32k
+dd: error reading ‘/dev/nst0’: Input/output error
+0+0 records in
+0+0 records out
+0 bytes (0 B) copied, 0.000687243 s, 0.0 kB/s
+# root@challenger 09:55:35 /backup/tapes/test #
+ echo $?
+1
+# root@challenger 09:55:39 /backup/tapes/test #
+ mt status
+SCSI 2 tape drive:
+File number=3, block number=-1, partition=0.
+Tape block size 0 bytes. Density code 0x5a (no translation).
+Soft error count since last status=0
+General status bits on (9010000):
+ EOD ONLINE IM_REP_EN

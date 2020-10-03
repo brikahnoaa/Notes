@@ -1,0 +1,54 @@
+Wed, Oct 12, 2016  3:29:10 PM
+.1 e2 sticky bits
+
+# tweak.sh
+a=($( ls -ld .))
+g=${a[3]}
+echo in $PWD ...
+echo chgrp -R $g .
+echo "find . -type d | xargs chmod 2775  (drwxrwsr-x)"
+echo "find . -type f | xargs chmod 0664  (rw-rw-r--)"
+read -p "proceed? [Y]" yn
+chown -R $u.$g .
+find . -type d -print0 | xargs -0 chmod 2775
+find . -type f -print0 | xargs -0 chmod 0664
+
+email On Fri, Nov 6, 2015 at 3:09 PM, Brian Kahn - NOAA Affiliate
+Comments, please.
+
+bioac3 and acoustic:
+i think the current permissions on acoustic don't match objectives.
+We currently have all the data readable by all and writable by whoever
+uploaded or moved it most recently.
+
+Objectives:
+.1 protect data against accidental removal / alteration
+.2 upload data from several sources
+.3 a few directories restricted readers
+
+Plan:
+.1 Keep all long term data on acoustic & bioac3 read-only, owned by root
+
+.2 use a linux group named "ac" to restrict read access for some new data
+.2.1 restricted = EA + GLOC/ChallengerDeep
+.2.2 ac: andy, matt, joe, bob, haru
+acoustic:x:1101:kahn,fowler,lau,haxel,dziak,matsumot,nieukirk,heimlich,mellinge,klinck,orn
+ac:x:1102:fowler,lau,haxel,dziak,matsumot,orn
+.2.3 acoustic: andy, alex, bob, dave, haru, holger, joe, matt, sharon, sara
+
+.3 to upload data:
+.3.1 everyone in group acoustic will have their own read/write directory
+.3.2 found in acoustic:/users (linux view) and \\acoustic (windows view)
+.3.3 make a new directory, upload data, send email to brian
+
+.4 details
+.4.1 rw for for shared data files being worked
+.4.1.1 bioac3:/data/analysis 
+.4.1.2 acoustic:/data/programs/tphase
+.4.2 preferred format YYYY-YY_name
+.4.3 andy lau owns .sys and .input files
+ # find . -name *.input -o -name *.sys -exec chown lau \{\} \;
+
+example:
+copy from PC to \\acoustic\matt\new-data-2015
+email "Please move new-data-2015 to /GLOC/NRS/2015_Glider"

@@ -1,0 +1,61 @@
+# dell 3510 microcode made prepackaged gmt core dump and builds fail
+
+Tue, Nov 22, 2016  9:04:35 AM
+	
+Manual method
+How to verify if there's a new microcode update for your processor (Intel)
+
+Go to the Intel drivers download center. Download the most recent microcode and then unpack the file, giving you a microcode.dat file.
+
+    make sure you have the package iucode-tool:
+
+    sudo apt-get install iucode-tool
+
+    Create temp folder:
+
+    mkdir /tmp/micro
+
+    "Unpack" this microcode.dat file to a temporary location:
+
+    iucode_tool -K/tmp/micro microcode.dat
+
+    You can now check if there's a more recent microcode file using:
+
+    modprobe cpuid && iucode_tool -tb -lS /tmp/micro
+
+    (or wherever you unpacked the microcodes to).
+
+On my old Core 2 Duo the output is like this:
+
+iucode_tool: system has processor(s) with signature 0x0001067a
+selected microcodes:
+001: sig 0x0001067a, pf mask 0xa0, 2010-09-28, rev 0x0a0b, size 8192
+002: sig 0x0001067a, pf mask 0x11, 2010-09-28, rev 0x0a0b, size 8192
+003: sig 0x0001067a, pf mask 0x44, 2010-09-28, rev 0x0a0b, size 8192
+
+    Compare this to the output of:
+
+    dmesg|grep "updated"
+
+    Sample output:
+
+[    1.056012] microcode: CPU0 updated to revision 0xa0b, date = 2010-09-28
+[    1.112010] microcode: CPU1 updated to revision 0xa0b, date = 2010-09-28
+
+This shows that my system already uses the most recent microcode.
+Method using a repository
+
+Follow the instructions in this tutorial (note that you do not need to install synaptic)
+
+    Install the following packages:
+
+    sudo apt-get install microcode.ctl intel-microcode
+
+    Reboot your computer.
+
+    Now check whether the microcode has been loaded properly, with the following terminal command:
+
+    dmesg | grep microcode
+
+If all is well you should see several reports about the applied microcode.
+

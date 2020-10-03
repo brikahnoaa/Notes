@@ -1,0 +1,7 @@
+.1 get uid
+:prue:CentrifyAccessMgr
+ :zones:global:unixdata:users
+  UID range 200-256
+.2 add on syspc
+.3 update brutal/etc/users
+.3.1 update brutal/etc/{passwd.++,users}

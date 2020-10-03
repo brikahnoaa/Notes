@@ -1,0 +1,42 @@
+Joe-
+
+Below are the instructions for obtaining the software and installing it.  I'm cc'ing Brian as he will
+need to install the license manager and may need the attached file as well.
+
+You will need to have gotten the software from:
+
+You can obtain software through the link provided at:
+https://sites.google.com/a/noaa.gov/gis-community/esri-ela/access-to-software-and-services
+
+Here is the direct link:
+https://www.google.com/url?q=https%3A%2F%2Finside.nos.noaa.gov%2Fesri%2F&sa=D&sntz=1&usg=AFrqEzcxbUbmzMem6TYGkBYW7ZJds1IYTQ
+
+From this site you need to choose the Desktop and the License Manager for download.  The instructions for
+installation are here:
+
+http://resources.arcgis.com/en/help/install-guides/arcgis-desktop/10.2/index.html#//008700000003000000
+
+Specifically for the license manager are here:
+
+http://resources.arcgis.com/en/help/install-guides/arcgis-desktop/10.2/index.html#/Installing_the_license_manager/00870000000q000000/
+
+My quick read of the instructions sounds like it needs to be in a different place than our current license
+managers.  EOI is on newpserv.
+
+Once the license manager is installed, then you should be able to launch the Administrator to point
+to the license.
+Please follow these instructions to complete your software authorization...this is the standard message from ESRI:
+
+Save the attached provisioning file to your machine.
+Launch the Software Authorization Wizard from the ArcGIS Administrator (ArcGIS for Desktop and Engine), the License Server Administrator (License Manager), or the respective postinstaller for Server products.
+Select the option "I have received an authorization file from Esri and am now ready to finish the authorization process."
+Browse to the provisioning file you saved.
+Click “Next”.
+Select "Authorize with Esri now over the Internet." If your machine does not have an Internet connection, select the “Authorize at Esri’s website or by e-mail to receive your authorization file”.
+Click “Next”.
+Review the pre-populated personal information and enter any additional required information. On the next panels, you will see the authorization numbers entered for the core product and any extensions, if applicable.
+Click “Finish” to complete the authorization process.
+
+Hopefully this will all go smoothly but it is ESRI so best of luck instead!  
+
+Andra

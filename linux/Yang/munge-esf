@@ -1,0 +1,55 @@
+/multibeam/marianas/em122/2014/RR1413/proc-mbclean-holes
+Need to get rid of some actions recorded in .esf files
+The records are 16 bytes := 8 date, 4 beam, 4 action
+sed wasn't working, regex '.' not matching any 8bit as expected
+
+
+#!/bin/bash
+# count actions 1 2 3 4
+if [[ $1 == --help || $1 == -h ]]; then
+  echo 'usage: ./actions.sh [FILES]'
+  echo ' Print the count of actions by type (1234) for *.esf or FILES'
+  exit
+fi
+
+if [[ -z "$*" ]]; then files=$( echo *.esf ); else files="$*"; fi
+
+
+scr='
+  my @cnt;
+  while ( (read (STDIN, $buffer, 16)) != 0 ) {
+    $act = unpack( "x12 N", $buffer );
+    $cnt[$act] += 1;
+  }
+  printf "actions 1=%d 2=%d 3=%d 4=%d\n", $cnt[1], $cnt[2], $cnt[3], $cnt[4];
+  '
+for i in $files; do
+  echo -n "$i "
+  cat $i | perl -e "$scr"
+done
+
+
+
+
+#!/bin/bash
+# munge data
+if [[ $1 == --help || $1 == -h ]]; then
+  echo 'usage: ./munge.sh [FILES]'
+  echo ' removes all action:3 records from *.esf or FILES'
+  exit
+fi
+
+if [[ -z "$*" ]]; then files=$( echo *.esf ); else files="$*"; fi
+
+if [[ -r newdata ]]; then /bin/rm -rf newdata; fi
+mkdir newdata
+
+scr='
+  while ( (read (STDIN, $buffer, 16)) != 0 ) {
+    $act = unpack( "x12 N", $buffer );
+    if ( $act != 3 ) {print $buffer}
+  }'
+for i in $files; do
+  cat $i | perl -e "$scr" > newdata/$i
+done
+

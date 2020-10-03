@@ -1,0 +1,42 @@
+
+=== Apr  9  2015
+Plan:
+.1 replace main system components EXCEPT raid card: mbd, mem, cpu, sysdisk
+.2 retire 9550, reuse 9750, new intel expander
+.2.1 raid6 x 12 bays (40T) 4 bays backup
+.2.2 retire old disks in raid5 x 7 x 2T (12T) aka /data2
+.2.2.1 9550 raid5 array will read on bioac2 (verified w/ bioac array)
+.2.2.2 test:= 9750 w/ intel expander w/ raid5x4x3T on new mbd
+.2.2.2.1 start daily rsync to bioac3:b4
+....2 move all live data to /data2
+....3 change smb.conf
+....4 change rsync from /data2
+....5 test bench with raid5x4x3T
+
+.2.3 install err, no GW
+.2.3.1 rhel ignores all efforts to set gw in config files, even from GUI
+.2.3.2 solution: DEFROUTE=yes
+
+.3 set TLER timeout at system startup
+.3.1 test
+[root@acoustic 03:49:07 /home/kahn]
+ # tw_cli show 
+ # tw_cli /c0 show 
+ # tw_cli /c0/p8 show serial
+/c3/p3 Serial = MK0311YHG4V2MA
+ # smartctl -l scterc -d 3ware,8 /dev/twl0
+...
+SCT Error Recovery Control:
+           Read: Disabled
+          Write: Disabled
+
+.3.2 script - add to /etc/rc.d/rc.local
+# for (( i=8; i<24; i++ )); do smartctl -l scterc,70,70 -d 3ware,$i /dev/twl0; done
+
+.4 disk array
+.4.1 starting with 12TB data
+.4.2 8 disks. raid6x7 (20TB), hot spare. 1 backup.
+
+.5 test r6 expand, time reqd.
+.5.1 r5 -> r6 was terrible, 3% in 8 hrs for r6x8(12TB) target
+.5.2 expect raid expand to be similar to rebuild, 2hr/TB

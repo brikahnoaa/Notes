@@ -1,0 +1,16 @@
+Thu, Apr 23, 2020  1:16:43 PM
+install idl 8.5 on station2
+. license in email dave borg-green > /usr/local/exelis/idl/license/license.dat
+. download 8.5 to kahn/Linux/opt
+. /lib64/ld-lsb-x86-64.so.3: bad ELF interpreter: No such file
+.. https://www.schrodinger.com/kb/1437
+  yum install redhat-lsb
+  /usr/local/exelis/install.sh
+    install idl and help, not dicom and envi
+. https://www.harrisgeospatial.com/Support/Self-Help-Tools/Help-Articles/Help-Articles-Detail/ArtMID/10220/ArticleID/18656/4409
+. /usr/local/exelis/idl/bin/lmgrd_install
+
+
+Wed, Feb 13, 2019 12:35:51 PM
+. moving from caldera to syspc
+. /usr/local/exelis/license/license.dat says port 1700, why the startup errs?

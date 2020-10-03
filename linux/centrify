@@ -1,0 +1,135 @@
+Wed, Apr  3, 2019  1:44:55 PM
+install centrify 5.6
+.0 remove samba, and centrify if present
+ cp /etc/samba/smb.conf /etc/smb.conf.old
+ # service smb stop
+ systemctl stop smb.service
+ yum remove samba samba-client samba-winbind samba-winbind-clients
+.1 install
+ yum install samba samba-client samba-winbind samba-winbind-clients
+.1.1 extract centrify 
+ cd /opt/centrify
+ tar xzf centrify-infra*
+ tar xzf centrify-adbind*
+.1.2 ./install.sh  
+remove SYS from domain on hatfield; delete centrify data
+./install.sh, choose erase if offered # else quit
+    choose option C custom
+    [enter] for all except adbindproxy Y, workstation license Y
+     zone name: Newport Linux
+     domain controller: hatfield2
+     Reboot: N
+.. !! do not reboot; must change /home owner.group to enable ssh
+
+ vipw 
+cnsd 469
+ vigr
+cnsd 110
+ chown -R 469.110 /home/cnsd /var/spool/mail/cnsd
+.1.3 fix /sbin/adkeytab
+ rm -f /sbin/adkeytab
+ ln -s /usr/share/centrifydc/libexec/adkeytab /sbin/adkeytab
+.1.4 test
+ adquery user kahn
+.2 adbind
+ ## tar xzf centrify-adbindproxy-5.5.0-rhel5-x86_64.tgz
+ ## rpm -Uvh CentrifyDC-adbindproxy*
+ adflush --force
+ adreload
+.3 setup samba 
+ perl /usr/share/centrifydc/bin/adbindproxy.pl
+samba's path = /usr
+keep original settings? N
+ ...
+.3.1 mods to smb.conf, rhel6 only
+        protocol = SMB2
+        valid users = @newport
+        write list  = @newport
+.3.2 mods to smb.conf, rhel6 & 7
+vim /etc/samba/smb.conf
+  [samba-test]
+      ; path = /samba-test
+      ; public = yes
+  [homes]
+      path = /users/%S
+.3.3 Enable the service 
+# rhel6
+ chkconfig
+ cent="centrifydc centrifydc-samba"
+ samb="nmb winbind smb"
+ for i in $cent $samb do; chkconfig $i on; service $i restart; done
+# rhel7
+ systemctl list-units --type service --all 
+ cent="centrifydc.service" 
+ samb="nmb.service winbind.service adbindd.service smb.service"
+ for i in $cent $samb do; systemctl enable $i; systemctl restart $i; done
+.4 create /home/kahn
+ mkdir /home/kahn
+ chown kahn.newport /home/kahn
+ cd ~cnsd; mv kahn.tar notes.tar /home/kahn
+ cd /home/kahn; chown kahn.newport *tar
+ su - kahn
+ tar xvf kahn.tar
+ tar xvf notes.tar
+---
+### integrate existing to AD
+---
+.x chown
+note: wilkinso baumberg
+.. /home, /users:
+ chown -R root.root *
+ us=$(adquery group --members newport)
+ for i in $us; do if [ -d $i ]; then chown -R $i.newport $i; fi; done
+ # chown -R cnsd.users cnsd
+.. /var/mail
+ chown root *
+ for i in $us; do if [ -f $i ]; then chown $i $i; fi; done
+.. /data*
+ chgrp -R newport *
+ chmod -R o-rwx *
+ chmod g-w *
+## make these changes on challenger:/backup too
+syspc:
+ find /home /data0 /data1 -uid 203 -print0 | xargs -0 chown lau.newport
+---
+
+
+### old stuff vvv
+ridge:
+yum install samba samba-client samba-winbind samba-winbind-clients
+Install Centrify DC package
+Modify as below:
+1) cd /etc/centrifydc/scripts/
+2) vi functions.cdc
+3) Comment out the following 2 lines:
+LD_LIBRARY_PATH=/usr/share/centrifydc/lib64: /usr/share/centrifydc/kerberos/lib64: $LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+perl /usr/share/centrifydc/bin/adbindproxy.pl
+Specify Samba install path:
+   /usr
+Modify as below:
+By default, /sbin/adkeytab is a symbolic link to /usr/share/centrifydc/bin/cdcexec, and this needs to be changed.
+# ls -l /sbin/adkeytab
+lrwxrwxrwx. 1 root root 33 May  2 15:19 /sbin/adkeytab -> /usr/share/centrifydc/bin/cdcexec
+# rm /sbin/adkeytab
+# ln -s /usr/share/centrifydc/libexec/adkeytab /sbin/adkeytab
+# ls -l /sbin/adkeytab
+lrwxrwxrwx. 1 root root 38 May  4 08:50 /sbin/adkeytab -> /usr/share/centrifydc/libexec/adkeytab
+6) Run 'net cache flush'
+7) auto
+Enable the service at reboot:
+ chkconfig centrifydc-samba on
+# rhel6
+ service centrifydc-samba restart
+# rhel7
+ systemctl restart centrifydc-samba.service
+IF SELINUX:
+  # setsebool -P samba_export_all_ro on
+IF FIREWALL:
+   open both kerberos and samba:
+               # firewall-cmd --permanent --add-service=samba
+               # firewall-cmd --permanent --add-service=kerberos
+               # firewall-cmd --reload
+
+---
+

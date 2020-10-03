@@ -1,0 +1,93 @@
+Tue, May 30, 2017  2:48:07 PM
+pkgs: thunderbird ImageMagick libXp
+top level links to /adata/*
+ yum --enablerepo=centos install xorg-x11-fonts-ISO8859-1-75dpi.noarch
+
+Fri, Jul 22, 2016 10:08:52 AM
+.1 new memory
+    ASUSTeK Computer INC.  Product Name: P6T SE
+    CPU Intel® Socket 1366 Core™ i7 920 4777@cpubenchmark.net
+    Chipset Intel® X58 / ICH10R
+    Memory 6 x DIMM, Max. 24 GB, DDR3 2000(O.C.)*/1333/1066 Non-ECC,Un-buffered
+    3 x PCIe 2.0 x16 (at x16/x16/x4 mode), 1 x PCIe x1, 2 x PCI
+https://www.asus.com/Motherboards/P6T_SE/specifications/
+.2 sound
+# root@garfield 09:56:18 /home/kahn #
+ /sbin/lsmod | grep snd
+snd_hda_codec_hdmi     45492  4
+snd_hda_codec_realtek    73730  1
+snd_hda_codec_generic    64356  1 snd_hda_codec_realtek
+snd_hda_intel          56602  3
+snd_hda_codec         144814  4 snd_hda_codec_hdmi,snd_hda_codec_realtek,snd_hda_codec_generic,snd_hda_intel
+snd_hwdep               6972  1 snd_hda_codec
+snd_seq                60769  0
+snd_seq_device          7277  1 snd_seq
+snd_pcm                93697  3 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec
+snd_timer              22747  2 snd_seq,snd_pcm
+snd                    73783  16 snd_hda_codec_hdmi,snd_hda_codec_realtek,snd_hda_codec_generic,snd_hda_intel,snd_hda_codec,snd_hwdep,snd_seq,snd_seq_device,snd_pcm,snd_timer
+soundcore               7958  2 snd_hda_codec,snd
+snd_page_alloc          8856  2 snd_hda_intel,snd_pcm
+# root@garfield 10:05:12 /home/kahn #
+ ar
+ar           arecord      arp          arping
+arch         arecordmidi  arpd
+# root@garfield 10:05:12 /home/kahn #
+ arecord -l
+**** List of CAPTURE Hardware Devices ****
+card 0: Intel [HDA Intel], device 0: ALC1200 Analog [ALC1200 Analog]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 0: Intel [HDA Intel], device 2: ALC1200 Alt Analog [ALC1200 Alt Analog]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+# root@garfield 10:06:46 /home/kahn #
+ arecord -L
+default
+    Default
+null
+    Discard all samples (playback) or generate zero samples (capture)
+sysdefault:CARD=Intel
+    HDA Intel, ALC1200 Analog
+    Default Audio Device
+front:CARD=Intel,DEV=0
+    HDA Intel, ALC1200 Analog
+    Front speakers
+surround21:CARD=Intel,DEV=0
+    HDA Intel, ALC1200 Analog
+    2.1 Surround output to Front and Subwoofer speakers
+surround40:CARD=Intel,DEV=0
+    HDA Intel, ALC1200 Analog
+    4.0 Surround output to Front and Rear speakers
+surround41:CARD=Intel,DEV=0
+    HDA Intel, ALC1200 Analog
+    4.1 Surround output to Front, Rear and Subwoofer speakers
+surround50:CARD=Intel,DEV=0
+    HDA Intel, ALC1200 Analog
+    5.0 Surround output to Front, Center and Rear speakers
+surround51:CARD=Intel,DEV=0
+    HDA Intel, ALC1200 Analog
+    5.1 Surround output to Front, Center, Rear and Subwoofer speakers
+surround71:CARD=Intel,DEV=0
+    HDA Intel, ALC1200 Analog
+    7.1 Surround output to Front, Center, Side, Rear and Woofer speakers
+# root@garfield 10:06:51 /home/kahn #
+
+Mon, Jul 20, 2015  8:42:48 AM
+.1 rebuilt to better support centrify
+.1.1 software devo workstation (left out office)
+.2 used Linux/redhat-restore
+.2.1 added yum install xterm, not in by default
+.2.2 packages andy uses
+ yum groupinstall "Office Suite and Productivity"
+ yum install ImageMagick thunderbird tigervnc xorg-x11-fonts-75dpi 
+ yum install xorg-x11-fonts-ISO8859-1-75dpi xorg-x11-fonts-ISO8859-2-75dpi
+.3 specials
+.3.1 matlab
+just copied from rhel5
+.3.2 idl
+.3.2.1 reinstall using idl82..tgz found on station1
+ - did not install /etc/init.d/*lmgrd* on first run, no error message
+ - copy ..tgz to /usr/local/exelis and run there
+.3.3 nvidia drivers
+ - not installed, seems not needed
+ xorg-x11-drv-nv-2.1.20-5.el6.x86_64 ?

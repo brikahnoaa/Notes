@@ -1,0 +1,17 @@
+ Objective: Two full backup sets, one off-site; daily incremental backups.
+ Scope: 80TB in four data sets, growth of +20TB / year.
+Acoustic 65TB, EOI 15TB; Acoustic growth was +23TB (less next year), EOI +3TB.
+ Plan: Tape backup, using LTO-7 6TB tapes. Offsite storage in Seattle.
+Approximately 16 tapes for one full backup set (grows yearly).
+Tape carousel allows unattended 7x24 backup.
+ Tape server: $4000 for single drive unit and $2000 for 24 tape carousel. 
+ Tape media: $5940 
+ Tape total: $11,940
+
+ Alternative (update of current approach):
+ Disk server: $3000 for backup server using RAID5 fail recovery.
+ Disk media: $12,960
+ Disk total: $15,960 
+ 
+ note: cost of yearly growth is about $500 tape, $1000 disk
+ 

@@ -1,0 +1,34 @@
+Thu, Apr 09, 2015 10:12:51 AM
+
+.1 archival date (AD)
+.1.1 do live backups from AD or a few days before
+.1.2 list of files
+[root@acoustic 10:08:58 /data0]
+ # ls -FR . > catalog.2015-04-09
+ # find . > .catalog.2015-04-09
+ # rsync -ai /data0/ 161.55.191.40::data1 &>> ~/rsync.da.out &
+.2 use RAID6
+.2.1 best tech available
+.2.2 adds 10-12% to cost 
+.2.3 we have 8x 2TB spare
+.3 data life
+.3.1 consensus (e.g. stackoverflow) is 3-5 years
+.3.2 refresh on 4 year cycle
+.3.3 track group thinking on HD archival
+.3.4 newer tech
+.3.4.1 higher capacity "archival" disks, slower speed
+.3.4.2 tape and optical reaching towards 10TB (5 years?)
+.4 problems
+.4.1 deletion of archived files are ignored in backup
+.4.2 moving directories is even more confusing
+.4.3 automatic processing from .catalog*
+.5 process
+.5.1 set timeout when mounting
+for j in twa0 twa1; do
+  for (( i=0; i<12; i++ )); do
+    if smartctl -d 3ware,$i /dev/$j -iq silent; then
+      smartctl -l scterc,70,70 -d 3ware,$i /dev/$j
+    fi
+  done
+done
+.5.2 mount a spare when possible (not 12x) in b11

@@ -1,0 +1,18 @@
+Wed, May 04, 2016 10:07:40 AM
+.1 putty (centrified)
+ ssh.kerberos:v-Attempt
+ ssh.x11:v-Forwarding
+ () ssh:remoteCommand:(null)
+ () data:Autologin:username:(null)
+
+.... optionally, putty-keygen
+.2 xming
+
+.3 server side 
+# vi /etc/centrifydc/ssh/sshd_config
+ X11Forwarding yes
+#  service centrify-sshd restart
+#  yum install xterm 
+this is for login by name/pwd
+# vi /etc/centrifydc/centrifydc.conf
+ pam.mapuser.kahn: kahn@pmel.noaa.gov

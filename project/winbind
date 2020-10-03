@@ -1,0 +1,78 @@
+Thu, Sep  6, 2018  3:09:01 PM
+.1 caldera and syspc set up the same
+..1 winbind status shows failed. caldera not joined
+ # net ads join -U administrator
+.2 setup caldera
+..1 smb.conf
+        realm = pmel.noaa.gov
+        workgroup = PMEL
+        ;security = domain
+        security = ads
+        idmap uid = 16777216-33554431
+        winbind separator = +
+..2 nsswitch.conf
+passwd:     files winbind
+shadow:     files
+group:      files
+.3 created directory from windows (got prompt for CAC pin)
+# root@caldera 03:07:14 /home/test #
+ ls -l
+total 4
+drwxrwxr-x 2 PMEL+kahn 16777216 4096 Sep  6 15:06 blk
+# root@caldera 03:07:21 /home/test #
+ ls -nl
+total 4
+drwxrwxr-x 2 16777216 16777216 4096 Sep  6 15:06 blk
+.4 can i map PMEL+kahn to kahn?
+https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html
+IDENTITY MAPPING CONSIDERATIONS
+
+In the SMB protocol, users, groups, and machines are represented by their
+security identifiers (SIDs). On POSIX system Samba processes need to run
+under corresponding POSIX user identities and with supplemental POSIX
+groups to allow access to the files owned by those users and groups. The
+process of mapping SIDs to POSIX users and groups is called IDENTITY
+MAPPING or, in short, ID MAPPING.
+
+Samba supports multiple ways to map SIDs to POSIX users and groups. The
+configuration is driven by the idmap config DOMAIN : OPTION option
+which allows one to specify identity mapping (idmap) options for each
+domain separately.
+
+Identity mapping modules implement different strategies for mapping of
+SIDs to POSIX user and group identities. They are applicable to different
+use cases and scenarios. It is advised to read the documentation of the
+individual identity mapping modules before choosing a specific scenario
+to use. Each identity management module is documented in a separate
+manual page. The standard idmap backends are tdb (idmap_tdb(8)),
+tdb2 (idmap_tdb2(8)), ldap (idmap_ldap(8)), rid (idmap_rid(8)), hash
+(idmap_hash(8)), autorid (idmap_autorid(8)), ad (idmap_ad(8)), nss
+(idmap_nss(8)), and rfc2307 (idmap_rfc2307(8)).
+
+Overall, ID mapping configuration should be decided carefully. Changes
+to the already deployed ID mapping configuration may create the risk of
+losing access to the data or disclosing the data to the wrong parties.
+
+This example shows how to configure two domains with idmap_rid(8), the
+principal domain and a trusted domain, leaving the default id mapping
+scheme at tdb.
+
+	[global]
+	security = domain
+	workgroup = MAIN
+
+	idmap config * : backend        = tdb
+	idmap config * : range          = 1000000-1999999
+
+	idmap config MAIN : backend     = rid
+	idmap config MAIN : range       = 5000000-5999999
+
+	idmap config TRUSTED : backend  = rid
+	idmap config TRUSTED : range    = 6000000-6999999
+
+.4 uidNumber in AD
+..1 Eugene has that attrib = 603. I do not have one.
+C:\Users\kahn\Downloads\tools\SysinternalsSuite\ADExplorer.exe
+..2 where is centrify manager? on bosun or prue.
+..3 klay is gid 15, uid 245
+CN=Jonathan Klay,OU=CNSD,OU=PMEL Users,DC=pmel,DC=noaa,DC=gov,hatfield [hatfield.pmel.noaa.gov]
