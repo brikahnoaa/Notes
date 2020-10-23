@@ -12,30 +12,34 @@ install centrify 5.6
  tar xzf centrify-infra*
  tar xzf centrify-adbind*
 .1.2 ./install.sh  
-remove SYS from domain on hatfield; delete centrify data
+# on hatfield2, remove SYS from domain; move afterwards
 ./install.sh, choose erase if offered # else quit
     choose option C custom
-    [enter] for all except adbindproxy Y, workstation license Y
-     zone name: Newport Linux
-     domain controller: hatfield2
-     Reboot: N
-.. !! do not reboot; must change /home owner.group to enable ssh
+    [enter] for all except:
+      adbindproxy Y
+      zone name: Newport Linux
+      workstation license Y
+      domain controller: hatfield2
+      Reboot: N
+ !! do not reboot; must change /home owner.group to enable ssh
 
- vipw 
-cnsd 469
- vigr
-cnsd 110
- chown -R 469.110 /home/cnsd /var/spool/mail/cnsd
+# on hatfield2, move SYS from pmel:Computer to pmel..:PMELSystems:Linux 
 .1.3 fix /sbin/adkeytab
  rm -f /sbin/adkeytab
  ln -s /usr/share/centrifydc/libexec/adkeytab /sbin/adkeytab
-.1.4 test
- adquery user kahn
-.2 adbind
- ## tar xzf centrify-adbindproxy-5.5.0-rhel5-x86_64.tgz
- ## rpm -Uvh CentrifyDC-adbindproxy*
+.1.4 adbind
  adflush --force
  adreload
+.2 users
+ grep cnsd /etc/passwd /etc/group
+ chown -R 469.110 /home/cnsd /var/spool/mail/cnsd
+ cd /home; ls -ln 
+ adquery user *
+ cd /var/spool/mail; ls -ln
+    a="adquery user"; i=kahn
+    echo chown -R $($a -g $i).$($a -u $i) /home/$i /var/spool/mail/$i
+    chown -R 1256.1100 /home/kahn /var/spool/mail/kahn
+# ditto
 .3 setup samba 
  perl /usr/share/centrifydc/bin/adbindproxy.pl
 samba's path = /usr
@@ -54,23 +58,17 @@ vim /etc/samba/smb.conf
       path = /users/%S
 .3.3 Enable the service 
 # rhel6
- chkconfig
- cent="centrifydc centrifydc-samba"
- samb="nmb winbind smb"
- for i in $cent $samb do; chkconfig $i on; service $i restart; done
+# chkconfig
+# cent="centrifydc centrifydc-samba"
+# samb="nmb winbind smb"
+# for i in $cent $samb; do chkconfig $i on; service $i restart; done
 # rhel7
  systemctl list-units --type service --all 
  cent="centrifydc.service" 
  samb="nmb.service winbind.service adbindd.service smb.service"
- for i in $cent $samb do; systemctl enable $i; systemctl restart $i; done
-.4 create /home/kahn
- mkdir /home/kahn
- chown kahn.newport /home/kahn
- cd ~cnsd; mv kahn.tar notes.tar /home/kahn
- cd /home/kahn; chown kahn.newport *tar
- su - kahn
- tar xvf kahn.tar
- tar xvf notes.tar
+ for i in $cent $samb; do systemctl enable $i; systemctl restart $i; done
+
+
 ---
 ### integrate existing to AD
 ---

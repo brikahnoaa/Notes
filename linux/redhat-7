@@ -7,15 +7,14 @@ sdb                 8:16   0 931.5G  0 disk
   ├─station2-home 253:0    0 830.8G  0 lvm  /home
   └─station2-root 253:1    0   100G  0 lvm  /
 .. network name, ip; timezone
-.. user cnsd 
+.. user kahn 
 .1 selinux
- setenforce permissive
  vi /etc/selinux/config
-.2 cnsd
-.. rhel
+SELINUX=disabled
+ reboot
+.2 rhel
  subscription-manager --force --username=pmel_admin --password=RHNservices04 \
    --auto-attach register --name=NEW-7WS-64b-${HOSTNAME%%.*}.pmel
- <https://access.redhat.com/management/systems>
  subscription-manager repos \
    --enable=rhel-7-workstation-extras-rpms \
    --enable=rhel-7-workstation-optional-rpms \
@@ -23,6 +22,10 @@ sdb                 8:16   0 931.5G  0 disk
    --enable=rhel-7-workstation-openstack-13-tools-rpms \
    --enable=rhel-7-workstation-rhceph-2-tools-rpms
 # subscription-manager refresh
+ yum update
+ reboot
+<https://access.redhat.com/management/systems>
+remove NEW-6WS
 .3 services
  vi /etc/hosts
 #::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
@@ -69,27 +72,30 @@ forward to me, not oar.pmel.cnsd.redhat_admin@noaa.gov
  a="InfoMsgFile=/etc/gdm/login_banner
 InfoMsgFont=Sans=16" 
  echo "$a" >> /etc/gdm/custom.conf
-.. centrify
-<notes/linux/centrify>
 
+---
 ---
 .10 standard files
 .10.1 kahn
- $brute$  cd ~/Linux; ./maketar.sh
- $brute$  scp tar/*.tar cnsd@$SYS:
+ $brute$  SYS=new
+ $brute$  cd; . bin/maketar.sh; scp .kahn.tar $SYS:
+ $brute$  cd ~/Linux; ./maketar.sh; scp tar/*.tar $SYS:
+ $SYS$  tar xvf .kahn.tar
+ $SYS$  chmod g-w ~/.ssh
+ mkdir /root/tar
+ cd /root/tar; for i in ~kahn/*.tar; do tar xvf $i; done
+ # copy with backups
+/bin/cp -r -b etc usr opt /
 .10.2 root custom
  echo "brian.kahn@noaa.gov" > /root/.forward
- cd /root; mkdir install; mv anac* install.* *.cfg install
+ mkdir /root/install; mv /root/*.cfg /root/install
  rpm -qa > /root/install/rpm-qa
-.10.3 etc
- # mkdir ~cnsd/etc; cd ~cnsd/etc; tar vxf ~cnsd/etc.tar
- # copy with backups
- /bin/cp -R -f -b ~cnsd/etc/* /etc
-.11 extra packages
- yum install -y yum-utils
+.10.3 cnsd
+ groupadd -g 110 cnsd
+ useradd -u 469 -g 110 -G wheel cnsd
+.11 extra repos & packages
  rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-#yum-config-manager --add-repo=http://mirror.centos.org/centos/7/os/x86_64/
-#yum-config-manager --add-repo=http://mirror.centos.org/centos/7/extras/x86_64/
+ yum install -y yum-utils
  yum install apcupsd iftop ntfs-3g ntfsprogs lm-sensors
 .12 config
  cd /etc/ssh
@@ -97,6 +103,7 @@ InfoMsgFont=Sans=16"
  sed -i 's/^/#/' sshd_config
  cat sshd_config.cat >> sshd_config
  systemctl restart sshd
+# test ssh before leaving root
 .15 services
 .15.1 xinetd
  yum install xinetd 
@@ -157,3 +164,6 @@ service amanda
  echo "$a" > /etc/xinetd.d/amanda
  service xinetd restart
 add host to rsyncd.conf
+.20 centrify
+<notes/linux/centrify>
+
