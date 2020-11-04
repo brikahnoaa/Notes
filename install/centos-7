@@ -12,34 +12,13 @@ sdb                 8:16   0 931.5G  0 disk
  vi /etc/selinux/config
 SELINUX=disabled
  reboot
-.2 rhel
- subscription-manager --force --username=pmel_admin --password=RHNservices04 \
-   --auto-attach register --name=NEW-7WS-64b-${HOSTNAME%%.*}.pmel
- subscription-manager repos \
-   --enable=rhel-7-workstation-extras-rpms \
-   --enable=rhel-7-workstation-optional-rpms \
-   --enable=rhel-7-workstation-supplementary-rpms \
-   --enable=rhel-7-workstation-openstack-13-tools-rpms \
-   --enable=rhel-7-workstation-rhceph-2-tools-rpms
-# subscription-manager refresh
+.2 update
+ # hostname NEW.pmel.noaa.gov
  yum update
  reboot
-<https://access.redhat.com/management/systems>
-remove NEW-6WS
-.3 services
- vi /etc/hosts
-#::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-161.55.191.131 embfile2-191
-161.55.191.14 caldera-191
-161.55.191.142 acoustic-191
-161.55.191.3 challenger-191
-161.55.191.31 syspc-191
-161.55.191.7 ventstore-191
-161.55.191.9 bioac3-191
-161.55.192.9 $HOSTNAME.pmel.noaa.gov $HOSTNAME
- vi /etc/chrony.conf
-server netservices.pmel.noaa.gov iburst prefer
-server rolex.s.uw.edu
+.3 remove NEW-6WS
+<https://access.redhat.com/management/systems> pmel_admin:RHNservices04 
+.4 network
  vi /etc/sysconfig/network-scripts/ifcfg-[TAB]
 ONBOOT=yes
 NM_CONTROLLED=no
@@ -49,26 +28,18 @@ DNS1=161.55.192.11
 DNS2=161.55.124.21
 IPADDR=161.55.192.142
 DOMAIN=pmel.noaa.gov
- vi /etc/resolv.conf
-search pmel.noaa.gov
-nameserver 161.55.192.11
-nameserver 161.55.124.21
-.4 systemctl
+.5 systemctl
  systemctl list-units --type service --all
-.. kill off networkmanager
-#<https://www.thegeekdiary.com/centos-rhel-7-how-to-disable-networkmanager/>
+# kill off networkmanager
  systemctl stop NetworkManager
  systemctl disable NetworkManager
  systemctl enable network
  systemctl restart network
-.. firewall off 
+# firewall off 
  systemctl stop firewalld.service
  systemctl disable firewalld.service
-.5 customize
-forward to me, not oar.pmel.cnsd.redhat_admin@noaa.gov
- echo "brian.kahn@noaa.gov" > /root/.forward
 .6 access
-.. console
+# console
  a="InfoMsgFile=/etc/gdm/login_banner
 InfoMsgFont=Sans=16" 
  echo "$a" >> /etc/gdm/custom.conf
@@ -76,20 +47,18 @@ InfoMsgFont=Sans=16"
 ---
 ---
 .10 standard files
-.10.1 kahn
- $brute$  SYS=new
- $brute$  cd; . bin/maketar.sh; scp .kahn.tar $SYS:
- $brute$  cd ~/Linux; ./maketar.sh; scp tar/*.tar $SYS:
- $SYS$  tar xvf .kahn.tar
- $SYS$  chmod g-w ~/.ssh
- mkdir /root/tar
- cd /root/tar; for i in ~kahn/*.tar; do tar xvf $i; done
+ $brute$  cd ~/Linux; ./maketar.sh; scp -r tar root@$SYS:
+.10.1 extract
+ cd /root/tar
+ for i in *.tar; do tar xf $i; done
  # copy with backups
-/bin/cp -r -b etc usr opt /
+ /bin/cp -r -b etc usr opt /
 .10.2 root custom
- echo "brian.kahn@noaa.gov" > /root/.forward
- mkdir /root/install; mv /root/*.cfg /root/install
- rpm -qa > /root/install/rpm-qa
+ cd /root
+ mkdir install; mv *.cfg install
+ rpm -qa > install/rpm-qa
+ tar xvf /root/tar/kahn.tar; chmod g-w .ssh
+ echo "brian.kahn@noaa.gov" > .forward
 .10.3 cnsd
  groupadd -g 110 cnsd
  useradd -u 469 -g 110 -G wheel cnsd
@@ -104,6 +73,14 @@ InfoMsgFont=Sans=16"
  cat sshd_config.cat >> sshd_config
  systemctl restart sshd
 # test ssh before leaving root
+<notes/linux/centrify>
+.13 kahn
+ user=kahn
+ cd /home/$user
+  tar xvf /root/tar/kahn.tar; chmod g-w .ssh
+ uid=$(adquery user --uid $user)
+ gid=$(adquery user --group $user)
+ chown -R $uid.$gid $user /spool/mail/$user
 .15 services
 .15.1 xinetd
  yum install xinetd 
@@ -164,6 +141,4 @@ service amanda
  echo "$a" > /etc/xinetd.d/amanda
  service xinetd restart
 add host to rsyncd.conf
-.20 centrify
-<notes/linux/centrify>
 
