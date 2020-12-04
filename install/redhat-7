@@ -24,7 +24,7 @@ SELINUX=disabled
 # subscription-manager refresh
  yum update
  reboot
-<https://access.redhat.com/management/systems> pmel_admin:RHNservices04
+https://access.redhat.com/management/systems> pmel_admin:RHNservices04
 remove NEW-6WS
 .3 services
  vi /etc/hosts

@@ -7,34 +7,32 @@ sdb                 8:16   0 931.5G  0 disk
   ├─station2-home 253:0    0 830.8G  0 lvm  /home
   └─station2-root 253:1    0   100G  0 lvm  /
 .. network name, ip; timezone
-.. user kahn 
+.. user cnsd 
 .1 selinux
  vi /etc/selinux/config
 SELINUX=disabled
+ systemctl enable sshd
  reboot
 .2 update
  # hostname NEW.pmel.noaa.gov
- yum update
+ yum -y update
  reboot
 .3 remove NEW-6WS
-<https://access.redhat.com/management/systems> pmel_admin:RHNservices04 
+https://access.redhat.com/management/systems    pmel_admin:RHNservices04 
 .4 network
- vi /etc/sysconfig/network-scripts/ifcfg-[TAB]
-ONBOOT=yes
-NM_CONTROLLED=no
-PREFIX=24
-GATEWAY=161.55.192.1
-DNS1=161.55.192.11
-DNS2=161.55.124.21
-IPADDR=161.55.192.142
-DOMAIN=pmel.noaa.gov
-.5 systemctl
- systemctl list-units --type service --all
+.4.1 manual cfg
+## cd /etc/sysconfig/network-scripts/
+## ifconfig
+## mv ifcfg-Wired_connection_1 ifcfg_enp12s0
+## vi !$
+##NAME="enp12s0"
+.4.2 systemctl
+## systemctl list-units --type service --all
 # kill off networkmanager
- systemctl stop NetworkManager
- systemctl disable NetworkManager
- systemctl enable network
- systemctl restart network
+## systemctl stop NetworkManager
+## systemctl disable NetworkManager
+## systemctl enable network
+## systemctl restart network
 # firewall off 
  systemctl stop firewalld.service
  systemctl disable firewalld.service
@@ -50,40 +48,58 @@ InfoMsgFont=Sans=16"
  $brute$  cd ~/Linux; ./maketar.sh; scp -r tar root@$SYS:
 .10.1 extract
  cd /root/tar
- for i in *.tar; do tar xf $i; done
- # copy with backups
- /bin/cp -r -b etc usr opt /
+ # extract and copy with backups
+ for i in etc opt usr; do 
+   tar xf $i.tar
+   /bin/cp -r -b $i /
+ done
+ chown -R root.root .
 .10.2 root custom
  cd /root
  mkdir install; mv *.cfg install
  rpm -qa > install/rpm-qa
- tar xvf /root/tar/kahn.tar; chmod g-w .ssh
+ tar xvf /root/tar/dots.tar
+ chown -R cnsd.cnsd .ssh; mv .ssh ~cnsd
  echo "brian.kahn@noaa.gov" > .forward
 .10.3 cnsd
- groupadd -g 110 cnsd
- useradd -u 469 -g 110 -G wheel cnsd
-.11 extra repos & packages
- rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+ chown -R 469.110 /home/cnsd /var/spool/mail/cnsd
+ vipw
+ vigr
+ ls -la /home/cnsd
+ passwd cnsd
+.10.4 extra repos & packages
+#rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+ yum install -y /opt/epel-release-latest-7.noarch.rpm
  yum install -y yum-utils
- yum install apcupsd iftop ntfs-3g ntfsprogs lm-sensors
-.12 config
+ yum install -y apcupsd iftop ntfs-3g ntfsprogs lm-sensors
+.11 ssh
  cd /etc/ssh
  cp sshd_config sshd_config.inst
  sed -i 's/^/#/' sshd_config
  cat sshd_config.cat >> sshd_config
  systemctl restart sshd
 # test ssh before leaving root
-<notes/linux/centrify>
+: kahn@BRUTE 04:33:12 ~/Linux :  ssh $SYS
+
+.12 centrify
+<Notes/install/samba-centrify>
+
 .13 kahn
  user=kahn
- cd /home/$user
-  tar xvf /root/tar/kahn.tar; chmod g-w .ssh
  uid=$(adquery user --uid $user)
  gid=$(adquery user --group $user)
- chown -R $uid.$gid $user /spool/mail/$user
+ mkdir /home/$user /var/spool/mail/$user
+  cd /home/$user; for i in bin dots; do tar xvf /root/tar/$i.tar; done
+ chown -R $uid.$gid /home/$user /var/spool/mail/$user
+
+.14 cron
+ cd /etc/cron.daily
+ chmod +x backup.sys
+   vi *.conf
+   chmod +x smart temps backup.data
 .15 services
 .15.1 xinetd
- yum install xinetd 
+ yum -y install xinetd 
 .15.2 nfs
  cp -b /etc/exports.tmpl /etc/exports
  vi /etc/exports
@@ -94,8 +110,8 @@ InfoMsgFont=Sans=16"
  exportfs
 .15.3 rsync
  # vi /etc/rsyncd.conf
- systemctl enable rsyncd
- systemctl start rsyncd
+ ? systemctl enable rsyncd
+ ? systemctl start rsyncd
 # vi /etc/xinetd.d/rsync
  systemctl enable xinetd
  systemctl start xinetd
@@ -103,9 +119,16 @@ InfoMsgFont=Sans=16"
  cp -b /etc/apcupsd/apcupsd.conf.tmpl /etc/apcupsd/apcupsd.conf
  vi /etc/apcupsd/apcupsd.conf
 .16 ops
-.16.1 rsync
- vi /etc/rsyncd.conf
 .16.2 cat /opt/LinuxBESclient/Readme
+ cd /opt/BESClient; ls
+ mkdir -p /var/opt/BESClient/ /etc/opt/BESClient/ /opt/BESClient/bin/
+ cp besclient.config /var/opt/BESClient
+ cp actionsite.afxm /etc/opt/BESClient/
+ cp dcid.skey /opt/BESClient/bin/
+ rpm -ivh *64.rpm
+ /sbin/chkconfig besclient on
+ systemctl start besclient
+ tail –f $( echo /var/opt/BESClient/__BESData/__Global/Logs/*.log )
 .17 backups
 .17.1 ventstore
  $ ssh ventstore
@@ -138,7 +161,8 @@ service amanda
         server_args             = -auth=bsdtcp amdump
         disable                 = no
 }" 
- echo "$a" > /etc/xinetd.d/amanda
+ vi /etc/xinetd.d/amanda
+ # echo "$a" > /etc/xinetd.d/amanda
  service xinetd restart
 add host to rsyncd.conf
 

@@ -2,3 +2,6 @@ caldera:=
 ASUSTeK Computer INC.  P8B-C Series
 LGA1155 i3-2120 CPU @ 3.30GHz
 4GB ddr3 1333 2x2gb
+
+idl:
+ yum install redhat-lsb-core-4.1-27.el7.centos.1.x86_64

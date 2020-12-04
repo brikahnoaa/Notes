@@ -1,0 +1,42 @@
+yum grouplist
+e2
+Installed Groups:
+   Additional Development
+   Backup Client
+   Base
+   CIFS file server
+   Compatibility libraries
+   Debugging Tools
+   Desktop Debugging and Performance Tools
+   Desktop Platform
+   Dial-up Networking Support
+   Directory Client
+   Directory Server
+   E-mail server
+   Fonts
+   General Purpose Desktop
+   Graphical Administration Tools
+   Hardware monitoring utilities
+   Input Methods
+   Internet Applications
+   Internet Browser
+   Java Platform
+   Legacy UNIX compatibility
+   Legacy X Window System compatibility
+   NFS file server
+   Network Infrastructure Server
+   Network file system client
+   Networking Tools
+   Office Suite and Productivity
+   Performance Tools
+   Perl Support
+   Printing client
+   SNMP Support
+   Security Tools
+   Server Platform
+   System administration tools
+   Web Server
+   X Window System
+
+
+* Click on 'Software Selection'.  Choose 'Development and Creative Workstation' from the left menu. From the right menu, choose 'Additional Development', 'Backup Client', 'Compatibility Libraries', 'Development Tools', 'Emacs', 'File and Storage Server', 'Graphics Creation Tools', 'Legacy X Window System Compatibility', 'Mainframe Access', 'Network File System Client', 'Office Suite and Productivity', 'Platform Development', 'Technical Writing', 'Security Tools', and 'Smart Card Support'.  They are listed in this order.  Then choose 'Done'.   (EDIT:  I hear Centrify doesn't work with KDE.  Python, Perl, PHP, and PostgreSQL depend on individual user needs, as most of these are for web use.)

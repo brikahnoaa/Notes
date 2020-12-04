@@ -1,0 +1,17 @@
+2do: amanda, apcupsd
+
+s1: su warning
+ABRT has detected 1 problem(s). For more info run: abrt-cli list --since 1606497407
+[root@station1 cnsd]# abrt-cli list --since 1606497407
+id 3efd5f8ffa040f591b9ab0d298374b04cf7cb0c7
+reason:         WARNING: CPU: 3 PID: 2523 at drivers/gpu/drm/nouveau/nvif/vmm.c:71 nvif_vmm_put+0x86/0x90 [nouveau]
+time:           Fri 27 Nov 2020 08:57:01 AM PST
+cmdline:        BOOT_IMAGE=/vmlinuz-3.10.0-1127.el7.x86_64 root=/dev/mapper/cl_station1-root ro rd.lvm.lv=cl_station1/root rd.lvm.lv=cl_station1/swap rhgb quiet LANG=en_US.UTF-8
+package:        kernel
+uid:            0 (root)
+count:          5
+Directory:      /var/spool/abrt/oops-2020-11-27-08:57:01-2528-0
+
+The Autoreporting feature is disabled. Please consider enabling it by issuing
+'abrt-auto-reporting enabled' as a user with root privileges
+[root@station1 cnsd]# abrt-auto-reporting enabled
