@@ -14,3 +14,10 @@ install idl 8.5 on station2
 Wed, Feb 13, 2019 12:35:51 PM
 . moving from caldera to syspc
 . /usr/local/exelis/license/license.dat says port 1700, why the startup errs?
+
+Sun Dec  6 18:32:57 PST 2020
+$BRUTE$ scp /cygdrive/c/Store/install1-apps/idl/idl*.tar.gz syspc:
+# install into /usr/local/IDL
+ yum install libXp redhat-lsb
+# /usr/local/IDL/license/license.dat
+ . /usr/local/IDL/idl/bin/lmgrd_install

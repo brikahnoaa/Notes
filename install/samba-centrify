@@ -31,33 +31,23 @@ install centrify 5.6
  ln -s /usr/share/centrifydc/libexec/adkeytab /sbin/adkeytab
  adflush --force
  adreload
-.2 existing users
- cd /home; ls -ln 
- adquery user *
-   grep cnsd /etc/passwd /etc/group
-   chown -R 469.110 /home/cnsd /var/spool/mail/cnsd
- cd /var/spool/mail; ls -ln
-    a="adquery user"; i=kahn
-    echo chown -R $($a -g $i).$($a -u $i) /home/$i /var/spool/mail/$i
-    # chown -R 1256.1100 /home/kahn /var/spool/mail/kahn
-# ditto
-.3 setup samba 
+.2 setup samba 
  perl /usr/share/centrifydc/bin/adbindproxy.pl
 samba's path = /usr
 keep original settings? N
  ...
-.3.1 mods to smb.conf, rhel6 only
+.2.1 mods to smb.conf, rhel6 only
         protocol = SMB2
         valid users = @newport
         write list  = @newport
-.3.2 mods to smb.conf, rhel6 & 7
+.2.2 mods to smb.conf, rhel6 & 7
 vim /etc/samba/smb.conf
   [samba-test]
       ; path = /samba-test
       ; public = yes
   [homes]
       path = /users/%S
-.3.3 Enable the service 
+.2.3 Enable the service 
 # rhel6
 ## chkconfig
 ## cent="centrifydc centrifydc-samba"
@@ -68,6 +58,16 @@ vim /etc/samba/smb.conf
  samba="centrifydc nmb winbind adbindd smb"
  for i in $samba; do systemctl enable $i; systemctl restart $i; done
 
+.3 existing users
+ cd /home; ls -ln 
+ adquery user *
+   grep cnsd /etc/passwd /etc/group
+   chown -R 469.110 /home/cnsd /var/spool/mail/cnsd
+ cd /var/spool/mail; ls -ln
+    a="adquery user"; i=kahn
+    echo chown -R $($a -g $i).$($a -u $i) /home/$i /var/spool/mail/$i
+    # chown -R 1256.1100 /home/kahn /var/spool/mail/kahn
+# ditto
 
 ---
 ### integrate existing to AD

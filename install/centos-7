@@ -47,31 +47,30 @@ InfoMsgFont=Sans=16"
 .10 standard files
  $brute$  cd ~/Linux; ./maketar.sh; scp -r tar root@$SYS:
 .10.1 extract
- cd /root/tar
  # extract and copy with backups
+ cd /root/tar
  for i in etc opt usr; do 
    tar xf $i.tar
    /bin/cp -r -b $i /
  done
  chown -R root.root .
-.10.2 root custom
+.10.2 cnsd
+ chown -R 469.110 /home/cnsd /var/spool/mail/cnsd
+ vipw
+ vigr
+ ls -la /home/cnsd
+ passwd cnsd
+.10.3 root custom
  cd /root
  mkdir install; mv *.cfg install
  rpm -qa > install/rpm-qa
  tar xvf /root/tar/dots.tar
  chown -R cnsd.cnsd .ssh; mv .ssh ~cnsd
  echo "brian.kahn@noaa.gov" > .forward
-.10.3 cnsd
- chown -R 469.110 /home/cnsd /var/spool/mail/cnsd
- vipw
- vigr
- ls -la /home/cnsd
- passwd cnsd
 .10.4 extra repos & packages
 #rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
  yum install -y /opt/epel-release-latest-7.noarch.rpm
- yum install -y yum-utils
- yum install -y apcupsd iftop ntfs-3g ntfsprogs lm-sensors
+ yum install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs lm-sensors
 .11 ssh
  cd /etc/ssh
  cp sshd_config sshd_config.inst
@@ -82,7 +81,7 @@ InfoMsgFont=Sans=16"
 : kahn@BRUTE 04:33:12 ~/Linux :  ssh $SYS
 
 .12 centrify
-<Notes/install/samba-centrify>
+<~/Notes/install/samba-centrify>
 
 .13 kahn
  user=kahn
@@ -100,6 +99,7 @@ InfoMsgFont=Sans=16"
 .15 services
 .15.1 xinetd
  yum -y install xinetd 
+ systemctl start xinetd
 .15.2 nfs
  cp -b /etc/exports.tmpl /etc/exports
  vi /etc/exports
@@ -113,8 +113,6 @@ InfoMsgFont=Sans=16"
  ? systemctl enable rsyncd
  ? systemctl start rsyncd
 # vi /etc/xinetd.d/rsync
- systemctl enable xinetd
- systemctl start xinetd
 .15.4 apcupsd
  cp -b /etc/apcupsd/apcupsd.conf.tmpl /etc/apcupsd/apcupsd.conf
  vi /etc/apcupsd/apcupsd.conf
@@ -128,7 +126,8 @@ InfoMsgFont=Sans=16"
  rpm -ivh *64.rpm
  /sbin/chkconfig besclient on
  systemctl start besclient
- tail –f $( echo /var/opt/BESClient/__BESData/__Global/Logs/*.log )
+ sleep 5
+ tail $( echo /var/opt/BESClient/__BESData/__Global/Logs/*.log )
 .17 backups
 .17.1 ventstore
  $ ssh ventstore

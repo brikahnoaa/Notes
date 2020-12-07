@@ -1,0 +1,21 @@
+ 
+ systemctl stop besclient
+ rm -rf /opt/BESClient; yum -y remove BESAgent
+ rm -rf /var/opt/BESClient/ /etc/opt/BESClient/ /opt/BESClient/bin/
+
+ cd /root; rm -rf tar; mv /home/kahn/tar .; cd /root/tar
+ for i in etc opt usr; do tar xf $i.tar; /bin/cp -r -b $i /; done
+ chown -R root.root .
+
+cd /opt/BESClient
+ mkdir -p /var/opt/BESClient/ /etc/opt/BESClient/ /opt/BESClient/bin/
+ cp besclient.config /var/opt/BESClient
+ cp actionsite.afxm /etc/opt/BESClient/
+ cp dcid.skey /opt/BESClient/bin/
+ rpm -ivh *64.rpm
+ /sbin/chkconfig besclient on
+ systemctl start besclient
+
+
+ tail $( echo /var/opt/BESClient/__BESData/__Global/Logs/*.log )
+

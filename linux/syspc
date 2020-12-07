@@ -338,15 +338,16 @@ sde                           8:64   0   5.5T  0 disk
  ===
  pvscan
  vgimport vg1
- vgimport vg2
  vgchange -ay vg1
- vgchange -ay vg2
  lvchange -ay vg1/lv1
+ mount /dev/vg1/lv1 /data1
+ vgimport vg2
+ vgchange -ay vg2
  lvchange -ay vg2/lv2
- mount /data0 /data1
+ mount /dev/vg2/lv2 /data0
 .. make / links
 
-mkdir /adata
+mkdir -p /data0 /data1 /adata
 ln -s   /data1 /backup
 ln -s   /data0/bathy /bathy
 ln -s   /group/chem /chem
