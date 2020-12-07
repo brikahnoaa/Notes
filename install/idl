@@ -1,3 +1,110 @@
+Sun Dec  6 18:32:57 PST 2020
+$BRUTE$ scp /cygdrive/c/Store/install1-apps/idl/idl*.tar.gz syspc:
+ cd /usr/local/bin; rm -f idl* exel* 
+ mkdir /usr/local/exelis
+ mv ~kahn/idl* /usr/local/exelis
+ cd /usr/local/exelis
+ cp /data0/backup/usr/local/exelis/license/license.dat license/
+ tar zxf *tar.gz
+ yum install libXp redhat-lsb
+ ./install.sh
+   idl+help !envi !dicom
+ cd /usr/local/IDL/idl/bin
+ ./lmgrd_install
+ reboot
+ idl
+
+
+Installing:
+ libXp                          x86_64   1.0.2-2.1.el7          base       30 k
+ redhat-lsb                     x86_64   4.1-27.el7.centos.1    base       25 k
+Installing for dependencies:
+ foomatic-filters               x86_64   4.0.9-10.el7_9         updates    98 k
+ gdbm-devel                     x86_64   1.10-8.el7             base       47 k
+ glibc-devel                    x86_64   2.17-317.el7           base      1.1 M
+ glibc-headers                  x86_64   2.17-317.el7           base      690 k
+ kernel-headers                 x86_64   3.10.0-1160.6.1.el7    updates   9.0 M
+ libdb-devel                    x86_64   5.3.21-25.el7          base       39 k
+ libmng                         x86_64   1.0.10-14.el7          base      171 k
+ libpng12                       x86_64   1.2.50-10.el7          base      171 k
+ mailcap                        noarch   2.1.41-2.el7           base       31 k
+ mesa-libGLU                    x86_64   9.0.0-4.el7            base      196 k
+ perl-B-Lint                    noarch   1.17-3.el7             base       20 k
+ perl-Business-ISBN             noarch   2.06-2.el7             base       25 k
+ perl-Business-ISBN-Data        noarch   20120719.001-2.el7     base       24 k
+ perl-CGI                       noarch   3.63-4.el7             base      250 k
+ perl-CPAN                      noarch   1.9800-297.el7         base      293 k
+ perl-Class-ISA                 noarch   0.36-1010.el7          base      8.9 k
+ perl-Compress-Raw-Bzip2        x86_64   2.061-3.el7            base       32 k
+ perl-Compress-Raw-Zlib         x86_64   1:2.061-4.el7          base       57 k
+ perl-Data-Dumper               x86_64   2.145-3.el7            base       47 k
+ perl-Digest                    noarch   1.17-245.el7           base       23 k
+ perl-Digest-MD5                x86_64   2.52-3.el7             base       30 k
+ perl-Digest-SHA                x86_64   1:5.85-4.el7           base       58 k
+ perl-Encode-Locale             noarch   1.03-5.el7             base       16 k
+ perl-Env                       noarch   1.04-2.el7             base       16 k
+ perl-ExtUtils-Install          noarch   1.58-297.el7           base       75 k
+ perl-ExtUtils-MakeMaker        noarch   6.68-3.el7             base      275 k
+ perl-ExtUtils-Manifest         noarch   1.61-244.el7           base       31 k
+ perl-ExtUtils-ParseXS          noarch   1:3.18-3.el7           base       77 k
+ perl-FCGI                      x86_64   1:0.74-8.el7           base       42 k
+ perl-File-CheckTree            noarch   4.42-3.el7             base       18 k
+ perl-File-Listing              noarch   6.04-7.el7             base       13 k
+ perl-HTML-Parser               x86_64   3.71-4.el7             base      115 k
+ perl-HTML-Tagset               noarch   3.20-15.el7            base       18 k
+ perl-HTTP-Cookies              noarch   6.01-5.el7             base       26 k
+ perl-HTTP-Daemon               noarch   6.01-8.el7             base       21 k
+ perl-HTTP-Date                 noarch   6.02-8.el7             base       14 k
+ perl-HTTP-Message              noarch   6.06-6.el7             base       82 k
+ perl-HTTP-Negotiate            noarch   6.01-5.el7             base       17 k
+ perl-IO-Compress               noarch   2.061-2.el7            base      260 k
+ perl-IO-HTML                   noarch   1.00-2.el7             base       23 k
+ perl-IO-Socket-IP              noarch   0.21-5.el7             base       36 k
+ perl-IO-Socket-SSL             noarch   1.94-7.el7             base      115 k
+ perl-LWP-MediaTypes            noarch   6.02-2.el7             base       24 k
+ perl-Locale-Codes              noarch   3.26-2.el7             base      314 k
+ perl-Locale-Maketext           noarch   1.23-3.el7             base       93 k
+ perl-Module-Pluggable          noarch   1:4.8-3.el7            base       29 k
+ perl-Mozilla-CA                noarch   20130114-5.el7         base       11 k
+ perl-Net-HTTP                  noarch   6.06-2.el7             base       29 k
+ perl-Net-LibIDN                x86_64   0.12-15.el7            base       28 k
+ perl-Net-SSLeay                x86_64   1.55-6.el7             base      285 k
+ perl-Pod-Checker               noarch   1.60-2.el7             base       28 k
+ perl-Pod-LaTeX                 noarch   0.61-2.el7             base       35 k
+ perl-Pod-Parser                noarch   1.61-2.el7             base      107 k
+ perl-Pod-Plainer               noarch   1.03-4.el7             base      9.0 k
+ perl-Sys-Syslog                x86_64   0.33-3.el7             base       42 k
+ perl-Test-Harness              noarch   3.28-3.el7             base      302 k
+ perl-Test-Simple               noarch   0.98-243.el7           base      170 k
+ perl-Text-Soundex              x86_64   3.04-4.el7             base       19 k
+ perl-Text-Unidecode            noarch   0.04-20.el7            base      114 k
+ perl-TimeDate                  noarch   1:2.30-2.el7           base       52 k
+ perl-URI                       noarch   1.60-9.el7             base      106 k
+ perl-WWW-RobotRules            noarch   6.02-5.el7             base       18 k
+ perl-XML-LibXML                x86_64   1:2.0018-5.el7         base      373 k
+ perl-XML-NamespaceSupport      noarch   1.11-10.el7            base       18 k
+ perl-XML-SAX                   noarch   0.99-9.el7             base       63 k
+ perl-XML-SAX-Base              noarch   1.08-7.el7             base       32 k
+ perl-autodie                   noarch   2.16-2.el7             base       77 k
+ perl-devel                     x86_64   4:5.16.3-297.el7       base      454 k
+ perl-libwww-perl               noarch   6.05-2.el7             base      205 k
+ perl-local-lib                 noarch   1.008010-4.el7         base       64 k
+ qt                             x86_64   1:4.8.7-9.el7_9        updates   4.6 M
+ qt-settings                    noarch   19-23.12.el7.centos    base       18 k
+ qt-x11                         x86_64   1:4.8.7-9.el7_9        updates    13 M
+ qt3                            x86_64   3.3.8b-51.el7          base      3.5 M
+ redhat-lsb-cxx                 x86_64   4.1-27.el7.centos.1    base       16 k
+ redhat-lsb-desktop             x86_64   4.1-27.el7.centos.1    base       20 k
+ redhat-lsb-languages           x86_64   4.1-27.el7.centos.1    base       18 k
+ redhat-lsb-printing            x86_64   4.1-27.el7.centos.1    base       16 k
+ redhat-lsb-submod-multimedia   x86_64   4.1-27.el7.centos.1    base       15 k
+ systemtap-sdt-devel            x86_64   4.0-13.el7             base       76 k
+
+Transaction Summary
+================================================================================
+Install  2 Packages (+80 Dependent packages)
+
+
 Thu, Apr 23, 2020  1:16:43 PM
 install idl 8.5 on station2
 . license in email dave borg-green > /usr/local/exelis/idl/license/license.dat
@@ -15,9 +122,3 @@ Wed, Feb 13, 2019 12:35:51 PM
 . moving from caldera to syspc
 . /usr/local/exelis/license/license.dat says port 1700, why the startup errs?
 
-Sun Dec  6 18:32:57 PST 2020
-$BRUTE$ scp /cygdrive/c/Store/install1-apps/idl/idl*.tar.gz syspc:
-# install into /usr/local/IDL
- yum install libXp redhat-lsb
-# /usr/local/IDL/license/license.dat
- . /usr/local/IDL/idl/bin/lmgrd_install
