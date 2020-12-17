@@ -78,7 +78,7 @@ InfoMsgFont=Sans=16"
  cat sshd_config.cat >> sshd_config
  systemctl restart sshd
 # test ssh before leaving root
-: kahn@BRUTE 04:33:12 ~/Linux :  ssh $SYS
+: kahn@BRUTE 04:33:12 ~/Linux :  ssh cnsd@$SYS
 
 .12 centrify
 <~/Notes/install/samba-centrify>
@@ -87,7 +87,7 @@ InfoMsgFont=Sans=16"
  user=kahn
  uid=$(adquery user --uid $user)
  gid=$(adquery user --group $user)
- mkdir /home/$user /var/spool/mail/$user
+ mkdir -p /home/$user /var/spool/mail/$user
   cd /home/$user; for i in bin dots; do tar xvf /root/tar/$i.tar; done
  chown -R $uid.$gid /home/$user /var/spool/mail/$user
 

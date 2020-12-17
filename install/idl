@@ -1,17 +1,17 @@
 Sun Dec  6 18:32:57 PST 2020
 $BRUTE$ scp /cygdrive/c/Store/install1-apps/idl/idl*.tar.gz syspc:
+ yum install libXp redhat-lsb
  cd /usr/local/bin; rm -f idl* exel* 
  mkdir /usr/local/exelis
- mv ~kahn/idl* /usr/local/exelis
- cd /usr/local/exelis
- cp /data0/backup/usr/local/exelis/license/license.dat license/
+ mv ~kahn/idl* /usr/local/IDL
+ cd /usr/local/IDL
  tar zxf *tar.gz
- yum install libXp redhat-lsb
+ cp /data0/backup/usr/local/exelis/license/license.dat license/
  ./install.sh
    idl+help !envi !dicom
  cd /usr/local/IDL/idl/bin
  ./lmgrd_install
- reboot
+  service sys5_idl_lmgrd start
  idl
 
 

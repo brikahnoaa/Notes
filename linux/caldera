@@ -3,5 +3,99 @@ ASUSTeK Computer INC.  P8B-C Series
 LGA1155 i3-2120 CPU @ 3.30GHz
 4GB ddr3 1333 2x2gb
 
+Thu Dec 17 10:18:42 PST 2020
+.1 install
+centrify:
+installed packages, but did not run samba-centrify step .2
+ perl /usr/share/centrifydc/bin/adbindproxy.pl
 idl:
  yum install redhat-lsb-core-4.1-27.el7.centos.1.x86_64
+andyLau:
+  yum install xorg-x11-fonts-ISO8859-1-75dpi xorg-x11-fonts-ISO8859-2-75dpi xorg-x11-fonts-75dpi
+ooi:
+ yum install tigervnc python3 python3-pip git
+ git config --global push.default simple
+.2 vncserver
+   vi /etc/sysconfig/vncservers
+# THIS FILE HAS BEEN REPLACED BY /lib/systemd/system/vncserver@.service
+ vi /lib/systemd/system/vncserver@.service
+# The vncserver service unit file
+#
+# Quick HowTo:
+# 1. Copy this file to /etc/systemd/system/vncserver@.service
+# 2. Replace <USER> with the actual user name and edit vncserver
+#    parameters in the wrapper script located in /usr/bin/vncserver_wrapper
+# 3. Run `systemctl daemon-reload`
+# 4. Run `systemctl enable vncserver@:<display>.service`
+#
+# DO NOT RUN THIS SERVICE if your local area network is
+# untrusted!  For a secure way of using VNC, you should
+# limit connections to the local host and then tunnel from
+# the machine you want to view VNC on (host A) to the machine
+# whose VNC output you want to view (host B)
+#
+# [user@hostA ~]$ ssh -v -C -L 590N:localhost:590M hostB
+#
+# this will open a connection on port 590N of your hostA to hostB's port 590M
+# (in fact, it ssh-connects to hostB and then connects to localhost (on hostB).
+# See the ssh man page for details on port forwarding)
+#
+# You can then point a VNC client on hostA at vncdisplay N of localhost and with
+# the help of ssh, you end up seeing what hostB makes available on port 590M
+#
+# Use "-nolisten tcp" to prevent X connections to your VNC server via TCP.
+#
+# Use "-localhost" to prevent remote VNC clients connecting except when# doing so through a secure tunnel.  See the "-via" option in the
+# `man vncviewer' manual page.
+ cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver-lau@.service
+ vi /etc/systemd/system/vncserver-lau@.service
+After=syslog.target network-online.target
+ExecStart=/usr/bin/vncserver_wrapper lau %i
+ vi /etc/tigervnc/vncserver-config-mandatory
+localhost
+ systemctl daemon-reload
+ systemctl enable vncserver-lau@:2.service
+ systemctl start vncserver-lau@:2.service
+.. notes
+... should be able to use %j %i, but it doesn't work
+ https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+... network-online.target
+ is this race condition? should use adbindd.service ?
+
+Thu, Oct 13, 2016 10:00:02 AM
+<daily>
+.2 review of caldera
+.. two instances of flexnet, conflict
+.. /e/ andy (old) vnc
+andy, caldera is set to automatically start a VNC Xserver in your name.
+Locally this is DISPLAY=:2 and remotely it is listenting at port :5902
+To set up, ssh to caldera to set your vncpasswd
+  ssh caldera
+  vncpasswd
+To see your display on caldera,
+1) start an ssh session forwarding securely from garfield:5902 to caldera:5902
+2) run vncviewer on garfield using port 5902
+  xterm -e ssh -L 5902:localhost:5902 caldera
+  [ enter ssh password in new window ]
+  vncviewer :5902
+When you run things (like IDL) that use X on caldera, you are using DISPLAY=:2
+This is already set for you when you start things up within vncviewer, if you use cron to run every 15 minutes you may have to set the DISPLAY on the command line.
+
+.3 andy on caldera
+.3.1 vnc for pixmaps
+.3.2 https://www.howtoforge.com/vnc-server-installation-centos-6.5
+  yum install tigervnc-server tigervnc
+  chkconfig vncserver on
+  su lau -s /usr/bin/vncpasswd
+  su kahn -s /usr/bin/vncpasswd
+  vi /etc/sysconfig/vncservers
+VNCSERVERS="2:lau 3:kahn"
+VNCSERVERARGS[2]="-geometry 1024x768 -nolisten tcp -localhost"
+VNCSERVERARGS[3]="-geometry 1024x768 -nolisten tcp -localhost"
+  service vncserver restart
+  vi ~lau/.vnc/xstartup
+comment out xinit lines, change twm to mwm
+.3.3 usage
+  xterm -e ssh -L 5902:localhost:5902 caldera &
+  vncviewer :5902 &
+
