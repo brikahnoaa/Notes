@@ -11,7 +11,7 @@ installed packages, but did not run samba-centrify step .2
 idl:
  yum install redhat-lsb-core-4.1-27.el7.centos.1.x86_64
 andyLau:
-  yum install xorg-x11-fonts-ISO8859-1-75dpi xorg-x11-fonts-ISO8859-2-75dpi xorg-x11-fonts-75dpi
+  yum install xorg-x11-fonts-ISO8859-1-75dpi xorg-x11-fonts-ISO8859-2-75dpi xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi
 ooi:
  yum install tigervnc python3 python3-pip git
  git config --global push.default simple

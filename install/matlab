@@ -26,7 +26,12 @@ WantedBy=multi-user.target
 .2 errors
 https://www.mathworks.com/support/search.html/answers/404028-license-problems-cheat-sheet.html
 .3 java doesn't update
+.3.1 pack up
 cd /usr/local/matlab; tar czf java.tgz java; rm -rf java
+.3.2 make matlab use distrib java
+ /etc/profile.d/matlab.sh:
+# set matlab path for jre
+export MATLAB_JAVA=/etc/alternatives/jre
 
 
 Fri, Aug 04, 2017 10:00:47 AM

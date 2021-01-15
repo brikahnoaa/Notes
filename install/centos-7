@@ -70,7 +70,7 @@ InfoMsgFont=Sans=16"
 .10.4 extra repos & packages
 #rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
  yum install -y /opt/epel-release-latest-7.noarch.rpm
- yum install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs lm-sensors
+ yum install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs lm_sensors
 .11 ssh
  cd /etc/ssh
  cp sshd_config sshd_config.inst
