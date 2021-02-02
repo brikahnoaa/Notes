@@ -1,3 +1,49 @@
+Fri Jan 15 11:30:22 PST 2021
+. centos7
+ yum install mtx
+ yum install amanda-server
+Installing:
+ amanda-server                 x86_64     3.3.3-22.el7           base     259 k
+Installing for dependencies:
+ amanda                        x86_64     3.3.3-22.el7           base     127 k
+ amanda-libs                   x86_64     3.3.3-22.el7           base     1.3 M
+ mailcap                       noarch     2.1.41-2.el7           base      31 k
+ perl-Business-ISBN            noarch     2.06-2.el7             base      25 k
+ perl-Business-ISBN-Data       noarch     20120719.001-2.el7     base      24 k
+ perl-Compress-Raw-Bzip2       x86_64     2.061-3.el7            base      32 k
+ perl-Compress-Raw-Zlib        x86_64     1:2.061-4.el7          base      57 k
+ perl-Data-Dumper              x86_64     2.145-3.el7            base      47 k
+ perl-Digest                   noarch     1.17-245.el7           base      23 k
+ perl-Digest-MD5               x86_64     2.52-3.el7             base      30 k
+ perl-Encode-Locale            noarch     1.03-5.el7             base      16 k
+ perl-File-Listing             noarch     6.04-7.el7             base      13 k
+ perl-HTML-Parser              x86_64     3.71-4.el7             base     115 k
+ perl-HTML-Tagset              noarch     3.20-15.el7            base      18 k
+ perl-HTTP-Cookies             noarch     6.01-5.el7             base      26 k
+ perl-HTTP-Daemon              noarch     6.01-8.el7             base      21 k
+ perl-HTTP-Date                noarch     6.02-8.el7             base      14 k
+ perl-HTTP-Message             noarch     6.06-6.el7             base      82 k
+ perl-HTTP-Negotiate           noarch     6.01-5.el7             base      17 k
+ perl-IO-Compress              noarch     2.061-2.el7            base     260 k
+ perl-IO-HTML                  noarch     1.00-2.el7             base      23 k
+ perl-IO-Socket-IP             noarch     0.21-5.el7             base      36 k
+ perl-IO-Socket-SSL            noarch     1.94-7.el7             base     115 k
+ perl-LWP-MediaTypes           noarch     6.02-2.el7             base      24 k
+ perl-Mozilla-CA               noarch     20130114-5.el7         base      11 k
+ perl-Net-HTTP                 noarch     6.06-2.el7             base      29 k
+ perl-Net-LibIDN               x86_64     0.12-15.el7            base      28 k
+ perl-Net-SSLeay               x86_64     1.55-6.el7             base     285 k
+ perl-TimeDate                 noarch     1:2.30-2.el7           base      52 k
+ perl-URI                      noarch     1.60-9.el7             base     106 k
+ perl-WWW-RobotRules           noarch     6.02-5.el7             base      18 k
+ perl-XML-NamespaceSupport     noarch     1.11-10.el7            base      18 k
+ perl-XML-Parser               x86_64     2.41-10.el7            base     223 k
+ perl-XML-SAX                  noarch     0.99-9.el7             base      63 k
+ perl-XML-SAX-Base             noarch     1.08-7.el7             base      32 k
+ perl-XML-Simple               noarch     2.20-5.el7             base      74 k
+ perl-libwww-perl              noarch     6.05-2.el7             base     205 k
+
+Oct  2 17:23
  ::tape backup using amanda::
 . overview
 /var/lib/amanda holds gnutar-lists - critical, must backup

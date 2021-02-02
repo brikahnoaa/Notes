@@ -6,7 +6,6 @@ $ kahn@bioac3 09:19:31 ~ $
  rsync -ai /var/lib/amanda/full/index /etc/amanda/index
  amtape full inventory
  cat /etc/amanda/full/tapelist
- first=1
  :; echo create tapelist
  :; tapelist=/etc/amanda/full/tapelist 
  :; firstTape=120
