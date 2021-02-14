@@ -139,17 +139,17 @@ InfoMsgFont=Sans=16"
  vs# mv $newest dada
  vs# rm -rf day?
  vs# for i in 1 2 3 4 5 6 7; do mkdir day$i; done
+ cd /etc/cron.daily
+ cp backup.data.conf.tmpl backup.data.conf
+ vi backup.data.conf
 .17.2 amanda
  yum install amanda-client
  a="challenger amandabackup amdump
 challenger-191 amandabackup amdump" 
  echo "$a" >> /var/lib/amanda/.amandahosts
- vi /etc/xinetd.d/amanda # see <notes/storage/amanda/amanda-devo>
- cd /etc/cron.daily
- cp backup.data.conf.tmpl backup.data.conf
- vi backup.data.conf
  a="# amanda client
-service amanda
+... service amanda
+ vi /etc/xinetd.d/amanda # see <notes/storage/amanda/amanda-devo>
 {
         socket_type             = stream
         protocol                = tcp
@@ -160,8 +160,7 @@ service amanda
         server_args             = -auth=bsdtcp amdump
         disable                 = no
 }" 
- vi /etc/xinetd.d/amanda
- # echo "$a" > /etc/xinetd.d/amanda
- service xinetd restart
-add host to rsyncd.conf
+ echo "$a" > /etc/xinetd.d/amanda
+ systemctl restart xinetd 
+add host to rsyncd.conf on server?
 
