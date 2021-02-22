@@ -19,6 +19,7 @@ $ kahn@bioac3 09:19:31 ~ $
   amdump full bioac3-191 /data0 &
   amdump full bioac3-191 /data1 &
   amdump full embfile2-191 &
+  amdump full syspc-191 &
    tail /var/lib/amanda/full/logs/amdump
    grep PARTDONE /var/lib/amanda/full/logs/amdump
 # after each backup completes!!

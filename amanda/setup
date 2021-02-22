@@ -1,0 +1,56 @@
+. server
+.. sw
+ yum install mtx mt-st amanda-server
+ cd /backup/cr
+ cp -a ./etc/amanda /etc/amanda
+ cp -a ./var/lib/amanda /var/lib/amanda
+...  amtape full inventory -> Error locking '/var/amanda/chg-robot-dev-changer'
+ mkdir /var/amanda
+ chown amandabackup.tape !$
+ chmod a+r /etc/hosts
+.. /dev/changer
+ dmesg | grep sg[0-9]
+ sg=$( dmesg | awk '/scsi.*type 8/ {print $8}' )
+ mtx -f /dev/$sg status
+ udevadm info -q property /dev/$sg
+ udevadm test /sys/class/scsi_generic/$sg
+ rule='#blk# reliable link to tape changer
+ENV{ID_MODEL}=="FlexStor_II", SYMLINK+="changer"'
+ cat >> /etc/udev/rules.d/61-local.rules <<<"$rule"
+## must run after /usr/lib/udev/rules.d/60-persistent-storage-tape.rules
+ udevadm trigger
+.server.per-client
+ newhost=sc
+ mkdir /data0/backup/$newhost
+ a="
+[$newhost]
+comment = daily backup
+hosts allow = 161.55.192.142 161.55.191.142
+path = /data0/backup/$newhost
+write only = true
+"
+ echo "$a" >> /etc/rsyncd.conf
+ vi /etc/amanda/full/disklist
+
+.client
+ yum install amanda-client
+ vi /etc/xinetd.d/amanda
+service amanda
+{
+        socket_type             = stream
+        protocol                = tcp
+        wait                    = no
+        user                    = amandabackup
+        group                   = disk
+        server                  = /usr/sbin/amandad
+        server_args             = -auth=bsdtcp amdump
+        disable                 = no
+}
+ /bin/systemctl restart xinetd.service
+ su amandabackup
+ echo "challenger amandabackup amdump
+challenger-191 amandabackup amdump" >> ~/.amandahosts
+
+.tapes
+offset=310
+rm tapelist; for i in {1..23}; do amlabel full full-$((i+offset)) slot $i; done
