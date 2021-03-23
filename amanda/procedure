@@ -15,11 +15,11 @@ $ kahn@bioac3 09:19:31 ~ $
  :; amtape full inventory
  :; amtape full update; amtape full inventory
  amtape full slot 1 ## change
-  amdump full acoustic-191 &
-  amdump full bioac3-191 /data0 &
-  amdump full bioac3-191 /data1 &
-  amdump full embfile2-191 &
-  amdump full syspc-191 &
+  (amdump full acoustic-191; rsync -ai ~/full/index /etc/amanda/full/index)&
+  (amdump full bioac3-191 /data0; rsync -ai ~/full/index /etc/amanda/full/index)&
+  (amdump full bioac3-191 /data1; rsync -ai ~/full/index /etc/amanda/full/index)&
+  (amdump full embfile2-191; rsync -ai ~/full/index /etc/amanda/full/index)&
+  (amdump full syspc-191; rsync -ai ~/full/index /etc/amanda/full/index)&
    tail /var/lib/amanda/full/logs/amdump
    grep PARTDONE /var/lib/amanda/full/logs/amdump
 # after each backup completes!!
