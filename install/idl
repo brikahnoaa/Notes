@@ -107,7 +107,7 @@ Install  2 Packages (+80 Dependent packages)
 
 Thu, Apr 23, 2020  1:16:43 PM
 install idl 8.5 on station2
-. license in email dave borg-green > /usr/local/exelis/idl/license/license.dat
+. license in email dave borg-breen > /usr/local/exelis/idl/license/license.dat
 . download 8.5 to kahn/Linux/opt
 . /lib64/ld-lsb-x86-64.so.3: bad ELF interpreter: No such file
 .. https://www.schrodinger.com/kb/1437
