@@ -104,6 +104,17 @@ InfoMsgFont=Sans=16"
  cat sshd_config.cat >> sshd_config
  systemctl restart sshd
 # test ssh before leaving root
+.13 authen settings
+Three failures to lock out for 30min is the default on rhel7
+The manual settings summarized here:
+ vi /etc/pam.d/system-auth
+Just above the pam_unix.so call in the "auth" section, add:
+  auth  required  pam_faillock.so preauth silent audit deny=3 unlock_time=1200
+Just above the pam_succeed_if.so call in the "auth" section, add:
+  auth  [default=die]  pam_faillock.so authfail audit deny=3 unlock_time=1200
+At the bottom of the "account" section, add:
+  account required    pam_faillock.so
+make the same three changes to /etc/pam.d/password-auth.
 .15 services
 .15.1 xinetd
  yum install xinetd 
