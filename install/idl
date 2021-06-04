@@ -1,3 +1,19 @@
+Thu, Jun  3, 2021  9:05:35 PM
+-- /etc/systemd/system/idl_lmgrd.service
+ [Unit]
+ Description=idl license server
+ After=network.target
+ [Service]
+ Type=forking
+ User=nobody
+ ExecStart=/usr/local/IDL/idl/bin/lmgrd \
+     -c /usr/local/IDL/license/license.dat
+#    -l /var/log/idl.log
+ ExecStop=/usr/local/IDL/idl/bin/lmdown -q
+#Restart=on-abort
+ [Install]
+ WantedBy=multi-user.target
+
 Sun Dec  6 18:32:57 PST 2020
 $BRUTE$ scp /cygdrive/c/Store/install1-apps/idl/idl*.tar.gz syspc:
  yum install libXp redhat-lsb

@@ -38,3 +38,17 @@ Fri, Sep 16, 2016  8:18:58 AM
  storcli /c0/e4/s16 show rebuild
 .4 time
  36 hours for 12x6T
+
+Tue May  4 10:36:12 PDT 2021
+.1 b3 new 4tb on shelf
+..
+ storcli /c0 set alarm=silence
+4:7      15 UBad   - 3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+ replace disk
+4:7      15 Rbld   0 3.637 TB SATA HDD N   N  512B WDC WD4000F9YZ-09N20L1 U
+ storcli /c0 set alarm=silence
+..
+ storcli64 /c0/e4/s7 show rebuild
+Drive-ID  Progress% Status      Estimated Time Left
+---------------------------------------------------------
+/c0/e4/s7         0 In progress 1 Days 8 Hours 2 Minutes
