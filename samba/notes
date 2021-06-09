@@ -1,3 +1,6 @@
+Wed Jun  9 11:36:31 PDT 2021
+.1 yum --disableexcludes=all update
+
 Mon, Nov 19, 2018  3:47:31 PM
 .1 https://lists.samba.org/archive/samba/2010-September/158214.html
  wbinfo -u
