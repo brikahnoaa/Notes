@@ -1,3 +1,19 @@
+Thu, Jun  3, 2021  9:05:35 PM
+-- /etc/systemd/system/idl_lmgrd.service
+ [Unit]
+ Description=idl license server
+ After=network.target
+ [Service]
+ Type=forking
+ User=nobody
+ ExecStart=/usr/local/IDL/idl/bin/lmgrd \
+     -c /usr/local/IDL/license/license.dat
+#    -l /var/log/idl.log
+ ExecStop=/usr/local/IDL/idl/bin/lmdown -q
+#Restart=on-abort
+ [Install]
+ WantedBy=multi-user.target
+
 Sun Dec  6 18:32:57 PST 2020
 $BRUTE$ scp /cygdrive/c/Store/install1-apps/idl/idl*.tar.gz syspc:
  yum install libXp redhat-lsb
@@ -122,3 +138,21 @@ Wed, Feb 13, 2019 12:35:51 PM
 . moving from caldera to syspc
 . /usr/local/exelis/license/license.dat says port 1700, why the startup errs?
 
+Tue Jun  1 15:44:39 PDT 2021
+centos7
+-- /etc/systemd/system/idl_lmgrd.service
+ [Unit]
+Description=idl license server
+After=network.target
+[Service]
+Type=simple
+User=root
+ExecStart=/etc/init.d/sys5_idl_lmgrd start
+Restart=on-abort
+[Install]
+WantedBy=multi-user.target
+
+# systemctl --system daemon-reload
+# systemctl start idl_lmgrd
+$ idl
+# systemctl enable idl_lmgrd
