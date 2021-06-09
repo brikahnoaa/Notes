@@ -1,3 +1,48 @@
+Mon Jun  7 11:22:55 PDT 2021
+.1 idl
+no license on s1
+ -- /etc/systemd/system/idl_lmgrd.service
+ [Unit]
+ Description=idl license server
+ After=network.target
+
+ [Service]
+ Type=forking
+ User=nobody
+ ExecStart=/usr/local/IDL/idl/bin/lmgrd \
+     -c /usr/local/IDL/license/license.dat
+#    -l /var/log/idl.log
+ ExecStop=/usr/local/IDL/idl/bin/lmdown -q
+#Restart=on-abort
+
+ [Install]
+ WantedBy=multi-user.target
+
+.2 set up putty for bob
+.3 syspc pkgs
+sudo yum install GMT gshhg-gmt-nc4-all dcw-gmt
+yum install eom xpdf evince gv
+
+Thu Mar 11 13:54:08 PST 2021
+jonathan /e/
+I'm going to start installing the suite of Network Authentication apps on syspc.  I'll try to complete it without rebooting the system, but if I need to I'll let you know.  This will require:
+mariadb/mysql
+galera mysql cluster
+perl Db & email modules
+Radiator radius
+haproxy
+
+Wed Mar 10 13:55:21 PST 2021
+yum install httpd
+old /etc/httpd/conf/httpd.conf failed re multiple extensions
+all seems to work with default config and links in /var/www
+ ls -l /var/www
+lrwxrwxrwx 1 root root 24 Mar  9 19:06 cgi-bin -> /internet/httpd/cgi-bin/
+lrwxrwxrwx 1 root root 21 Mar  9 19:06 html -> /internet/httpd/html/
+
+Dec 4, 2020
+centos rebuild
+
 Thu, Jul  2, 2020  3:38:24 PM
 /data1
 .1 rebuild /data1
