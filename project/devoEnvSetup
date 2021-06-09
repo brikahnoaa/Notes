@@ -9,14 +9,13 @@
  make
 
 cygwin setup
-  setup-x86_64.exe -qP bind-utils,binutils,ctags,cygcheck-dep,cygutils-extra,cygwin-devel,enscript,git,indent,openssh,perl,python2,rsync,vim,vim-doc,wget
+  setup-x86_64.exe -qP bind-utils,binutils,ctags,cygcheck-dep,cygutils-extra,cygwin-devel,enscript,git,indent,openssh,perl,python3,rsync,vim,vim-doc,wget
 
 git clone git@github.com:brikahnoaa/Winch.git
 cd Winch/cod; tar xvf War.tar
 
 .. pip install pyserial 
- # easy_install-2[TAB] pip
- # easy_install-3[TAB] pip
+ # python -m pip install --upgrade pip
  # pip install wheel
  # pip install pyserial
 .. python serial
