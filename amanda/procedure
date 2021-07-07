@@ -15,7 +15,7 @@ $ kahn@bioac3 09:19:31 ~ $
  :; amtape full inventory
  :; amtape full update; amtape full inventory
 # before and after each backup completes!!
- rs="rsync -ai /var/lib/amanda/full/index/ /etc/amanda/full/index"
+ export rs="rsync -ai /var/lib/amanda/full/index/ /etc/amanda/full/index"
  amtape full slot 1 ## change
   ($rs; amdump full acoustic-191; $rs)&
   ($rs; amdump full bioac3-191 /data0; $rs)&
