@@ -17,6 +17,7 @@ $ kahn@bioac3 09:19:31 ~ $
 # before and after each backup completes!!
  export rs="rsync -ai /var/lib/amanda/full/index/ /etc/amanda/full/index"
  amtape full slot 1 ## change
+  ($rs; amdump full localhost; $rs)&
   ($rs; amdump full acoustic-191; $rs)&
   ($rs; amdump full bioac3-191 /data0; $rs)&
   ($rs; amdump full bioac3-191 /data1; $rs)&

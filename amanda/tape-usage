@@ -16,3 +16,14 @@
 
 300-322, 133-142 = 33
 100-132 = 33
+
+
+# root@challenger 07:24:06 /etc/amanda/full/index #
+ du -sh /backup/*
+4.0K    /backup/MegaSAS.log
+12T     /backup/ac
+812K    /backup/amanda
+2.2G    /backup/b3d0
+2.8G    /backup/b3d1
+1.2T    /backup/e2
+671M    /backup/ve
