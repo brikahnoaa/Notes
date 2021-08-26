@@ -11,6 +11,8 @@ icacls * /t /q /c /reset
 icacls * /t /c /grant:F
 icacls * /t /c /grant kahn:F
 
+hire date 8/18/2014
+
 msiexec -i PulseSecure.x64-9_1_9.msi CONFIGFILE="Win-AD-CP.pulsepreconfig" /qb
 cd "C:\Program Files (x86)\Common Files\Pulse Secure\JamUI"
 .\jamCommand -importFile C:\Users\cnsd_local\Desktop\Win-AD-CP.pulsepreconfig

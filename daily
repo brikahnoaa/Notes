@@ -7023,6 +7023,7 @@ Fri, Dec  6, 2019  3:19:59 PM
 https://www.mathworks.com/support/install/license_manager_files.html
 .2 install on brydes so it can be removed
 .3 fix old version on s1
+use updated java on matlab
 https://www.mathworks.com/matlabcentral/answers/130360-how-do-i-change-the-java-virtual-machine-jvm-that-matlab-is-using-for-linux?s_tid=srchtitle
    export MATLAB_JAVA=/etc/alternatives/jre
  /etc/profile.d/matlab.sh:
@@ -8171,8 +8172,7 @@ Tue May 11 09:27:44 PDT 2021
 index NA293M and tell them to bill to OSU/HMSC account
 .2 labrat
 hollings:$kolarship
-.3 ups
-Scott Stalin
+.3 ups /renee.womack@n.g/
 bkahn@noaa:  acoustic:v8r3uap-pab gas:v8r3uer-pgc eoi:v8r3uer-pbs
 
 Sun May 16 12:07:18 PDT 2021
@@ -8265,3 +8265,68 @@ Tue Jul  6 21:12:50 PDT 2021
 Audio, Bioinformatics, curve-fitting, DSP toolboxes
 .2 ups/fedex August 1st only use projects that start with the following:
 V8R1U V8R3U
+
+Thu Jul 22 14:36:56 PDT 2021
+.1 cybersec awareness class
+.2 /jona/ /jerome.dorsey/ idl license
+B354-F385-ECD9-E60B
+
+Fri Jul 23 19:54:50 PDT 2021
+.1 transfer from seattle: 20min/GB
+.2 vpn on home mac 
+.. keychain::system::certs find cert that says "imported", check date
+.. pulse secure::forget then choose right cert
+
+Wed Aug 18 15:03:27 PDT 2021
+.1 commerce learning center
+still not handled
+account deactivated. Contractor, 5 years (not new)
+Ava (Support Specialist):
+A Support Specialist has arrived to assist.
+Hello there. I will be happy to assist with this issue.
+Thank you for your patience. You already have a ticket processing with this issue. I will add a note to make sure its handled soon.
+Brian:
+when was the ticket created? I didn't make a note of it.
+Ava (Support Specialist):
+8/11/2021
+
+Wed Aug 25 21:37:04 PDT 2021
+.1 commerce learning center - terrible support
+email does not work
+hire date 8/18/2014
+.2 CTDdata processing
+Hi Bill,
+
+Do not use ProcessCTDdata.job.  I used it in the beginning.  Then I stopped.
+
+The ProcessRSNdata.job is the script that will process the incoming CTD (1st) and RSN (2nd) data every 15 minutes.  More of that later.
+
+To Stop all the CTD processing, you and Brian need to suspend the SaveCTDdata.job script.
+
+The SaveCTDdata.job is used once a day to save the CTD data collected during the day into the long-term save file plus update the long-term graphs.
+
+To stop the daily every 15 minutes CTD data processing, you and Brian need to edit the ProcessRSNdata.job script by removing or commenting out the 3 or 4 CTD commands at the top of the file.  I cannot remember the commands.  But they should be easily recognized by looking for the words "CTD"s.
+
+By the way, there is a file called ProcessRSNdata.Job with the Capital J in the suffix.  That file is a copy of the file: ProcessRSNdata.job (please check to make sure).  So when you are ready to resume the CTD processing, just copy ProcessRSNdata.Job to ProcessRSNdata.job (for recovering the removed CTD processing commands).
+
+Hope that helps.
+
+--Andy
+
+On Tue, Aug 17, 2021 at 3:02 PM William Chadwick <william.w.chadwick@gmail.com> wrote:
+Hi Andy -
+   You probably saw the email I just sent Brian (& cc-ed you) about the stopping and starting of the OOI CTD data from Axial that is coming up.
+   One question for you: in looking at the IDL files I have for the OOI data processing, it looks to me like the OOI CTD data are processed in BOTH of these jobs:
+
+ProcessCTDdata.job
+and
+ProcessRSNdata.job
+
+Is that correct?  Or is this an artifact of having an outdated ProcessRSNdata.job file?  For example, did ProcessRSNdata.job used to process the CTD data, but then you moved it to its own separate .job file later (and disable the CTD lines in ProcessRSNdata.job)?  I guess the main question is: was my email to Brian correct in that when we suspend the IDL processing & plotting of the CTD data, do we only need to suspend these two:
+
+ProcessCTDdata.job (& crontab)
+and
+SaveCTDdata.job (& crontab)
+
+Thanks.  Hope you are doing well.
+-Bill
