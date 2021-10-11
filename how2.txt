@@ -1,5 +1,7 @@
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforceoption /d 0 /f
 
+sB2(x;T7pbo2
+
 query user   - cli to see who is logged on
 lusrmgr.msc
 
@@ -13,11 +15,15 @@ icacls * /t /c /grant kahn:F
 
 hire date 8/18/2014
 
+register LAPS:
+msiexec /i "\\pesto\gpo$\LAPS\LAPS.x64.msi" /q
+
 msiexec -i PulseSecure.x64-9_1_9.msi CONFIGFILE="Win-AD-CP.pulsepreconfig" /qb
 cd "C:\Program Files (x86)\Common Files\Pulse Secure\JamUI"
 .\jamCommand -importFile C:\Users\cnsd_local\Desktop\Win-AD-CP.pulsepreconfig
 https://remote.pmel.noaa.gov/pmel-vpn-wincp
 
+cac waive group=cacwaive
 
 join domain - system::advanced::domain
 sysdm.cpl
@@ -31,3 +37,14 @@ Normally I just send George an email to tell him what data sets will be sent to 
 /data/ONRSN/NRS03/2019-2020
 Also these new NRS02 and BRS03 data are required to be screened by the Navy.  So when you have time, please upload them into the Navy hard drive which contains the screened 2017-2019 NRS04 data that you just downloaded.  By the way, you mentioned there are other drives.  If they contain NRS07 and/or NRS08 data, these data are also needed to be screened.  So upload them to the Navy hard drive too.  Then send the hard drive to George Brock.
 
+robocopy backup
+robocopy C:\src M:\dst /PURGE /E /S /FFT /R:3 /W:10 /Z /NP /NDL /XJD /MT:8
+Parameters explained
+The /MIR option (equivalent to /PURGE /E) stands for "mirror" and is the most important option. It regards your source folder as the "master", causing robocopy to copy/mirror any changes in the source (new files, deletions etc.) to the target, which is a useful setting for a backup.
+/FFT is a very important option, as it allows a 2-second difference when comparing timestamps of files, such that minor clock differences between your computer and your backup device don't matter. This will ensure that only modified files are copied over, even if file modification times are not exactly synchronized.
+/R:3 specifies the number of retries, if the connection should fail, and /W:10 specifies a wait time of 10 seconds between retries. These are useful options when doing the backup over a network.
+/Z copies files in "restart mode", so partially copied files can be continued after an interruption.
+/NP and /NDL suppress some debug output, you can additionally add /NS, /NC, /NFL to further reduce the amount of output (see the documentation for details). However, I would suggest to print some debug output during the first runs, to make sure everything is working as expected.
+Additional useful parameters mentioned by other users
+/XJD excludes "junction points" for directories, symbolic links that might cause problems like infinite loops during backup. See Brian's comments for details.
+/MT[:N] uses multithreading and can speed up transfers of many small files. For N, a value of 2-4 times the number of cores should do on a normal machine. Commented by Zoredache on the original question.

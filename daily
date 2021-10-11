@@ -8330,3 +8330,48 @@ SaveCTDdata.job (& crontab)
 
 Thanks.  Hope you are doing well.
 -Bill
+
+
+oar.pmel.acoustics.webmaster@noaa.gov
+
+Mon Sep 13 14:49:35 PDT 2021
+.1 ECMO client sw location share
+\\pesto\cnsd\ops\tools\BESClient...
+\\nova\pmel$\newRun\BESClient...
+\\nova\pmel$\PMEL_standard_software\BESClient..
+\\nova\pmel$\Mac installations\Mac ECMO\..
+\\nova\pmel$\Repository\BESClient...
+
+
+.1 /e/ tony. device instance path
+deviceManager::disk::prop or file::disk::prop::device::prop
+details::device instance path
+"seagate expansion 5tb" SCSI\DISK&VEN_SEAGATE&PROD_EXPANSION\C&2414FF08&0&000000
+'samara' SCSI\DISK&VEN_SEAGATE&PROD_EXPANSION\C&3D59D9D&0&000000
+
+Fri Oct  1 13:31:47 PDT 2021
+.1 RayParker /e/ open fedex invoice
+Fedex number is 571181843
+call to 877.668.5632. change bill $158.14 from 1508.2830.9 to 571181843
+
+Wed Oct  6 09:12:55 PDT 2021
+.1 new process for ICAM name mgmt [it/admin]
+.2 commerce learning center 289975
+.3 mac user uid updates, mostly adding 2000 to old id
+powershell: get-aduser -properties uidnumber <username>
+Byron Mah - NOAA Affiliate1:55 PM
+OLD DB -https://eclipse.pmel.noaa.gov/linux_admin/uid_info.html
+BETA DB - https://intranet.pmel.noaa.gov/mypmel/databases/linux
+
+Sun Oct 10 18:34:49 PDT 2021
+.1 runas /netonly /user:pmel\administrator "cmd /c shutdown -m \\brute -r -f"
+.2 Restart-Computer 161.55.192.10 -Force -Credential pmel\administrator
+.3 WSL win sub linux
+Your bash profile can be acessed from Windows 10 by path:
+%USERPROFILE%\AppData\Local\lxss\home\[bash-username]
+You must put your SSH keypair in
+%USERPROFILE%\AppData\Local\lxss\home\[bash-username]\.ssh
+don't forget about permissions on id_rsa. it should be set to 600
+cd ~/.ssh ; chmod 600 id_rsa
+.4 exercise: march, squat, wallPush, bikeCrunch, box, thrust, 
+chairPush, plank, 1/2jack, wallSit, wallPush, sideCrunch
