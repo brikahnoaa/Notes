@@ -1,9 +1,11 @@
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforceoption /d 0 /f
 
-sB2(x;T7pbo2
+join domain - system::advanced::domain
+sysdm.cpl
+add-computer –domainname pmel -Credential pmel\administrator -restart –force
 
-query user   - cli to see who is logged on
-lusrmgr.msc
+query user   = cli to see who is logged on
+lusrmgr.msc  = user mgr
 
 \\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools
 $ EpeTemporaryAutoboot.exe --number-of-reboots 5
@@ -25,20 +27,21 @@ https://remote.pmel.noaa.gov/pmel-vpn-wincp
 
 cac waive group=cacwaive
 
-join domain - system::advanced::domain
-sysdm.cpl
-add-computer –domainname pmel -Credential pmel\administrator -restart –force
-
 requested: actual: people:
 
-The NRS data that are required for screening are 02, 03, 04, 05, 07 & 08.  Also the data in the /data/ONRSN/NRS02/2018-2020/ and /data/ONRSN/NRS03/2019-2020/ are needed to be sent to George Brock for screening.
-Normally I just send George an email to tell him what data sets will be sent to him plus the data info such as the hydrophones' locations and data time ranges.  Since I am going to ask George for the redaction time list for the 2017-2019 NRS04 data, I will tell him that the 2018-2020 NRS02 and 2019-2020 NRS03 datasets will be soon sent to them.
-/data/ONRSN/NRS02/2018-2020
-/data/ONRSN/NRS03/2019-2020
-Also these new NRS02 and BRS03 data are required to be screened by the Navy.  So when you have time, please upload them into the Navy hard drive which contains the screened 2017-2019 NRS04 data that you just downloaded.  By the way, you mentioned there are other drives.  If they contain NRS07 and/or NRS08 data, these data are also needed to be screened.  So upload them to the Navy hard drive too.  Then send the hard drive to George Brock.
+The NRS data that are required for screening are 02, 03, 04, 05, 07 & 08
+email data info such as the hydrophones' locations and depth
+new NRS02 and BRS03 data are required to be screened by the Navy
+
+ :rsync:
+install cygwin with rsync 
+  ldd /usr/bin/rsync | grep -v WIND | cut -f3 -d' '
+---
+cygwin-lite http://cygwin-lite.sourceforge.net/faq.html
+---
 
 robocopy backup
-robocopy C:\src M:\dst /PURGE /E /S /FFT /R:3 /W:10 /Z /NP /NDL /XJD /MT:8
+robocopy C:\src M:\dst /MIR /S /FFT /R:3 /W:10 /Z /NP /NDL /XJD /MT:8
 Parameters explained
 The /MIR option (equivalent to /PURGE /E) stands for "mirror" and is the most important option. It regards your source folder as the "master", causing robocopy to copy/mirror any changes in the source (new files, deletions etc.) to the target, which is a useful setting for a backup.
 /FFT is a very important option, as it allows a 2-second difference when comparing timestamps of files, such that minor clock differences between your computer and your backup device don't matter. This will ensure that only modified files are copied over, even if file modification times are not exactly synchronized.

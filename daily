@@ -8373,5 +8373,126 @@ You must put your SSH keypair in
 %USERPROFILE%\AppData\Local\lxss\home\[bash-username]\.ssh
 don't forget about permissions on id_rsa. it should be set to 600
 cd ~/.ssh ; chmod 600 id_rsa
-.4 exercise: march, squat, wallPush, bikeCrunch, box, thrust, 
+.4 exercise: march, squat, wallPush, diagCrunch, boxing, thrust, 
 chairPush, plank, 1/2jack, wallSit, wallPush, sideCrunch
+
+Wed Oct 13 13:53:04 PDT 2021
+.1 pers benefits providence
+.1.1 PERS Online Member Services web account
+PERS.EDX.Support@state.or.us
+Tue 10/6/2020 9:59 AM
+Your PERS Online Member Services web account has been created. Please make note of your email address, User ID and password and keep in a secure place.
+brikahosu
+kahnb@oregonstate.edu
+.1.2 myprov
+877-569-7768 myprovidence.healthtrioconnect.com
+
+Wed Oct 20 11:09:08 PDT 2021
+.1 centos linux rhel
+Distributions that are binary compatible with CentOS 8
+ There are essentially three workable options. First up is RockyLinux,
+a 1:1 binary-compatible clone of RHEL launched by one of the CentOS
+project's founders – Gregory Kurtzer. RockyLinux successfully published
+an official release, it's free to download, and it is binary compatible,
+so everything that runs on RHEL should run just fine on RockyLinux.
+ Similarly, AlmaLinux is a community-driven project sponsored by
+CloudLinux. AlmaLinux also released a stable, 1:1 binary compatible
+clone of RHEL and promises to continue releasing a new edition every
+time a new RHEL release comes out.
+ Oracle Linux is the third alternative: it is established, and
+(currently at least) guarded by similar cast-iron support guarantees
+from Oracle. Oracle Linux 8 is also 1:1 binary compatible with RHEL 8.
+.2 commerce learning center 289975
+previous ticket aug25
+this ticket 10/6 - added note to ticket
+
+Thu Oct 21 13:50:06 PDT 2021
+.1 usb drive register
+ - rt-clickStart, deviceMgr:properties:details:v Device instance path v
+.1.1 freebie: seagate 5tb 
+ :: SCSI\DISK&VEN_SEAGATE&PROD_EXPANSION\C&2414FF08&0&000000
+.1.2 brute
+ looks like each drive has to be registered, not cradle?
+
+Sun Oct 24 15:51:02 PDT 2021
+.1 review of applicants
+.2 commerce learning center 289975
+previous ticket aug25
+this ticket 10/6 - added note to ticket
+no response from administrators yet
+.3 rudics 
+.3.1 firefox:bookmarksbar:project:Rudics:Store commands to send
+http://intranet.pmel.noaa.gov/tempe_dialout/store_dialin_cmds/save_cmds.php
+.3.2 github issue tracker
+https://github.com/NOAA-PMEL/RUDICS_dump/issues
+
+Tue Oct 26 10:37:38 PDT 2021
+.1 /e/ chad. not getting updates in ftp dir since 8/17
+chad /e/ that is when andy's acccount closed
+.1.1 i see that chadwick has different idl files - give him git link
+ git config --get remote.origin.url
+git@github.com:NOAA-PMEL/ooi.git
+git clone https://github.com/NOAA-PMEL/ooi.git
+
+
+.1 matlab for sole
+activation key 14755-72663-53346-79325-37471
+File Installation Key r2019b 'brydes' 39020-06647-32038-23444
+File Installation Key r2018b 'risso' 00106-53232-51359-12863
+vol c:  ->  e24b-8d9d
+"C:\Program Files\MATLAB\R2019b\etc\win64\lmutil.exe" lmhostid 
+ -> The FlexNet host ID of this machine is "9cfce8d56ae7"
+"C:\Program Files\MATLAB\R2019b\etc\win64\lmutil.exe" lmhostid -user
+ -> USER=cnsd_local
+.1.1 activation key, FIK file installation key
+Log into the License Center here: https://www.mathworks.com/licensecenter
+Select the desired license
+Select the "Install and Activate" tab
+Click on the "Advanced Options" button
+The Activation Key along with the File Installation Key will appear on this screen. You can generate a File Installation Key for a different release using the drop down.
+https://www.mathworks.com/matlabcentral/answers/98268-how-do-i-download-matlab-and-other-mathworks-products
+https://www.mathworks.com/matlabcentral/answers/105854-how-can-i-install-matlab-or-other-mathworks-products-on-an-offline-machine
+
+Wed Nov  3 09:14:46 PDT 2021
+.1 aug 2022 ship time
+sarah duncan = ship ops. six days in the aleutians.
+.2 daveM projects - two new launches
+.2.1 ctbto data for population counts
+... pulling data from IRIS, archives (not live)
+... danielle
+.2.2 gliders in hawaii - w/ pacific islands (selene?)
+.. false killer whales (~15 feet, not orcas) priority species, threatened
+.. march deploy, another in fall. 
+... realtime detection in fall
+.3 bob, james shambaugh. discussion about sosus. "all gone, still talking"
+.. classified data in newport lab
+
+2021-11-09
+.1 tony /e/ 
+.2 tamara /e/ bobE resources
+This is his email: rwe4475@gmail.com
+And his phone number: (541) 921-8871
+.3 brute usb
+USBSTOR\DISK&VEN_WDC_WD32&PROD_00AAKS-75L9A0&REV_02.0\20110225A000000438&1
+USBSTOR\DISK&VEN_WDC_WD40&PROD_00F9YZ-09N20L1&REV_01.0\20110225A000000438&0
+.4 dargle usb
+transcend CF card reader (white)
+USBSTOR\DISK&VEN_GENERIC&PROD_STORAGE_DEVICE&REV_TS26\000000082&0
+USBSTOR\DISK&VEN_GENERIC&PROD_STORAGE_DEVICE&REV_TS26\000000082&1
+USBSTOR\DISK&VEN_GENERIC&PROD_STORAGE_DEVICE&REV_TS26\000000082&2
+
+2021-11-10
+.1 ftp
+.2 /e/ leanne.rutland stop using NA293D, contact leanne for acoustics
+.3 haru. adobeCC login problem. 
+.. alternative:: phone **41, google authen app
+
+2021-11-12
+.1 intranet.pmel../mypmel : CIRA : menu : databases : sunflower
+.2 bobE. backup eruption. 
+.3 tphase room door lock middle bottom top
+
+2021-11-17
+.1 ridge presentation.
+VM - xeon gold. 20K-30K cpumark, in 80 threads. (7k-10k for hi desktop)
+
