@@ -1,5 +1,7 @@
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforceoption /d 0 /f
 
+CAC id <- activcard[O]:open:certs:authen:subjAlt
+
 join domain - system::advanced::domain
 sysdm.cpl
 add-computer –domainname pmel -Credential pmel\administrator -restart –force
