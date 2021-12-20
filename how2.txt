@@ -2,6 +2,8 @@ reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforc
 
 CAC id <- activcard[O]:open:certs:authen:subjAlt
 
+purch: sharon walker, josh, ben
+
 join domain - system::advanced::domain
 sysdm.cpl
 add-computer –domainname pmel -Credential pmel\administrator -restart –force

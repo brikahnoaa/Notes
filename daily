@@ -8376,7 +8376,6 @@ cd ~/.ssh ; chmod 600 id_rsa
 .4 exercise: march, squat, wallPush, diagCrunch, boxing, thrust, 
 chairPush, plank, 1/2jack, wallSit, wallPush, sideCrunch
 
-=======
 Wed Oct 13 13:53:04 PDT 2021
 .1 pers benefits providence
 .1.1 PERS Online Member Services web account
@@ -8523,3 +8522,22 @@ syspc:/usr/local/IDL/idl85/idlde/bin.linux.x86_64
 2021-12-03
 .1 power cycle CR after failed reboot
 .2 excess gdrive:property/2021excess
+
+2021-12-08
+.1 jeffBeeson not in sunflower
+robStewart will help. Try ICAM entry. whitepages at accounts.n.g
+rob tried a minor change, maybe that will flush
+/e/ ray. please check on jeffB in sun tomorrow.
+.2 office gone bad
+<store/install1apps/officeRemove> long and dumbass process
+.. [sop/installOffice]
+Copy the setup.exe file and appropriate .xml file for the install and move them to the desktop
+Example is on NOVA:  \\nova\PMEL$\NewRun\Office.2019
+Copy the office folder, setup.exe file and configuration.xml file and paste them to the remote systems desktop.
+Open Powershell as admin
+CD to desktop
+./setup.exe /configure configuration.xml
+
+2021-12-16
+.1 account on labrat
+turnbull:jaybird pet:dogdog city:towntown nickname:nicknick
