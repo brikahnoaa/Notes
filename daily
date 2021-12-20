@@ -8375,3 +8375,31 @@ don't forget about permissions on id_rsa. it should be set to 600
 cd ~/.ssh ; chmod 600 id_rsa
 .4 exercise: march, squat, wallPush, bikeCrunch, box, thrust, 
 chairPush, plank, 1/2jack, wallSit, wallPush, sideCrunch
+
+2021-12-02
+.1 fix banners
+.2 fix jre
+.. matlab
+ /etc/profile.d/matlab.sh:
+# set matlab path for jre
+export MATLAB_JAVA=/etc/alternatives/jre
+.. idl
+  cd /usr/local/matlab/sys/java/jre/glnxa64
+  tar czf jre.tgz jre; rm -rf jre; ln -s /etc/alternatives/jre
+
+acoustic:/usr/local/matlab/sys/java/jre/glnxa64
+caldera:/usr/local/IDL/idl85/idlde/bin.linux.x86_64
+challenger:/data0/store/cr/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.272.b10-1.el7_9.x86_64/
+challenger:/data0/store/ca/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.275.b01-0.el6_10.x86_64/
+station1:/usr/local/exelis/idl85/idlde/bin.linux.x86_64
+station1:/usr/local/idl/idl85/idlde/bin.linux.x86_64
+station1:/usr/local/matlab/R2018/sys/java/jre/glnxa64
+station1:/usr/local/matlab/R2018b/sys/java/jre/glnxa64
+station1:/usr/local/matlab/sys/java/jre/glnxa64
+station1:/usr/local/idl/idl87/idlde/bin.linux.x86_64
+syspc:/usr/local/IDL/idl85/idlde/bin.linux.x86_64
+
+2021-12-03
+.1 power cycle CR after failed reboot
+.2 excess gdrive:property/2021excess
+

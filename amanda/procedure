@@ -27,12 +27,10 @@ $ kahn@bioac3 09:19:31 ~ $
    grep PARTDONE /var/lib/amanda/full/logs/amdump
 
 # after all backups complete
-$ amandabackup@challenger
-#  backup current daily onto 300 series - do not until index is saved!
-  amdump full localhost &
 # root@challenger
- rsync -ai --exclude='*.header' /etc/amanda/full/index/ ~kahn/index
- chown -R kahn.root ~kahn/index
+ rm -rf ~kahn/index
+ rsync -ai --exclude='*.header' /etc/amanda/full/index ~kahn
+ chown -R kahn ~kahn/index
 : kahn@BRUTE :
   scp -r challenger:index ~
   for h in acoustic bioac3 embfile2; do \
@@ -49,4 +47,3 @@ $ amandabackup@challenger
  vi /etc/cron.daily/backup.data.conf
  # hint one day before e.g. 20190214
 
-# rm tapelist; for i in {1..23}; do amlabel full full-$((i+120)) slot $i; done

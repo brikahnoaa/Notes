@@ -1,3 +1,12 @@
+2021-12-02
+java
+https://www.l3harrisgeospatial.com/Support/Maintenance-Detail/ArtMID/13350/ArticleID/16290/Changing-the-Java-version-used-with-the-IDL-8-Workbench
+.1 For individual users, idlde can be launched with the -vm option 
+  idlde -vm /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin
+.2 remove / replace jre
+  rm -R /usr/local/exelis/idl82/idlde/bin.linux.x86_64/jre
+  ln -s /usr/lib/jvm/jre-1.7.0-openjdk.x86_64 /usr/local/exelis/idl82/idlde/bin.linux.x86_64/jre
+
 Thu, Jun  3, 2021  9:05:35 PM
 -- /etc/systemd/system/idl_lmgrd.service
  [Unit]
