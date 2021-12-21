@@ -8541,3 +8541,21 @@ CD to desktop
 2021-12-16
 .1 account on labrat
 turnbull:jaybird pet:dogdog city:towntown nickname:nicknick
+
+2021-12-20
+.1 commerce learning center login fail
+previous tickets with same problem aug25, oct6
+logging in every month does not help
+I am a contractor, hire date 8/18/2014
+Also, please note that email from <docsupport@eskillz.com> will reach me, 
+but email from clc.help@noaa.gov is blocked
+.. #292956
+.2 win10 win11
+.. prod key (dargle)
+... wmic path softwareLicensingService get OA3xOriginalProductKey
+OA3xOriginalProductKey
+B3NH4-4T2RY-XK3VD-GM8D4-F6YP2
+... powershell "(Get-WmiObject -query 'select * from SoftwareLicensingService').OA3xOriginalProductKey"
+... \HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\BackupProductKeyDefault 
+.. prod key (lab rat OSU)
+... 6C3Q3-3NFYH-YYYXW-3TQMJ-WB6GC
