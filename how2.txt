@@ -55,3 +55,12 @@ The /MIR option (equivalent to /PURGE /E) stands for "mirror" and is the most im
 Additional useful parameters mentioned by other users
 /XJD excludes "junction points" for directories, symbolic links that might cause problems like infinite loops during backup. See Brian's comments for details.
 /MT[:N] uses multithreading and can speed up transfers of many small files. For N, a value of 2-4 times the number of cores should do on a normal machine. Commented by Zoredache on the original question.
+
+.2 win10 win11
+.. prod key (dargle)
+... wmic path softwareLicensingService get OA3xOriginalProductKey
+OA3xOriginalProductKey
+B3NH4-4T2RY-XK3VD-GM8D4-F6YP2
+... powershell "(Get-WmiObject -query 'select * from SoftwareLicensingService').OA3xOriginalProductKey"
+... \HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\BackupProductKeyDefault
+.. prod key (lab rat OSU)
