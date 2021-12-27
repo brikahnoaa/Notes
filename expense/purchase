@@ -1,7 +1,34 @@
-Item being purchased:
-Purpose:
-Where it will be used:
-Purchase destined for the PMEL Information system (but not SOSUS)
+2021-8-11
+. purchase of external drives
+v8lpb01-pac
+
+2021-4-15
+. /e/ eugene
+With the rapid changes on the purchase card requirements, I’d like to clarify the changes on IT purchase procedures for items to be purchased on a purchase card at or below the micro-purchase limit ($3,500). These are NOAA-wide requirements by the Acquisition and Grants Office (AGO) to bring us into compliance with Federal law. The NOAA AGO requirements also apply to non-IT purchases, which are not specifically addressed in this message.
+
+If you need to purchase an IT item on a purchase card at or less than $3,500:
+Determine where the IT item will be purchased from. It should be purchased from one of these 5 sources: UNICOR, AbilityOne, GSA Advantage, CSP Enterprises (DOC IT Purchase portal), Enterprise Services Strategic Sourcing Initiatives.
+If it is not from one of the vendors through the sources above, Ben Carlson has to do the purchase. Please cc Ben Carlson on the following emails.
+Get purchase approval of the IT item from the System Owner (Eugene Burger) by email.
+Please cc the card holder you intend to use for the purchase.
+State which vendor the item will be purchased from. It should be from one of the sources listed above.
+
+A completed and signed off-portal waiver is required if:
+It is an Apple device
+An item category (laptop, display, mouse etc.) that is available on the DOC IT purchase portal is being purchased at another vendor.
+Following the approval from Eugene Burger
+If the device is one of these items, CNSD will guide the purchase of the device. Please submit a Footprints ticket with an IT item specifications screen capture or link to the shopping cart.
+
+These IT items have to be purchased through CNSD:
+All computers, to include
+Laptops, Desktops, Rack mounted servers, Network equipment,
+Any equipment that will be connected to any NOAA network.
+
+For other IT-related items, any purchase card holder can purchase the item if it is through one of these sources: UNICOR, AbilityOne, GSA Advantage, CSP Enterprises (DOC IT Purchase portal), Enterprise Services Strategic Sourcing Initiatives.
+See item 1 (a)
+This is something we have to implement, and we know this is not fun. This requirement will most likely change in the next few weeks. Here are actions we’re taking to smooth this process:
+An IT purchase request system that allows you to track approvals and signatures.
+A list of waived IT components items for which IT purchase approval is not required.
+A new IT information site accessible without VPN access.
 
 
-message to nancy Soreide 

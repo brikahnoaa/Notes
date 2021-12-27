@@ -2,6 +2,11 @@ reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforc
 
 CAC id <- activcard[O]:open:certs:authen:subjAlt
 
+yum -y --disableexcludes=all update
+ systemctl restart centrifydc-samba.service
+ systemctl status centrifydc-samba.service
+ smbstatus
+
 purch: sharon walker, josh, ben
 
 join domain - system::advanced::domain
@@ -12,7 +17,7 @@ query user   = cli to see who is logged on
 lusrmgr.msc  = user mgr
 
 \\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools
-$ EpeTemporaryAutoboot.exe --number-of-reboots 5
+C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 60
 
 takeown /R /F *
 icacls * /t /q /c /reset
