@@ -1,3 +1,30 @@
+2021-12-29
+.1 three 4TB on e2:
+..1
+ storcli64 /c0 add vd type=raid5 drives=16:21-23
+Controller = 0
+Status = Failure
+Description = physical disk does not have appropriate attributes
+..2
+ storcli64 /c0/e16/s21 start initialization
+ storcli64 /c0/e16/s22 start initialization
+ storcli64 /c0/e16/s23 start initialization
+ storcli64 /c0/e16/s21 stop initialization
+ storcli64 /c0/e16/s22 stop initialization
+ storcli64 /c0/e16/s23 stop initialization
+ storcli64 /c0 add vd type=raid5 drives=16:21-23
+..3
+----------------------------------------------------------
+DG/VD TYPE  State Access Consist Cache sCC      Size Name
+----------------------------------------------------------
+0/0   RAID6 Optl  RW     Yes     RWTD  -   54.575 TB
+1/1   RAID5 Optl  RW     No      RWTD  -    7.276 TB
+----------------------------------------------------------
+..4
+ mkfs.xfs -L data1 /dev/sdc
+ vi /etc/fstab
+LABEL=data1             /data1                  xfs   defaults,nofail   1 2
+
 create:
  storcli64 /c0 add vd type=raid5 drives=4:20-23
 [ storcli64 /c0/v1 start init full ]

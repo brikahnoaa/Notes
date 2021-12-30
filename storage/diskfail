@@ -1,3 +1,20 @@
+2021-12-28
+# 6TB on shelf?
+# move disk for testing 6GB
+  tw_cli /c0 show
+  tw_cli /c0/p23 remove
+  while true; do tw_cli /c0/p23 show rasect; done
+# physically remove, replace
+  tw_cli /c0 rescan
+  tw_cli /c0 add type=spare disk=23
+  tw_cli /c0 show
+# disk info 9750
+  tw_cli /c0/p8 show pohrs
+  smartctl -A -d 3ware,1 /dev/twl0 
+# disk info megaraid
+  smartctl -A -d sat+megaraid,12 /dev/sda
+
+
 
 Wed, Aug 28, 2019 10:13:43 AM
 .1 ve bad disk
