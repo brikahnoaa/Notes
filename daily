@@ -8566,3 +8566,17 @@ https://oregonstate.teamdynamix.com/TDClient/1935/Portal/KB/ArticleDet?ID=51154
 .. https://oregonstate.box.com/v/cisco-vpn-clients
    Enter vpn.oregonstate.edu in the blank white-space and click Connect.
 
+2022-01-05
+.1 quotes
+.2 group meet
+.3 ssh update
+ ssh eclipse
+Unable to negotiate with 161.55.168.7 port 22: no matching host key type found. Their offer: ssh-rsa,ssh-dss
+  .ssh/config:
+HostKeyAlgorithms +ssh-rsa
+PubkeyAcceptedKeyTypes +ssh-rsa
+
+2022-01-18
+.1 survey of new-eoi
+$ kahn@syspc 10:15:06 /www/new-eoi $
+  find -name '*.html' -print0 | xargs -0 ls -lG --time-style=iso | cut -b20- > ~/survey.sc

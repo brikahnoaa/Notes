@@ -1,5 +1,19 @@
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforceoption /d 0 /f
 
+trout_sb pme!@2739 (end of prop label)
+
+At this time it is understood that not all external drives are marked with 
+a property tag. Do not register your personal drives, you can register 
+drives purchased for NOAA work.
+- Right-click Start (bottom left corner Windows icon), select Device Manager
+- Drop-down the Disk Drives
+- Right-click the inserted device found in Disk Drives, and click Properties
+- Select Details tab in Properties windows
+- Drop-down Property and select Device instance path
+- Copy the whole string in Value.
+Open a CNSD ticket with this info plus the brand and model 
+ and brief description (thumb drive, external disk drive)
+
 CAC id <- activcard[O]:open:certs:authen:subjAlt
 
 yum -y --disableexcludes=all update
@@ -34,7 +48,7 @@ cd "C:\Program Files (x86)\Common Files\Pulse Secure\JamUI"
 .\jamCommand -importFile C:\Users\cnsd_local\Desktop\Win-AD-CP.pulsepreconfig
 https://remote.pmel.noaa.gov/pmel-vpn-wincp
 
-cac waive group=cacwaive
+cac waive group=CAC Enforcement Exception
 
 requested: actual: people:
 
