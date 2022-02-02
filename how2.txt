@@ -16,10 +16,11 @@ Open a CNSD ticket with this info plus the brand and model
 
 CAC id <- activcard[O]:open:certs:authen:subjAlt
 
+# smb on ac b3 e2 sc cr ve
 yum -y --disableexcludes=all update
+ smbstatus
  systemctl restart centrifydc-samba.service
  systemctl status centrifydc-samba.service
- smbstatus
 
 purch: sharon walker, josh, ben
 
@@ -28,7 +29,7 @@ sysdm.cpl
 add-computer –domainname pmel -Credential pmel\administrator -restart –force
 
 query user   = cli to see who is logged on
-lusrmgr.msc  = user mgr
+eusrmgr.msc  = user mgr
 
 \\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools
 C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 60
@@ -74,6 +75,19 @@ The /MIR option (equivalent to /PURGE /E) stands for "mirror" and is the most im
 Additional useful parameters mentioned by other users
 /XJD excludes "junction points" for directories, symbolic links that might cause problems like infinite loops during backup. See Brian's comments for details.
 /MT[:N] uses multithreading and can speed up transfers of many small files. For N, a value of 2-4 times the number of cores should do on a normal machine. Commented by Zoredache on the original question.
+
+reset updates
+https://pureinfotech.com/reset-windows-update-windows-10-fix-downloads-installs/
+dism.exe /Online /Cleanup-image /Restorehealth
+sfc /scannow
+net stop bits
+net stop wuauserv
+net stop appidsvc
+net stop cryptsvc
+Del "%ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\*.*"
+rmdir %systemroot%\SoftwareDistribution /S /Q
+rmdir %systemroot%\system32\catroot2 /S /Q
+
 
 .2 win10 win11
 .. prod key (dargle)
