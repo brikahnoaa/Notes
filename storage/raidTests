@@ -175,3 +175,200 @@ raid6, write-back:
  sync; dd bs=1G count=4 if=/dev/zero of=test conv=fdatasync; rm test
 4294967296 bytes (4.3 GB) copied, 17.8391 s, 241 MB/s
 
+Wed, May 13, 2015  9:32:44 AM
+.1 real life: 9271 no cache = 9750 wrcache = 3x9650 wrcache
+.1.1 transfer from r6 -> 4xr0 
+.1.1.1 9650=2.4GB/m, 9750 11GB/m
+.1.2 transfer 3xLVM non-striped -> r6
+.1.2.1 9750 1-4GB/m
+.1.3 transfer 9650 4xr0 -> gigabit -> r6
+.1.3.1 9650 2.4GB/m
+.1.4 dd if=/dev/zero of=test bs=1GB count=60
+.1.4.1 new server sata @ 3GB/m (194MB/s)
+.1.4.2 9750 12xr6 72GB/m
+.1.4.3 9271 12xr6 66GB/m
+.1.4.4 9750 8xr6 48GB/m
+.1.5 dd if=test of=test1 bs=16MB
+.1.5.2 9750 12xr6 36GB/m
+.1.5.3 9271 12xr6 13GB/m !!
+.1.5.4 9750 8xr6 22GB/m
+.1.6 rsync -a --stats test 161.55.191.9::data1
+?.1.6.1 9750 8xr6 -> giga -> 9271 12xr6 @ 6GB/m
+.1.6.2 9750 8xr6 -> giga -> 9650 4xr0 @ 6GB/m
+.2 real life: initialize
+.2.1 9271 can initialize and load data via network full speed
+.2.2 9650 runs init and data copy at 1GB/m (SLOW!)
+.2.2.1 9650 12xr6 init 6.3% / hr, 20TB in 15hrs
+
+Tue, Nov 11, 2014  9:33:46 AM
+convert ventstore 9690 to raid6:
+.1 just did backup to /mnt/usb due to bad disk, rebuild
+.2 RAID 5 tests
+.2.1 read tests, seem meaningless
+[root@ventstore /mnt/usb/tmp]
+ # hdparm -t --direct /dev/sdd
+/dev/sdd:
+ Timing O_DIRECT disk reads: 1376 MB in  3.00 seconds = 458.31 MB/sec
+
+.3 ventstore test under raid5
+ # tw_cli show
+
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c9    9650SE-8LPML 8         6        1       0       1       1      OK
+c10   9690SA-8I    8         8        1       0       1       1      OK
+
+.3.1 9650 raid5 4lanes 224MB 64K
+ # dd bs=1G count=2 if=/dev/zero of=/store2/test conv=fdatasync
+2+0 records in
+2+0 records out
+2147483648 bytes (2.1 GB) copied, 63.1815 s, 34.0 MB/s
+
+.3.2 9690 raid5 8lanes 448MB 64K
+ # dd bs=1G count=2 if=/dev/zero of=/store1/test conv=fdatasync
+2+0 records in
+2+0 records out
+2147483648 bytes (2.1 GB) copied, 23.6088 s, 91.0 MB/s
+
+.4 bioac2
+ # tw_cli show
+
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c0    9550SXU-8LP  8         8        1       0       1       1      -
+c1    9650SE-12ML  12        12       1       0       1       1      -
+
+.4.1 9550 pcix 112MB 64K
+[root@bioac2 /fodder]
+ # sync; dd bs=1G count=4 if=/dev/zero of=test conv=fdatasync; rm test
+4+0 records in
+4+0 records out
+4294967296 bytes (4.3 GB) copied, 45.3499 s, 94.7 MB/s
+
+.4.2 9650 8lanes 224MB 12disks RAID50 256K
+[root@bioac2 /datasilo]
+ # sync; dd bs=1G count=4 if=/dev/zero of=test conv=fdatasync; rm test
+4+0 records in
+4+0 records out
+4294967296 bytes (4.3 GB) copied, 8.09392 s, 531 MB/s
+
+.5 acoustic
+ # tw_cli show
+
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c2    9550SXU-8LP  8         7        1       0       1       1      -
+c3    9750-8i      4         4        1       0       1       1      -
+
+.5.1 9750 8lanes 488MB 4drives
+[root@acoustic /data]
+ # sync; dd bs=1G count=4 if=/dev/zero of=test conv=fdatasync; rm test
+4+0 records in
+4+0 records out
+4294967296 bytes (4.3 GB) copied, 16.2706 seconds, 264 MB/s
+
+.5.2 9550 pcix 112MB
+[root@acoustic /data2]
+ # sync; dd bs=1G count=4 if=/dev/zero of=test conv=fdatasync; rm test
+4+0 records in
+4+0 records out
+4294967296 bytes (4.3 GB) copied, 43.4861 seconds, 98.8 MB/s
+
+.6 bioacoustic
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c2    9550SXU-8LP  8         8        1       0       1       1      -
+
+.6.1 9550 pci 112MB 256K
+[root@bioacoustic /silo]
+ # sync; dd bs=1G count=4 if=/dev/zero of=test conv=fdatasync; rm test
+4+0 records in
+4+0 records out
+4294967296 bytes (4.3 GB) copied, 92.8749 seconds, 46.2 MB/s
+
+.7 embfile2 256K stripe better for 2GB write
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c0    9650SE-12ML  12        12       2       0       1       1      -
+
+Unit  UnitType  Status         %RCmpl  %V/I/M  Stripe  Size(GB)  Cache  AVrfy
+------------------------------------------------------------------------------
+u0    RAID-5    OK             -       -       64K     9313.17   W      OFF
+u1    RAID-5    OK             -       -       256K    18626.4   RiW    OFF
+
+.7.1 9650 8lanes 224MB 64K/256K
+(( /c0/u0 64K ))
+[root@embfile2 /mdata]
+ # sync; dd bs=1G count=4 if=/dev/zero of=test conv=fdatasync; rm test
+4+0 records in
+4+0 records out
+4294967296 bytes (4.3 GB) copied, 31.8002 s, 135 MB/s
+
+(( /c0/u1 256K ))
+[root@embfile2 /mdisk]
+ # sync; dd bs=1G count=4 if=/dev/zero of=test conv=fdatasync; rm test
+4+0 records in
+4+0 records out
+4294967296 bytes (4.3 GB) copied, 14.7394 s, 291 MB/s
+
+.8 new test
+.8.1 [kahn@embfile2 /mdisk]
+ $ dd if=/dev/zero of=/mdisk/cruise-data/tmp bs=1G count=4
+4+0 records in
+4+0 records out
+4294967296 bytes (4.3 GB) copied, 10.7297 s, 400 MB/s
+[kahn@embfile2 /mdisk]
+ $ dd if=/mdisk/cruise-data/tmp of=/mdisk/cruise-data/tmp2
+8388608+0 records in
+8388608+0 records out
+4294967296 bytes (4.3 GB) copied, 30.905 s, 139 MB/s
+.8.2 [root@bioac2 /opt]
+9550:
+ # dd if=/fodder/tmp of=/fodder/tmp2
+4294967296 bytes (4.3 GB) copied, 76.9717 s, 55.8 MB/s
+9650:
+ # dd if=/datasilo/tmp of=/datasilo/tmp2
+4294967296 bytes (4.3 GB) copied, 34.7031 s, 124 MB/s
+.8.3 [root@acoustic /data]
+9750:
+ # dd if=test of=test2
+4294967296 bytes (4.3 GB) copied, 61.0103 seconds, 70.4 MB/s
+.8.4 [root@bioac3 /mnt]
+raid5, write-back:
+ # dd if=tmp of=tmp2
+4294967296 bytes (4.3 GB) copied, 25.6255 s, 168 MB/s
+raid6, write-thru:
+ # dd if=/mnt/tmp of=/mnt/tmp2
+4294967296 bytes (4.3 GB) copied, 55.3238 s, 77.6 MB/s
+raid6, write-back:
+ # dd if=tmp of=tmp2
+4294967296 bytes (4.3 GB) copied, 38.3159 s, 112 MB/s
+
+
+.9 test during initialization, ext4
+.9.1 [root@bioac3 /data3]
+ # dd if=/dev/zero of=tmp bs=1G count=40
+42949672960 bytes (43 GB) copied, 104.486 s, 411 MB/s
+ # dd if=/dev/zero of=tmp bs=1G count=4
+4294967296 bytes (4.3 GB) copied, 7.12029 s, 603 MB/s
+ # dd if=tmp of=tmp2
+4294967296 bytes (4.3 GB) copied, 26.4114 s, 163 MB/s
+
+.10 test with xfs - much faster?
+.10.1 [root@bioac3 /data3]
+ # dd if=/dev/zero of=tmp bs=1G count=40
+42949672960 bytes (43 GB) copied, 32.6454 s, 1.3 GB/s
+ # dd if=/dev/zero of=tmp bs=1G count=4
+4294967296 bytes (4.3 GB) copied, 2.98669 s, 1.4 GB/s
+[root@bioac3 /data3]
+ # dd if=tmp of=tmp2
+4294967296 bytes (4.3 GB) copied, 18.4694 s, 233 MB/s
+
+.11 test after load, write-through (safer but slower)
+.11.1 root@bioac3 11:59:47 /b3]
+ # dd if=/dev/zero of=/b4/tmp bs=1G count=20
+21474836480 bytes (21 GB) copied, 19.6111 s, 1.1 GB/s
+.11.2 [root@bioac3 12:00:21 /b3]
+ # dd of=/b3/tmp if=/b4/tmp
+21474836480 bytes (21 GB) copied, 59.9737 s, 358 MB/s
+
