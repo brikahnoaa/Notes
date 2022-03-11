@@ -8580,3 +8580,90 @@ PubkeyAcceptedKeyTypes +ssh-rsa
 .1 survey of new-eoi
 $ kahn@syspc 10:15:06 /www/new-eoi $
   find -name '*.html' -print0 | xargs -0 ls -lG --time-style=iso | cut -b20- > ~/survey.sc
+
+2022-02-03
+.1 disk renewal ac
+I will be copying all of the current acoustic data (plus ANT) over to the new disks next week, then I'll install these new disks in acoustic next weekend. I plan to have downtime for acoustic on saturday week feb 12
+
+2022-02-04
+.1 8TB transfer in 16hrs .5tb/hr
+.. restart rsync on cr-191
+.2 eclipse pwd match osu
+.3 update bomgar SERVICE console
+Right-click the Start menu, select Run and copy, paste and run: 
+  appwiz.cpl
+Select "Representative Console 21.2.3 [service.pmel.noaa.gov]" and uninstall
+Right-click the Start menu, select Run and copy, paste and run:
+  msiexec /i \\pesto\cnsd\ops\Tools\Bomgar\Bomgar.Console.Setup-SERVICE\bomgar-rep-win64-installer.msi ALLUSERS=1 SHOULDAUTOUPDATE=1
+Confirm Execution for Privilege Management elevation
+ This method will install the latest Bomgar console for Envoy as a system
+level application.  It will also allow for automatic update the next
+time we need to upgrade the server.
+
+2022-02-09
+.1 hatfield chief
+As many of you know, Rick Brown has retired as Chief of NOAA
+Research Facilities at HMSC. I have begun taking over some of Rick's
+responsibilities while I serve as the Acting Chief.  The intent of this
+email is three-fold:
+ 1. Ensure that all users of NOAA facilities on the HMSC campus are aware
+of this change
+ 2. Encourage you to file and use this email address
+(nwfsc.newport.station.chief@noaa.gov) and phone number (541-867-0522)
+for all future correspondences to the Newport station chief, including
+getting access to NOAA federal buildings and facilities on the HMSC campus
+(BFB, NAL, RSF).  This will help to ensure a static communication linkage
+to the station chief during this transition phase.
+ 3. Offer a reminder that if you are hiring, escorting, or otherwise
+entering or accessing the NOAA Federal buildings, indoor or outdoor lab
+spaces, or offices that you need to email or call the Station Chief for
+access approval and procedures. This is particularly important during
+NOAA Phase 0 COVID status, which is currently the case for Newport. An
+email notification letting the station chief know your planned building
+access times and locations will greatly help with contact reduction and
+physical distancing planning. [NWFSC folks - you only need to continue
+using the RTOW app, per usual.]
+Aaron Berger, Acting Chief
+
+2022-02-12
+.1 brute cannot update
+.. "You're up to date" from settings
+.. Get-WindowsUpdate -AcceptAll -Install -AutoReboot
+.. hangs SCCM OS update
+
+2022-02-14
+.1 brute cannot update
+.. https://docs.microsoft.com/en-us/answers/questions/589038/34check-online-for-updates-from-microsoft-update34.html
+hklm\Software\Policies\Microsoft\Windows\WindowsUpdate\DoNotConnectToWindowsUpdateInternetLocations = dword:00000000.
+I deleted that registry value and rebooted, windows update screen and now I am setting the expected “check online for updates from microsoft update” link just below the “check for updates 
+
+2022-02-15
+.1 acoustic raid
+.. destroyed vg1/lg1
+.. removed v1 v2 = raid0
+..  storcli64 /c0/e21/s23 add hotsparedrive
+----------------------------------------------------------------------------
+EID:Slt DID State DG      Size Intf Med SED PI SeSz Model                Sp
+----------------------------------------------------------------------------
+21:8     23 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:9     33 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:10    22 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:11    29 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:12    32 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:13    24 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:14    25 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:15    30 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:16    27 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:17    31 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:22    28 UGood  - 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:23    26 GHS    - 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+----------------------------------------------------------------------------
+.2 brute xerox driver update error
+https://www.itexperience.net/fix-xerox-error-0x800f020b-in-windows-update/
+print management :: all drivers  delete xerox
+
+2022-03-01
+.1 basestation
+..1 sponsored account
+https://oregonstate.teamdynamix.com/TDClient/1935/Portal/Requests/TicketRequests/NewForm?ID=4-arT8eYaHM_&RequestorType=Service
+..2 Service Request #18893167

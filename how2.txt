@@ -1,5 +1,8 @@
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforceoption /d 0 /f
 
+\\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools
+C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 300
+
 trout_sb pme!@2739 (end of prop label)
 
 At this time it is understood that not all external drives are marked with 
@@ -31,9 +34,6 @@ add-computer –domainname pmel -Credential pmel\administrator -restart –force
 query user   = cli to see who is logged on
 eusrmgr.msc  = user mgr
 
-\\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools
-C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 60
-
 takeown /R /F *
 icacls * /t /q /c /reset
 icacls * /t /c /grant:F
@@ -44,6 +44,10 @@ hire date 8/18/2014
 register LAPS:
 msiexec /i "\\pesto\gpo$\LAPS\LAPS.x64.msi" /q
 
+office:
+setup.exe /configure configuration.xml
+
+vpn:
 msiexec -i PulseSecure.x64-9_1_9.msi CONFIGFILE="Win-AD-CP.pulsepreconfig" /qb
 cd "C:\Program Files (x86)\Common Files\Pulse Secure\JamUI"
 .\jamCommand -importFile C:\Users\cnsd_local\Desktop\Win-AD-CP.pulsepreconfig
@@ -80,13 +84,19 @@ reset updates
 https://pureinfotech.com/reset-windows-update-windows-10-fix-downloads-installs/
 dism.exe /Online /Cleanup-image /Restorehealth
 sfc /scannow
-net stop bits
 net stop wuauserv
-net stop appidsvc
-net stop cryptsvc
+net stop cryptSvc
+net stop bits
+net stop msiserver
+rmdir /q /s C:\Windows\SoftwareDistribution.old
+rmdir /q /s C:\Windows\System32\catroot2.old
+ren C:\Windows\SoftwareDistribution SoftwareDistribution.old
+ren C:\Windows\System32\catroot2 catroot2.old
 Del "%ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\*.*"
-rmdir %systemroot%\SoftwareDistribution /S /Q
-rmdir %systemroot%\system32\catroot2 /S /Q
+net start wuauserv
+net start cryptSvc
+net start bits
+net start msiserver
 
 
 .2 win10 win11
