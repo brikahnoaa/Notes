@@ -14,7 +14,7 @@
 # disk info megaraid
   smartctl -A -d sat+megaraid,12 /dev/sda
 # flash
- while sleep 1; do for i in 21 22 23; do smartctl -A -d sat+megaraid,$i /dev/sda> /dev/null; sleep 0.3; echo $i; done; done
+ while sleep .5; do for i in 21 22 23; do storcli64 /c0/e16/s$i show all > /dev/null; echo $i; done; done
 
 
 Tue May  4 10:36:12 PDT 2021
