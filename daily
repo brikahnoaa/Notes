@@ -8667,3 +8667,15 @@ print management :: all drivers  delete xerox
 ..1 sponsored account
 https://oregonstate.teamdynamix.com/TDClient/1935/Portal/Requests/TicketRequests/NewForm?ID=4-arT8eYaHM_&RequestorType=Service
 ..2 Service Request #18893167
+
+Mon Apr 11 10:19:44 PDT 2022
+.1 plan
+. buoy
+.. ftpFetch
+.. run whale, observe result
+.. procman for iridLocate iridWhale ftpFetch whale
+. whale
+.. questions to developer ()
+... can we get a time stamp result?
+... how to produce images as given during devo?
+.. can we run irid and whale at the same time?
