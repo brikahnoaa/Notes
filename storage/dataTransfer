@@ -1,0 +1,17 @@
+Tue Apr 12 11:33:05 PDT 2022
+. mount disks to make internal drives for transfer of data
+# root@acoustic 11:18:27 /home/kahn #
+ storcli64 /c0/e21/s20 set good force
+ storcli64 /c0/e21/s20 set jbod
+# root@acoustic 11:29:59 /home/kahn #
+ parted /dev/sdc
+GNU Parted 3.1
+Using /dev/sdc
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) mktable gpt
+Warning: The existing disk label on /dev/sdc will be destroyed and all data on
+this disk will be lost. Do you want to continue?
+Yes/No? yes
+(parted) mkpart fat32 fat32 0T 4T
+(parted) q
+
