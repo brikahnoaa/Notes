@@ -8668,7 +8668,7 @@ print management :: all drivers  delete xerox
 https://oregonstate.teamdynamix.com/TDClient/1935/Portal/Requests/TicketRequests/NewForm?ID=4-arT8eYaHM_&RequestorType=Service
 ..2 Service Request #18893167
 
-Mon Apr 11 10:19:44 PDT 2022
+2022-04-11
 .1 plan
 . buoy
 .. ftpFetch
@@ -8679,3 +8679,11 @@ Mon Apr 11 10:19:44 PDT 2022
 ... can we get a time stamp result?
 ... how to produce images as given during devo?
 .. can we run irid and whale at the same time?
+
+
+.1 servers
+virtual smart card 1.1.9.1 -> 1.2.5.3
+remote support elevation 19.2.2 -> 21.3.4
+remote support bomgar 21.3.4
+.2 prep for onboard
+.. anchovy, lingcod
