@@ -115,3 +115,12 @@ Most of the time a new CAC works the same as before. I see that your account nee
 The 10 digit ID may not work with the new CAC, so let's fix this first.
   Also, note that you can get to google meet and all without your CAC using any computer, but if you don't have a personal computer using your phone browser can be awkward.
 
+windows store
+1.  Run WSReset.exe.
+2.  Re-register Windows Store by running the following commands in a CMD window started as Administrator:
+  PowerShell -ExecutionPolicy Unrestricted
+  $manifest = (Get-AppxPackage Microsoft.WindowsStore).InstallLocation + '\AppxManifest.xml' ; Add-AppxPackage -DisableDevelopmentMode -Register $manifest
+--
+  Get-AppXPackage WindowsStore -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+--
+https://www.maketecheasier.com/windows-store-not-working-fix/
