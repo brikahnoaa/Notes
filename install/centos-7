@@ -48,6 +48,10 @@ InfoMsgFont=Sans=16"
  $brute$  cd ~/Linux; ./maketar.sh; scp -r tar root@$SYS:
 .10.1 extract
  # extract and copy with backups
+ if [ ! -d /root/tar ]; then
+   mkdir /root/tar
+   mv ~cnsd/*.tar /root/tar
+ fi
  cd /root/tar
  for i in etc opt usr; do 
    tar xf $i.tar
@@ -64,12 +68,15 @@ InfoMsgFont=Sans=16"
  cd /root
  mkdir install; mv *.cfg install
  rpm -qa > install/rpm-qa
- tar xvf /root/tar/dots.tar
- chown -R cnsd.cnsd .ssh; mv .ssh ~cnsd
- echo "brian.kahn@noaa.gov" > .forward
+ tar --no-same-owner -xvf /root/tar/dots.tar
+ # no ssh for root
+ #mv .ssh ~cnsd; chown -R cnsd.cnsd ~cnsd/.ssh
+ # forward broken
+ #echo "brian.kahn@noaa.gov" > .forward
 .10.4 extra repos & packages
 #rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
  yum install -y /opt/epel-release-latest-7.noarch.rpm
+ yum update
  yum install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs lm_sensors
 .11 ssh
  cd /etc/ssh
@@ -105,7 +112,7 @@ make the same three changes to /etc/pam.d/password-auth.
 .14 cron
  cd /etc/cron.daily
  chmod +x backup.sys
-   vi *.conf
+   vi *.conf backup.sys
    chmod +x smart temps backup.data
 .15 services
 .15.1 xinetd
