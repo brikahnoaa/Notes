@@ -53,7 +53,7 @@ cd "C:\Program Files (x86)\Common Files\Pulse Secure\JamUI"
 .\jamCommand -importFile C:\Users\cnsd_local\Desktop\Win-AD-CP.pulsepreconfig
 https://remote.pmel.noaa.gov/pmel-vpn-wincp
 
-cac waive group=CAC Enforcement Exception
+cac waive group=CAC Enforcement Exception (use password)
 
 requested: actual: people:
 

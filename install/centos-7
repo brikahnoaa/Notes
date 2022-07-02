@@ -78,6 +78,9 @@ InfoMsgFont=Sans=16"
  yum install -y /opt/epel-release-latest-7.noarch.rpm
  yum update
  yum install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs lm_sensors
+.10.5 gnome pesters
+ yum remove gnome-initial-setup
+# echo "X-GNOME-Autostart-enabled=false" >> /etc/xdg/autostart/gnome-initial-setup-first-login.desktop
 .11 ssh
  cd /etc/ssh
  cp sshd_config sshd_config.inst
@@ -101,6 +104,19 @@ At the bottom of the "account" section, add:
   account required    pam_faillock.so
 make the same three changes to /etc/pam.d/password-auth.
 
+.12.2 centrify cac card
+ yum install pam_pkcs11
+ yum groupinstall "Smart card support"
+ ---
+Installing for group install "Smart Card Support":
+ coolkey              x86_64       1.1.0-40.el7                base       116 k
+ esc                  x86_64       1.1.0-44.el7                base       387 k
+ pcsc-lite-ccid       x86_64       1.4.10-15.el7               base       160 k
+Installing for dependencies:
+ pcsc-lite            x86_64       1.8.8-8.el7                 base       190 k
+ xulrunner            x86_64       31.6.0-2.el7.centos         base        26 M
+ ---
+ sctool -e
 .13 kahn
  user=kahn
  uid=$(adquery user --uid $user)
@@ -135,15 +151,13 @@ make the same three changes to /etc/pam.d/password-auth.
  cp -b /etc/apcupsd/apcupsd.conf.tmpl /etc/apcupsd/apcupsd.conf
  vi /etc/apcupsd/apcupsd.conf
 .16 ops
-.16.2 cat /opt/LinuxBESclient/Readme
+.16.2 cat /opt/BESClient/Readme
  cd /opt/BESClient; ls
  mkdir -p /var/opt/BESClient/ /etc/opt/BESClient/ /opt/BESClient/bin/
- cp besclient.config /var/opt/BESClient
+ cp besclient.config /var/opt/BESClient/
  cp actionsite.afxm /etc/opt/BESClient/
  cp dcid.skey /opt/BESClient/bin/
- rpm -ivh *64.rpm
- /sbin/chkconfig besclient on
- systemctl start besclient
+ yum install BESAgent
  sleep 5
  tail $( echo /var/opt/BESClient/__BESData/__Global/Logs/*.log )
 .17 backups
