@@ -20,12 +20,12 @@ Open a CNSD ticket with this info plus the brand and model
 CAC id <- activcard[O]:open:certs:authen:subjAlt
 
 # smb on ac b3 e2 sc cr ve
-yum -y --disableexcludes=all update
  smbstatus
- systemctl restart centrifydc-samba.service
+yum -y --disableexcludes=all update
+ systemctl restart centrifydc-samba.service;  \
  systemctl status centrifydc-samba.service
 
-purch: sharon walker, josh, ben
+purch: sharon walker, josh, ben, rusty
 
 join domain - system::advanced::domain
 sysdm.cpl

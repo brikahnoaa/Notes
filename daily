@@ -8695,3 +8695,31 @@ ness_report:
 
 2022-05-29
 .1 https://www.youtube.com/watch?v=IL7Jd9rjgrM
+
+2022-06-11
+.1 File History
+set up for \\syspc\kahn, shows as 1505153886113305@mil/DARGLE
+initializing at 17M/minute 54M 59M 64 77 47 65 20 78
+
+2022-06-30
+.1 CAC linux
+ \\pesto\tools\linux\centrify
+centrify-server-suite-2021.1-rhel6-x86_64.tgz
+delinea-server-suite-2022-rhel6-x86_64.tgz
+
+2022-07-11
+.1 reboot all linux
+.. caldera - touch reboot
+.2 linux improve
+.. look for missed backups, flag as system down
+.3 ~/Linux
+.. makedots.sh copies init files and bin
+.4 eclipse fails ssh from cygwin
+.. https://serverfault.com/questions/1092998/ssh-no-matching-host-key-type-found
+With HostKeyAlgorithms +ssh-rsa it asks for password -- so it accepted the hostkey and your problem is user authentication. OpenSSH 8.8 by default only uses for an RSA key the newer RSA-SHA2 algorithms, which 5.5 doesn't implement. Also add PubkeyAcceptedAlgorithms +ssh-rsa. –
+.. brute:.ssh/config
+host eclipse eclipse.pmel.noaa.gov
+ HostName eclipse.pmel.noaa.gov
+ IdentityFile ~/.ssh/ee-id_rsa
+ HostKeyAlgorithms +ssh-rsa
+ PubkeyAcceptedAlgorithms +ssh-rsa
