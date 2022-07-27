@@ -8723,3 +8723,61 @@ host eclipse eclipse.pmel.noaa.gov
  IdentityFile ~/.ssh/ee-id_rsa
  HostKeyAlgorithms +ssh-rsa
  PubkeyAcceptedAlgorithms +ssh-rsa
+
+2022-07-17
+.1 cc cygwin fails ssh to eclipse
+https://serverfault.com/questions/1092998/ssh-no-matching-host-key-type-found
+.2 buoy0 - is rtc working? seems to forget, but b1 b2 remember
+
+2022-07-26
+.1 UPS
+Renee Womack
+All, effective Aug. 1st, when shipping UPS and/or Fedex please only use
+projects that being with W8R1U, W8R3U or a Reimbursable project you may
+have.  This is because those bills are delayed and likely won't hit
+until late Sep.  causing a year-end closeout issue because we can't
+account for those expenses properly.  There's just no way to estimate
+what the bill will be and if they hit late in the FY they'll cause
+overruns at the lab level and that is a problem.
+
+.2 pumice
+? Radeon RX 470/480/570/570X/580/580X/590 ATI AMD
+.2.1 what mac is it?
+ lshw | head
+pumice.pmel.noaa.gov
+    description: Laptop
+    product: iMac18,3
+    vendor: Apple Inc.
+    version: 1.0
+    serial: C02V54S9J1GQ
+.2.2 https://everymac.com/ultimate-mac-lookup/?search_keywords=iMac18,3
+iMac 27-Inch "Core i5" 3.8 (5K, Mid-2017)	3.8 GHz Core i5 (I5-7600K)
+Intro.	June 5, 2017	Disc.	March 19, 2019
+Order	MNED2LL/A	Model	A1419 (EMC 3070)
+Family	Retina 5K, Mid-2017	ID	iMac18,3
+RAM	8 GB	VRAM	8 GB
+Storage	2 TB (Fusion)	Optical	None*
+... Radeon Pro 580 graphics processor with 8 GB
+.2.3 best install
+https://linuxconfig.org/amd-radeon-ubuntu-20-04-driver-installation
+... three options: linux default, ppa repo, download (pro)
+.... add-apt-repository ppa:oibaf/graphics-drivers
+# root@pumice 02:15:20 /home/kahn #
+ lsmod | grep amd
+amdgpu               3123492  36
+chash                  13563  1 amdgpu
+i2c_algo_bit           13413  1 amdgpu
+amd_iommu_v2           18821  1 amdgpu
+gpu_sched              27781  1 amdgpu
+drm_kms_helper        186531  1 amdgpu
+ttm                    96673  1 amdgpu
+drm                   456166  16 ttm,gpu_sched,drm_kms_helper,amdgpu
+# root@pumice 02:13:52 /home/kahn #
+ glxinfo -B
+Error: unable to open display
+???
+.2.4 other install (pro)
+https://www.amd.com/en/support/kb/faq/amdgpupro-install
+https://www.amd.com/en/support/kb/faq/gpu-637
+https://amdgpu-install.readthedocs.io/en/latest/
+

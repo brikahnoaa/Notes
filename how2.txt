@@ -1,4 +1,5 @@
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforceoption /d 0 /f
+query user
 
 \\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools
 C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 300
@@ -52,6 +53,8 @@ msiexec -i PulseSecure.x64-9_1_9.msi CONFIGFILE="Win-AD-CP.pulsepreconfig" /qb
 cd "C:\Program Files (x86)\Common Files\Pulse Secure\JamUI"
 .\jamCommand -importFile C:\Users\cnsd_local\Desktop\Win-AD-CP.pulsepreconfig
 https://remote.pmel.noaa.gov/pmel-vpn-wincp
+
+control panel = appwiz.cpl
 
 cac waive group=CAC Enforcement Exception (use password)
 
