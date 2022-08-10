@@ -8741,6 +8741,8 @@ what the bill will be and if they hit late in the FY they'll cause
 overruns at the lab level and that is a problem.
 
 .2 pumice
+problem - configure fails, missing lib
+
 ? Radeon RX 470/480/570/570X/580/580X/590 ATI AMD
 .2.1 what mac is it?
  lshw | head
@@ -8781,3 +8783,18 @@ https://www.amd.com/en/support/kb/faq/amdgpupro-install
 https://www.amd.com/en/support/kb/faq/gpu-637
 https://amdgpu-install.readthedocs.io/en/latest/
 
+Mon Aug  1 14:03:06 PDT 2022
+.1 OSU goals
+not done last two years
+"work with PMEL staff beyond the local group" [Teamwork, Communication]
+.2 buoys. cubox-i with deb10. <dargle:cubox.notes>
+.3 wsl. install debian wsl on dargle. <dargle:wsl.notes>
+/etc/debian_version 11.3
+
+Fri Aug  5 14:21:34 PDT 2022
+.1 activclient 7.2 - 7.4 broke (should uninstall first)
+rsop.msc from cmd admin
+pmel.no.gov and put system into isolate OU, then gpupdate /force
+net user to reset cnsd_local pwd if LAPS is broke
+
+sherlock nessus ness_report:n3ss@cnsd

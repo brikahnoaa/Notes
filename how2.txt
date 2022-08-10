@@ -6,6 +6,8 @@ C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --t
 
 trout_sb pme!@2739 (end of prop label)
 
+sherlock nessus ness_report:n3ss@cnsd
+
 At this time it is understood that not all external drives are marked with 
 a property tag. Do not register your personal drives, you can register 
 drives purchased for NOAA work.
@@ -127,3 +129,7 @@ windows store
   Get-AppXPackage WindowsStore -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 --
 https://www.maketecheasier.com/windows-store-not-working-fix/
+
+2115 SE OSU Drive
+Newport, Oregon 97365
+
