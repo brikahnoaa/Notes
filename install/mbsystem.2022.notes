@@ -1,0 +1,29 @@
+.0 mbsys install
+https://www.mbari.org/products/research-software/mb-system/how-to-download-and-install-mb-system/#toggle-id-10
+  # sudo yum install openmotif openmotif-devel \
+  fftw fftw-devel netcdf netcdf-devel \
+  proj proj-devel gdal-devel gmt gmt-devel
+
+.1 extra installs
+yum group install "Development Tools"
+yum install mesa-libGL mesa-libGLU mesa-libGL-devel mesa-libGLU-devel
+yum install cpan gv
+.2 ./configure
+
+2022-08-02
+.1 missing helvetica, times, etc
+http://mscorefonts2.sourceforge.net/
+ yum install curl cabextract xorg-x11-font-utils fontconfig
+ rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+
+.2 fix font cache
+https://bugzilla.redhat.com/show_bug.cgi?id=1018126
+  /etc/fonts/fonts.conf:
+<dir>/usr/share/X11/fonts/75dpi</dir>
+<dir>/usr/share/X11/fonts/100dpi</dir>
+
+  fc-cache -f -v
+  fc-list| grep -i hel
+
+2022-08-03
+.1 extra steps - see last chapter in install page
