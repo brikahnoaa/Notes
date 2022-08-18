@@ -1,0 +1,38 @@
+. connect to OSU wireless
+. deb10 update
+.. man apt-secure
+You can force all APT clients to raise only warnings by setting
+the configuration option Acquire::AllowInsecureRepositories to
+true. Individual repositories can also be allowed to be insecure via
+the sources.list(5) option allow-insecure=yes.
+
+A repository which previously was authenticated but would loose
+this state in an update operation raises an error in all APT
+clients irrespective of the option to allow or forbid usage of
+insecure repositories. The error can be overcome by additionally
+setting Acquire::AllowDowngradeToInsecureRepositories to true
+or for Individual repositories with the sources.list(5) option
+allow-downgrade-to-insecure=yes
+.. allow once or all
+apt update -o Acquire::Check-Valid-Until=false -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true
+
+echo -e 'Acquire::Check-Valid-Until "false";\nAcquire::AllowInsecureRepositories "true";\nAcquire::AllowDowngradeToInsecureRepositories "true";' | tee /etc/apt/apt.conf.d/99-enable-unsecure-repos
+
+.. buster is busted
+E: The repository 'https://deb.debian.org/debian buster Release' no longer has a Release file.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+ sources.list
+deb [trusted=yes] https://deb.debian.org/debian buster main
+deb [trusted=yes] https://deb.debian.org/debian-security buster/updates main
+.. E: Repository 'http://deb.debian.org/debian buster InRelease' changed its 'Suite' value from 'stable' to 'oldstable'
+.. must be accepted explicitly before updates for this repository can be applied
+ sudo apt update --allow-releaseinfo-change
+
+.. worked for someone ...
+deb http://deb.debian.org/debian buster main contrib non-free
+deb http://deb.debian.org/debian buster-updates main contrib non-free
+deb http://deb.debian.org/debian buster-backports main
+
+. deb11 migration
+.. install with boot - no hdmi, usb serial?
+.. scipy install
