@@ -14,6 +14,7 @@ yum install cpan gv
 .1 missing helvetica, times, etc
 http://mscorefonts2.sourceforge.net/
  yum install curl cabextract xorg-x11-font-utils fontconfig
+ yum install xorg-x11-fonts*
  rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
 .2 fix font cache
