@@ -31,8 +31,9 @@ yum -y --disableexcludes=all update
 purch: sharon walker, josh, ben, rusty
 
 join domain - system::advanced::domain
-sysdm.cpl
-add-computer –domainname pmel -Credential pmel\administrator -restart –force
+  sysdm.cpl
+powershell:
+  add-computer –domainname pmel -Credential pmel\administrator -restart –force
 
 query user   = cli to see who is logged on
 eusrmgr.msc  = user mgr
@@ -129,6 +130,11 @@ windows store
   Get-AppXPackage WindowsStore -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 --
 https://www.maketecheasier.com/windows-store-not-working-fix/
+
+Ron: activclient 7.2 - 7.4 broke (should uninstall first)
+examine group policy with rsop.msc from cmd admin
+pmel.no.gov and put system into isolate OU, then gpupdate /force
+net user to reset cnsd_local pwd if LAPS is broke
 
 2115 SE OSU Drive
 Newport, Oregon 97365

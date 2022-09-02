@@ -8793,8 +8793,15 @@ not done last two years
 
 Fri Aug  5 14:21:34 PDT 2022
 .1 activclient 7.2 - 7.4 broke (should uninstall first)
-rsop.msc from cmd admin
+\\pesto\cac$
+examine group policy with rsop.msc from cmd admin
 pmel.no.gov and put system into isolate OU, then gpupdate /force
 net user to reset cnsd_local pwd if LAPS is broke
 
 sherlock nessus ness_report:n3ss@cnsd
+
+Fri Aug 19 12:03:36 PDT 2022
+.2 sudhir breaks the internet
+.. not facebook social media, not hyper
+miwi (weinstein) - not ads
+cloudhub (brane) - not ads
