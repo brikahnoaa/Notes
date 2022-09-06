@@ -1,0 +1,21 @@
+2022-02-10
+.1 philosophy
+.. avoid pull/read, use push/write-only store to protect security
+.. generic or simple backup format to provide options for restore
+.. level 0 full dumps, nightly incremental up to 20% of total size
+.. keep several days of rotating incremental to guard against ransomware
+.2 choices
+.. service targets
+... 1 week restore time from L0 (all older files are on L0 media)
+... 1 day restore time from L1 incremental daily
+... 7 days of version recovery from L1
+.. limit level 0 size to 20TB chunks (4 LTO7 tapes, 4 days copy time)
+.. disk based RAID6 nightly incremental up to 20TB
+.. level 0 every 6 months or when incremental is too big
+.. two L0 backups (6m, 12m) on rotating tape sets
+.3 tech
+.. use 'amanda' package freely available on rhel / centos
+... tape storage, LTO6/7/8 with autoloader
+... large tar format files split across multiple tapes
+.. use ssh key shared secret for root authentication
+.. 
