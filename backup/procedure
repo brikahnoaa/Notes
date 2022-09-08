@@ -8,9 +8,12 @@ $ kahn@bioac3 09:19:31 ~ $
  cat /etc/amanda/full/tapelist
  :; echo create tapelist
  :; tapelist=/etc/amanda/full/tapelist 
- :; firstTape=120
- :; for i in {0..23}; do t=$((firstTape+i)); 
- :;  echo "0 full-$t reuse BARCODE:000${t}L7 BLOCKSIZE:32"; done > $tapelist
+ :; tape=120
+ :; last=129
+ :; while [[ $tape -le $last ]]; do
+ :;  echo "0 full-${tape} reuse BARCODE:000${tape}L7 BLOCKSIZE:32"
+ :;  echo $((tape++))
+ :; done > $tapelist
  :; vi $tapelist
  :; amtape full inventory
  :; amtape full update; amtape full inventory
@@ -25,6 +28,7 @@ $ kahn@bioac3 09:19:31 ~ $
   ($rs; amdump full syspc-191; $rs)&
    tail /var/lib/amanda/full/logs/amdump
    grep PARTDONE /var/lib/amanda/full/logs/amdump
+   iftop -i eno2 -m1G
 
 # after all backups complete
 # root@challenger
