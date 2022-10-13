@@ -1,3 +1,51 @@
+2022-09-29
+.0 prep
+delete machine from AD
+ yum install -y samba samba-client samba-winbind samba-winbind-clients
+.1 centrify (CAC, samba)
+..1 server-suite
+ cd /opt/centrify
+ tar xvzf centrify-server-suite*z
+ ./install.sh
+# choose custom, then all defaults
+How do you want to proceed? (E|S|X|C|Q) [E]: c
+# enter domain, zone, workstation license, DC, no reboot after
+Please enter the Active Directory domain to check []: pmel.noaa.gov
+Join an Active Directory domain? (Q|Y|N) [Y]:
+    Enter the Active Directory domain to join [pmel.noaa.gov]:
+    Enter the Active Directory authorized user [administrator]:
+    Enter the password for the Active Directory user:
+    Enter the computer name [yang.pmel.noaa.gov]:
+    Enter the container DN [Computers]:
+    Enter the name of the zone: Newport Linux
+    Join domain using workstation license type? (N for server license) (Q|Y|N) [N]: y
+    Enter the name of the domain controller [auto detect]: hatfield2
+Reboot the computer after installation? (Q|Y|N) [Y]:n
+..2 AD move
+pmel/Computers -> pmel/Pmel Systems/Linux
+properties:comment
+..3 Centrify Access Manager
+zones/global/child/newport/computers/SYS/role
+add:login..newport kahn,others
+..4 verify ad, ssh login
+ adflush /force
+ adquery user kahn
+:overcast: ssh $SYS
+ ls -ld /home/kahn
+
+.2 set up samba
+ cd /opt/centrify
+ yum install ./*adbind*rpm
+ /usr/share/centrifydc/bin/adbindproxy.pl
+Please input Samba path : /usr
+Joined to Domain: pmel.noaa.gov
+          Zone: pmel.noaa.gov/Centrify/Global/Newport Linux
+Do you want to leave this domain and join to another domain? [N] :
+ ...
+(defaults)
+.. NOTE - with adbindproxy-5.7.0, smb.conf: @group-name from AD not Linux
+.. test \\bioac3\silo
+
 Wed, Apr  3, 2019  1:44:55 PM
 install centrify 5.6
 .0 remove samba, and centrify if present

@@ -1,3 +1,21 @@
+2022-09-02
+.1 new drives 16x12TB seagate exos18 $350
+.2 add two to acoustic to make space for migrate on b3
+.. inserted drives seen as jbod, make them GHS
+21:16    27 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:17    31 Onln   0 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+21:18    36 JBOD   - 10.913 TB SATA HDD N   N  512B ST12000NM000J-2TY103 U
+21:19    37 JBOD   - 10.913 TB SATA HDD N   N  512B ST12000NM000J-2TY103 U
+ storcli64 /c0/e21/s18,19 set good force
+ storcli64 /c0/e21/s18,19 add hotsparedrive
+.. delete GHS from older drive, add older ST12000NE0008 to raid
+21:22    28 UGood  - 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 D
+21:23    26 GHS    - 10.913 TB SATA HDD N   N  512B ST12000NE0008-2PK103 U
+ storcli64 /c0/e21/s23 delete hotsparedrive
+
+ storcli64 /c0/v0 start migrate option=add disk=e21:s22,e21:s23
+ storcli64 /c0/v0 show migrate 
+
 Thu, Dec 13, 2018  4:27:16 PM
 .1 expanding embfile2
 SO MUCH EASIER! no partitiion at all on RAID drive, so after reboot xfs_growfs
