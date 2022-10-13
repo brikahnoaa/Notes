@@ -20,6 +20,9 @@ drives purchased for NOAA work.
 Open a CNSD ticket with this info plus the brand and model 
  and brief description (thumb drive, external disk drive)
 
+UPS bkahn@noaa:MM!!/12 
+.. w8R3UAP-PAB ac, w8R3UER-PGC gas, w8R3UER-PBS eoi
+
 CAC id <- activcard[O]:open:certs:authen:subjAlt
 
 # smb on ac b3 e2 sc cr ve
