@@ -8831,3 +8831,12 @@ cloudhub (brane) - not ads
 .1 loaned dell projector to tamara
 .2 jeff. permission problems.
 .3 smb
+
+2022-10-14
+.1 where are the tape parts in a backup?
+amandabackup@challenger 05:59:00 ~/full/logs $
+ cat ./tape-parts.sh
+#!/bin/bash
+awk '/PORT-D/ {print $10, $12, $13} /PARTD/ {print $9, $10}'
+
+
