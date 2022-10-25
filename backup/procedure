@@ -9,15 +9,14 @@ $ kahn@bioac3 09:19:31 ~ $
  cat /etc/amanda/full/tapelist
  :; echo create tapelist
  :; tapelist=/etc/amanda/full/tapelist 
+ :; amtape full inventory
  :; tape=120
  :; last=129
+ :; amtape slot $tape
  :; while [[ $tape -le $last ]]; do
- :;  echo "0 full-${tape} reuse BARCODE:000${tape}L7 BLOCKSIZE:32"
- :;  echo $((tape++))
+ :;  echo "0 full-${tape} reuse BARCODE:000$((tape++))L7 BLOCKSIZE:32"
  :; done > $tapelist
  :; vi $tapelist
- :; amtape full inventory
- :; amtape full update; amtape full inventory
 # before and after each backup completes!!
  export rs="rsync -ai /var/lib/amanda/full/index/ /etc/amanda/full/index"
  amtape full slot 1 ## change
@@ -25,10 +24,9 @@ $ kahn@bioac3 09:19:31 ~ $
   ($rs; amdump full acoustic-191 */set0; $rs)&
   ($rs; amdump full acoustic-191 */set1; $rs)&
   ($rs; amdump full acoustic-191 */set2; $rs)&
-  ($rs; amdump full bioac3-191 */set0; $rs)&
-  ($rs; amdump full bioac3-191 */set1; $rs)&
-  ($rs; amdump full bioac3-191 */set2; $rs)&
-  ($rs; amdump full bioac3-191 */set3; $rs)&
+  ($rs; amdump full bioac3-191 data0; $rs)&
+  ($rs; amdump full bioac3-191 data1; $rs)&
+  ($rs; amdump full bioac3-191 data2; $rs)&
   ($rs; amdump full embfile2-191 */set0; $rs)&
   ($rs; amdump full embfile2-191 */set1; $rs)&
   ($rs; amdump full syspc-191; $rs)&

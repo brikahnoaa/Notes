@@ -195,13 +195,14 @@ Centrify Smart Card support is enabled.
  cp backup.data.conf.tmpl backup.data.conf
  vi backup.data.conf
 .17.2 amanda
- yum install amanda-client
+ yum install amanda-client xinetd
  a="challenger amandabackup amdump
 challenger-191 amandabackup amdump" 
  echo "$a" >> /var/lib/amanda/.amandahosts
- a="# amanda client
 ... service amanda
- vi /etc/xinetd.d/amanda # see <notes/storage/amanda/amanda-devo>
+ # vi /etc/xinetd.d/amanda # see <notes/storage/amanda/amanda-devo>
+ a="# amanda client
+service amanda
 {
         socket_type             = stream
         protocol                = tcp
@@ -213,6 +214,6 @@ challenger-191 amandabackup amdump"
         disable                 = no
 }" 
  echo "$a" > /etc/xinetd.d/amanda
+ # should amandad be a service instead?
  systemctl restart xinetd 
-add host to rsyncd.conf on server?
 
