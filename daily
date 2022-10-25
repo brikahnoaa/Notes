@@ -8839,4 +8839,15 @@ amandabackup@challenger 05:59:00 ~/full/logs $
 #!/bin/bash
 awk '/PORT-D/ {print $10, $12, $13} /PARTD/ {print $9, $10}'
 
-
+2022-10-24
+.1 b3 reorg with data[012]
+https://unix.stackexchange.com/questions/5120/how-do-you-make-samba-follow-symlink-outside-the-shared-path
+.1.1 [global]
+# unix extensions = yes
+allow insecure wide links = yes
+.1.2 [share]
+# follow symlinks = yes
+wide links = yes
+.1.3 alternate
+[global]
+unix extensions = no
