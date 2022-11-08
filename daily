@@ -8851,3 +8851,19 @@ wide links = yes
 .1.3 alternate
 [global]
 unix extensions = no
+
+2022-10-31
+. Ateam meeting
+.. ordering supplies Jesse Pillai in Admin
+
+2022-11-01
+. wav format
+.. python
+https://www.youtube.com/watch?v=3oA_griyboI
+import pyaudio=recording import wave=.wav 
+. dat2wav
+.. passive packer
+ac:/users/haver/ 
+ GRAYWHALE/WAV/2019/OtterRock2019
+ PassivePacker/Archived_0517/NRS_2014-2015_03
+ ONRSN/NRS01/WAV

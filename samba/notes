@@ -2,14 +2,9 @@
 .1 b3 reorg with data[012]
 https://unix.stackexchange.com/questions/5120/how-do-you-make-samba-follow-symlink-outside-the-shared-path
 .1.1 [global]
-# unix extensions = yes
-allow insecure wide links = yes
-.1.2 [share]
-# follow symlinks = yes
-wide links = yes
-.1.3 alternate
-[global]
 unix extensions = no
+.1.2 [share]
+wide links = yes
 
 
 Wed Jun  9 11:36:31 PDT 2021
