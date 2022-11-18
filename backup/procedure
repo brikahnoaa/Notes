@@ -21,14 +21,14 @@ $ kahn@bioac3 09:19:31 ~ $
  export rs="rsync -ai /var/lib/amanda/full/index/ /etc/amanda/full/index"
  amtape full slot 1 ## change
   ($rs; amdump full localhost; $rs)&
-  ($rs; amdump full acoustic-191 */set0; $rs)&
-  ($rs; amdump full acoustic-191 */set1; $rs)&
-  ($rs; amdump full acoustic-191 */set2; $rs)&
+  ($rs; amdump full acoustic-191 data0; $rs)&
+  ($rs; amdump full acoustic-191 data1; $rs)&
+  ($rs; amdump full acoustic-191 data2; $rs)&
   ($rs; amdump full bioac3-191 data0; $rs)&
   ($rs; amdump full bioac3-191 data1; $rs)&
   ($rs; amdump full bioac3-191 data2; $rs)&
-  ($rs; amdump full embfile2-191 */set0; $rs)&
-  ($rs; amdump full embfile2-191 */set1; $rs)&
+  ($rs; amdump full embfile2-191 data0; $rs)&
+  ($rs; amdump full embfile2-191 data1; $rs)&
   ($rs; amdump full syspc-191; $rs)&
    tail /var/lib/amanda/full/logs/amdump
    grep PARTDONE /var/lib/amanda/full/logs/amdump

@@ -11,14 +11,15 @@ sherlock nessus ness_report:n3ss@cnsd
 At this time it is understood that not all external drives are marked with 
 a property tag. Do not register your personal drives, you can register 
 drives purchased for NOAA work.
-- Right-click Start (bottom left corner Windows icon), select Device Manager
-- Drop-down the Disk Drives
-- Right-click the inserted device found in Disk Drives, and click Properties
-- Select Details tab in Properties windows
-- Drop-down Property and select Device instance path
-- Copy the whole string in Value.
-Open a CNSD ticket with this info plus the brand and model 
- and brief description (thumb drive, external disk drive)
+- right-click Start (bottom left corner Windows icon)
+- select Device Manager
+- expand "Disk drives"
+- right-click the USB drive and choose Properties
+- select Details tab in Properties windows
+- drop-down Property and select "Device instance path"
+- copy the whole string in Value.
+Open a CNSD ticket with this info and brief description 
+ (brand, model, thumb or external disk)
 
 UPS bkahn@noaa:MM!!/12 
 .. w8R3UAP-PAB ac, w8R3UER-PGC gas, w8R3UER-PBS eoi
@@ -107,6 +108,7 @@ net start cryptSvc
 net start bits
 net start msiserver
 
+beyond trust challenge code shared secret : pmel
 
 .2 win10 win11
 .. prod key (dargle)
@@ -116,6 +118,11 @@ B3NH4-4T2RY-XK3VD-GM8D4-F6YP2
 ... powershell "(Get-WmiObject -query 'select * from SoftwareLicensingService').OA3xOriginalProductKey"
 ... \HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\BackupProductKeyDefault
 .. prod key (lab rat OSU)
+
+. why PC has reboot sched
+   c:\windows\ccm\logs\RebootCoordinator.log
+(you may want to use c:\windows\ccm\CMTrace.exe to view files)
+Search for the following string: requested from
 
 Most of the time a new CAC works the same as before. I see that your account needs to be updated with the 16 digit ID, it would be better to do that before you get the new one. Your ID is found one of two ways:
 .1 log out, and before logging in look at the display of name/ID for each of the icons under SignInOptions. Find the one with 16 digits probably ending in ...113305@mil.gov
@@ -135,9 +142,9 @@ windows store
 https://www.maketecheasier.com/windows-store-not-working-fix/
 
 Ron: activclient 7.2 - 7.4 broke (should uninstall first)
+put system into pmel.noaa.gov:isolate OU, then gpupdate /force
 examine group policy with rsop.msc from cmd admin
-pmel.no.gov and put system into isolate OU, then gpupdate /force
-net user to reset cnsd_local pwd if LAPS is broke
+net user to reset cnsd_local pwd if LAPS is broke: net user cnsd_local NEWPASS
 
 2115 SE OSU Drive
 Newport, Oregon 97365
