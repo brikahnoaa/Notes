@@ -8867,3 +8867,110 @@ ac:/users/haver/
  GRAYWHALE/WAV/2019/OtterRock2019
  PassivePacker/Archived_0517/NRS_2014-2015_03
  ONRSN/NRS01/WAV
+
+2022-11-29
+.1 musculus memory for samara
+ASUSTeK COMPUTER INC.  P8Z77-V LK 
+ddr3 2450 2400 2200 2000 1800 1600 1.35-1.65v 9-9-9-24 7-7-7-24
+x8r3uap-pab
+.2 bandh
+https://www.bhphotovideo.com/c/product/1585687-REG/pny_technologies_md8gsd31600nhs_pny_performance_8gb_ddr3.html/specs
+$40 ddr3 1600
+.3 amazon 8x2=16GB ddr3L 1600 1.35v CL11
+https://www.newegg.com/p/0RN-00YA-00012?Item=9SIAGDFH6E3204 $30 Gigastone DDR3 16GB (8GBx2) 1600MHz PC3-12800
+.4 gsa $63 8GB PC3-12800 Unbuffered Non-ECC 1600MHz
+https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000025047213
+
+2022-12-05
+.1 The printhead can be charged to OSU index NA293E. 
+.2 /e/ /bob/ index past
+3BR3U9L-PBD "kopri"  RAID
+3rr3u9a-pbd 2021 small
+v8lpb01-pac V8R3UAP-NRS V8R3UAP-pab 2021 raid
+.3 navy scan
+navy needs to calibrate
+Fialkowski, Laurie T CIV USN NRL (7161) Washington DC (USA) <laurie.fialkowski@nrl.navy.mil>
+Mon, May 17, 2021, 11:59 AM
+Thank you again for the NRS02 data!
+We are hoping you can send information to help us calibrate the NRS02 data (20-JUL-2018 through 30-JUL-2020). I am cc-ing Bob because I am not sure who has this information....
+Information we have (that might help):
+Receiver Sensitivity (ITC 1032): -192 dB/v/uPa
+Preamp gain setting (from data activity log): 0
+Prewhiten gain setting (from data activity log): 2
+Information we need:
+System acoustic sensitivity: Voltage range of 16-bit data or sensitivity in uPa/bit
+Preamp gain: Total constant gain level
+Prewhiten gain: Frequency dependent gain curve or formula
+Can you please verify that the dynamic range of the 16 bit data in volts? (We assumed +/- 1 V). For reference, below is the calibration value we've added to dB spectrum level to convert counts^2/Hz to uPa^2/Hz.
+calibration = 192-preampgain(f)-20log10(2^15)
+.. nrs locations
+www.pmel.noaa.gov/acoustics/noaanps-ocean-noise-reference-station-network
+
+2022-12-07
+.1 buying UPS batts
+https://nsdesk.servicenowservices.com/oar_pmel
+3 x battery packs for CNSD rack UPS, product# apcrbc105
+Product Cost: 3 x $271 = $813
+https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000009693962
+Powers CNSD infrastructure during brief power outage
+russ,rob - X8R3U26-PCS
+add into details - index, ship-to
+.2 buying memory
+bob - x8r3uap-pab
+
+2022-12-13
+.1 /e/ russ, jon. heroic brian resets the new switch.
+note, with admin cac (2023) i couldn't log in to help off hours.
+.2 OOI forecast plots not updating
+/e chad/
+   I recently discovered that some of the OOI forecast plots are not updating.  Specifically, these plots have not updated with new data since August 12, 2022:
+Forecast2DatesMJ03F.png
+Forecast3DatesMJ03F.png
+Forecast4DatesMJ03F.png
+Scatter2DatesMJ03F.png
+Scatter3DatesMJ03F.png
+Scatter4DatesMJ03F.png
+What they have in common is that they are all using differential BPR data to forecast.
+On the other hand these related plots are updating OK, which is a little confusing because they are all generated in the same IDL script:
+Forecast2HistogramMJ03F.png
+Forecast3HistogramMJ03F.png
+Forecast4HistogramMJ03F.png
+... and the older forecast plots using single-station BPR data are all updating OK:
+ForecastDatesMJ03F.png
+ScatterDatesMJ03F.png
+ForecastHistogramMJ03F.png
+.3 /e/ chad
+I think the best clues are in RunForecastDates.log
+RunForecastDates.job:/usr/local/bin/idl < RunForecastDates.pro     >> RunForecastDates.log 2>&1
+RunForecastDates.job:/usr/local/bin/idl < RunDiffForecastDates.pro >> RunForecastDates.log 2>&1
+check out the wild dates in this output, i haven't tracked down the cause yet. That is some looong range forecast.
+ ...
+Mon Dec 12 23:28:01 2022 Plotting the Forecast Histogram...
+Date & Time values for the TIME_XRANGE & RESENT_FORECAST
+Sun Dec 11 13:28:33 2016
+Wed Dec 15 04:47:19 4421
+Fri May 17 15:55:15 2024
+% Compiled module: CALDAT.
+% Compiled module: TIMEGEN.
+% Program caused arithmetic error: Floating overflow
+% Program caused arithmetic error: Floating illegal operand
+ ...
+Date & Time values for the TIME_XRANGE & RESENT_FORECAST
+Fri Jul 01 18:03:16 2016
+Thu Nov 12 13:35:27 2961
+Sat Mar 23 11:55:47 2024
+% Compiled module: CALDAT.
+% Compiled module: TIMEGEN.
+% Program caused arithmetic error: Floating overflow
+% Program caused arithmetic error: Floating illegal operand
+% Program caused arithmetic error: Floating overflow
+ ...
+.4 emily slesinger
+https://twitter.com/i/status/1579483024391307265
+PhD student attending first big conference, with advisor.
+
+2022-12-20
+.1 mint in lab
+.. pcie wireless
+.. clamav clamtk
+... also sophos, comodo, f-prot av

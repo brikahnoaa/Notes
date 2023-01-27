@@ -5,6 +5,7 @@ query user
 C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 300
 
 trout_sb pme!@2739 (end of prop label)
+lusrmgr.msc  user manager
 
 sherlock nessus ness_report:n3ss@cnsd
 
@@ -77,6 +78,19 @@ install cygwin with rsync
 ---
 cygwin-lite http://cygwin-lite.sourceforge.net/faq.html
 ---
+osu wifi login
+Wi-Fi Security: "WPA & WPA2 Enterprise"
+Authentication: "Protected EAP (PEAP)"
+Anonymous identity: blank
+Domain: Enter "oregonstate.edu"
+CA certificate: "(None)"
+CA certificate password: blank
+ No CA certificate is required: Check 
+PEAP version: "Automatic"
+Inner authentication: "MSCHAPv2"
+Username: ONID username 
+  eduroam: followed by "@oregonstate.edu" 
+Password: ONID password here
 
 robocopy backup
 robocopy C:\src M:\dst /MIR /S /FFT /R:3 /W:10 /Z /NP /NDL /XJD /MT:8
@@ -111,6 +125,12 @@ net start msiserver
 beyond trust challenge code shared secret : pmel
 
 .2 win10 win11
+ wmic product get name
+ wmic /node: product get name
+Once you know the name of the software, you can remove it with wmic as well:
+ wmic product where name="application name" call uninstall
+.. 
+C:\> wmic /node:brutal product get name,version /format:csv > sw.csv
 .. prod key (dargle)
 ... wmic path softwareLicensingService get OA3xOriginalProductKey
 OA3xOriginalProductKey
@@ -149,3 +169,4 @@ net user to reset cnsd_local pwd if LAPS is broke: net user cnsd_local NEWPASS
 2115 SE OSU Drive
 Newport, Oregon 97365
 
+purchase: rusty robertSlaney
