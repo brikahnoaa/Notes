@@ -122,7 +122,7 @@ net start cryptSvc
 net start bits
 net start msiserver
 
-beyond trust challenge code shared secret : pmel
+beyond trust challenge code shared secret : noaapmel//^0@^1
 
 .2 win10 win11
  wmic product get name
@@ -144,11 +144,11 @@ B3NH4-4T2RY-XK3VD-GM8D4-F6YP2
 (you may want to use c:\windows\ccm\CMTrace.exe to view files)
 Search for the following string: requested from
 
-Most of the time a new CAC works the same as before. I see that your account needs to be updated with the 16 digit ID, it would be better to do that before you get the new one. Your ID is found one of two ways:
-.1 log out, and before logging in look at the display of name/ID for each of the icons under SignInOptions. Find the one with 16 digits probably ending in ...113305@mil.gov
+Most of the time a new CAC works the same as before. I see that your account needs to be updated with the 16 dig ID, it would be better to do that before you get the new one. Your ID is found one of two ways:
+.1 log out, and before logging in look at the display of name/ID for each of the icons under SignInOptions. Find the one with 16 digs probably ending in ...113305@mil.gov
 .2 open Menu::ActivID::UserConsole and select MyCertificates::Authentication::Details::SubjectAltName, look for that same data.
-  Let me know for sure your ID ends in those 6 digits. Yours starts with 1388396357 in the first 10 digits.
-The 10 digit ID may not work with the new CAC, so let's fix this first.
+  Let me know for sure your ID ends in those 6 digs. Yours starts with 1388396357 in the first 10 digs.
+The 10 dig ID may not work with the new CAC, so let's fix this first.
   Also, note that you can get to google meet and all without your CAC using any computer, but if you don't have a personal computer using your phone browser can be awkward.
 
 windows store
@@ -165,6 +165,9 @@ Ron: activclient 7.2 - 7.4 broke (should uninstall first)
 put system into pmel.noaa.gov:isolate OU, then gpupdate /force
 examine group policy with rsop.msc from cmd admin
 net user to reset cnsd_local pwd if LAPS is broke: net user cnsd_local NEWPASS
+
+git update-index --skip-worktree [path] to stop git from tracking changes
+git update-index --no-skip-worktree [path] to start tracking that file again
 
 2115 SE OSU Drive
 Newport, Oregon 97365

@@ -1,0 +1,292 @@
+INFO: Current debug levels:
+  all: 5
+  tdb: 5
+  printdrivers: 5
+  lanman: 5
+  smb: 5
+  rpc_parse: 5
+  rpc_srv: 5
+  rpc_cli: 5
+  passdb: 5
+  sam: 5
+  auth: 5
+  winbind: 5
+  vfs: 5
+  idmap: 5
+  quota: 5
+  acls: 5
+  locking: 5
+  msdfs: 5
+  dmapi: 5
+  registry: 5
+  scavenger: 5
+  dns: 5
+  ldb: 5
+  tevent: 5
+  auth_audit: 5
+  auth_json_audit: 5
+  kerberos: 5
+  drs_repl: 5
+  smb2: 5
+  smb2_credits: 5
+  dsdb_audit: 5
+  dsdb_json_audit: 5
+  dsdb_password_audit: 5
+  dsdb_password_json_audit: 5
+  dsdb_transaction_audit: 5
+  dsdb_transaction_json_audit: 5
+  dsdb_group_audit: 5
+  dsdb_group_json_audit: 5
+lp_load_ex: refreshing parameters
+Initialising global parameters
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+INFO: Current debug levels:
+  all: 5
+  tdb: 5
+  printdrivers: 5
+  lanman: 5
+  smb: 5
+  rpc_parse: 5
+  rpc_srv: 5
+  rpc_cli: 5
+  passdb: 5
+  sam: 5
+  auth: 5
+  winbind: 5
+  vfs: 5
+  idmap: 5
+  quota: 5
+  acls: 5
+  locking: 5
+  msdfs: 5
+  dmapi: 5
+  registry: 5
+  scavenger: 5
+  dns: 5
+  ldb: 5
+  tevent: 5
+  auth_audit: 5
+  auth_json_audit: 5
+  kerberos: 5
+  drs_repl: 5
+  smb2: 5
+  smb2_credits: 5
+  dsdb_audit: 5
+  dsdb_json_audit: 5
+  dsdb_password_audit: 5
+  dsdb_password_json_audit: 5
+  dsdb_transaction_audit: 5
+  dsdb_transaction_json_audit: 5
+  dsdb_group_audit: 5
+  dsdb_group_json_audit: 5
+Processing section "[global]"
+doing parameter log level = 1 auth:5 winbind:5
+doing parameter security = ADS
+doing parameter realm = PMEL.NOAA.GOV
+doing parameter workgroup = PMEL
+doing parameter netbios name = syspc
+doing parameter machine password timeout = 0
+doing parameter passdb backend = tdbsam:/var/lib/samba/private/passdb.tdb
+doing parameter kerberos method = secrets and keytab
+doing parameter server signing = auto
+doing parameter client ntlmv2 auth = yes
+doing parameter client use spnego = yes
+doing parameter template shell = /bin/bash
+doing parameter winbind use default domain = Yes
+doing parameter winbind enum users = No
+doing parameter winbind enum groups = No
+doing parameter winbind nested groups = Yes
+doing parameter idmap cache time = 0
+doing parameter idmap config * : backend = tdb
+doing parameter idmap config * : range = 1000 - 200000000
+doing parameter idmap config * : base_tdb = 0
+doing parameter enable core files = false
+doing parameter valid users = @sc-r
+doing parameter write list = @sc-rw
+pm_process() returned Yes
+added interface em2 ip=161.55.191.31 bcast=161.55.191.255 netmask=255.255.255.0
+added interface em1 ip=161.55.192.31 bcast=161.55.192.255 netmask=255.255.255.0
+Netbios name list:-
+my_netbios_names[0]="SYSPC"
+Client started (version 4.10.16).
+Opening cache file at /var/lib/samba/lock/gencache.tdb
+tdb(/var/lib/samba/lock/gencache.tdb): tdb_open_ex: could not open file /var/lib/samba/lock/gencache.tdb: Permission denied
+gencache_init: Opening user cache file /home/kahn/.cache/samba/gencache.tdb.
+sitename_fetch: No stored sitename for realm 'PMEL.NOAA.GOV'
+no entry for localhost#20 found.
+resolve_lmhosts: Attempting lmhosts lookup for name localhost<0x20>
+getlmhostsent: lmhost entry: 127.0.0.1 localhost 
+namecache_store: storing 1 address for localhost#20: 127.0.0.1
+Connecting to 127.0.0.1 at port 445
+Socket options:
+	SO_KEEPALIVE = 0
+	SO_REUSEADDR = 0
+	SO_BROADCAST = 0
+	TCP_NODELAY = 1
+	TCP_KEEPCNT = 9
+	TCP_KEEPIDLE = 7200
+	TCP_KEEPINTVL = 75
+	IPTOS_LOWDELAY = 0
+	IPTOS_THROUGHPUT = 0
+	SO_REUSEPORT = 0
+	SO_SNDBUF = 2626560
+	SO_RCVBUF = 1061296
+	SO_SNDLOWAT = 1
+	SO_RCVLOWAT = 1
+	SO_SNDTIMEO = 0
+	SO_RCVTIMEO = 0
+	TCP_QUICKACK = 1
+	TCP_DEFER_ACCEPT = 0
+ session request ok
+ negotiated dialect[SMB3_11] against server[localhost]
+cli_session_setup_spnego_send: Connect to localhost as kahn@PMEL.NOAA.GOV using SPNEGO
+GENSEC backend 'gssapi_spnego' registered
+GENSEC backend 'gssapi_krb5' registered
+GENSEC backend 'gssapi_krb5_sasl' registered
+GENSEC backend 'spnego' registered
+GENSEC backend 'schannel' registered
+GENSEC backend 'naclrpc_as_system' registered
+GENSEC backend 'sasl-EXTERNAL' registered
+GENSEC backend 'ntlmssp' registered
+GENSEC backend 'ntlmssp_resume_ccache' registered
+GENSEC backend 'http_basic' registered
+GENSEC backend 'http_ntlm' registered
+GENSEC backend 'http_negotiate' registered
+Starting GENSEC mechanism spnego
+Starting GENSEC submechanism gse_krb5
+GSE to 'localhost' does not make sense
+Failed to start GENSEC client mech gse_krb5: NT_STATUS_INVALID_PARAMETER
+Starting GENSEC submechanism ntlmssp
+Got challenge flags:
+Got NTLMSSP neg_flags=0x62898215
+  NTLMSSP_NEGOTIATE_UNICODE
+  NTLMSSP_REQUEST_TARGET
+  NTLMSSP_NEGOTIATE_SIGN
+  NTLMSSP_NEGOTIATE_NTLM
+  NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+  NTLMSSP_TARGET_TYPE_DOMAIN
+  NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  NTLMSSP_NEGOTIATE_TARGET_INFO
+  NTLMSSP_NEGOTIATE_VERSION
+  NTLMSSP_NEGOTIATE_128
+  NTLMSSP_NEGOTIATE_KEY_EXCH
+NTLMSSP: Set final flags:
+Got NTLMSSP neg_flags=0x62088215
+  NTLMSSP_NEGOTIATE_UNICODE
+  NTLMSSP_REQUEST_TARGET
+  NTLMSSP_NEGOTIATE_SIGN
+  NTLMSSP_NEGOTIATE_NTLM
+  NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+  NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  NTLMSSP_NEGOTIATE_VERSION
+  NTLMSSP_NEGOTIATE_128
+  NTLMSSP_NEGOTIATE_KEY_EXCH
+NTLMSSP Sign/Seal - Initialising with flags:
+Got NTLMSSP neg_flags=0x62088215
+  NTLMSSP_NEGOTIATE_UNICODE
+  NTLMSSP_REQUEST_TARGET
+  NTLMSSP_NEGOTIATE_SIGN
+  NTLMSSP_NEGOTIATE_NTLM
+  NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+  NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  NTLMSSP_NEGOTIATE_VERSION
+  NTLMSSP_NEGOTIATE_128
+  NTLMSSP_NEGOTIATE_KEY_EXCH
+NTLMSSP Sign/Seal - Initialising with flags:
+Got NTLMSSP neg_flags=0x62088215
+  NTLMSSP_NEGOTIATE_UNICODE
+  NTLMSSP_REQUEST_TARGET
+  NTLMSSP_NEGOTIATE_SIGN
+  NTLMSSP_NEGOTIATE_NTLM
+  NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+  NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  NTLMSSP_NEGOTIATE_VERSION
+  NTLMSSP_NEGOTIATE_128
+  NTLMSSP_NEGOTIATE_KEY_EXCH
+ session setup ok
+signed SMB2 message
+ tconx ok
+Bind RPC Pipe: host localhost auth_type 0, auth_level 1
+rpc_api_pipe: host localhost
+rpc_read_send: data_to_read: 52
+check_bind_response: accepted!
+rpc_api_pipe: host localhost
+rpc_read_send: data_to_read: 1188
+sitename_fetch: No stored sitename for realm 'PMEL.NOAA.GOV'
+name localhost#20 found.
+Connecting to 127.0.0.1 at port 139
+Socket options:
+	SO_KEEPALIVE = 0
+	SO_REUSEADDR = 0
+	SO_BROADCAST = 0
+	TCP_NODELAY = 1
+	TCP_KEEPCNT = 9
+	TCP_KEEPIDLE = 7200
+	TCP_KEEPINTVL = 75
+	IPTOS_LOWDELAY = 0
+	IPTOS_THROUGHPUT = 0
+	SO_REUSEPORT = 0
+	SO_SNDBUF = 2626560
+	SO_RCVBUF = 1061296
+	SO_SNDLOWAT = 1
+	SO_RCVLOWAT = 1
+	SO_SNDTIMEO = 0
+	SO_RCVTIMEO = 0
+	TCP_QUICKACK = 1
+	TCP_DEFER_ACCEPT = 0
+ session request ok
+ negotiated dialect[NT1] against server[localhost]
+cli_session_setup_spnego_send: Connect to localhost as kahn@PMEL.NOAA.GOV using SPNEGO
+Starting GENSEC mechanism spnego
+Starting GENSEC submechanism gse_krb5
+GSE to 'localhost' does not make sense
+Failed to start GENSEC client mech gse_krb5: NT_STATUS_INVALID_PARAMETER
+Starting GENSEC submechanism ntlmssp
+Got challenge flags:
+Got NTLMSSP neg_flags=0x62898215
+  NTLMSSP_NEGOTIATE_UNICODE
+  NTLMSSP_REQUEST_TARGET
+  NTLMSSP_NEGOTIATE_SIGN
+  NTLMSSP_NEGOTIATE_NTLM
+  NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+  NTLMSSP_TARGET_TYPE_DOMAIN
+  NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  NTLMSSP_NEGOTIATE_TARGET_INFO
+  NTLMSSP_NEGOTIATE_VERSION
+  NTLMSSP_NEGOTIATE_128
+  NTLMSSP_NEGOTIATE_KEY_EXCH
+NTLMSSP: Set final flags:
+Got NTLMSSP neg_flags=0x62088215
+  NTLMSSP_NEGOTIATE_UNICODE
+  NTLMSSP_REQUEST_TARGET
+  NTLMSSP_NEGOTIATE_SIGN
+  NTLMSSP_NEGOTIATE_NTLM
+  NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+  NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  NTLMSSP_NEGOTIATE_VERSION
+  NTLMSSP_NEGOTIATE_128
+  NTLMSSP_NEGOTIATE_KEY_EXCH
+NTLMSSP Sign/Seal - Initialising with flags:
+Got NTLMSSP neg_flags=0x62088215
+  NTLMSSP_NEGOTIATE_UNICODE
+  NTLMSSP_REQUEST_TARGET
+  NTLMSSP_NEGOTIATE_SIGN
+  NTLMSSP_NEGOTIATE_NTLM
+  NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+  NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  NTLMSSP_NEGOTIATE_VERSION
+  NTLMSSP_NEGOTIATE_128
+  NTLMSSP_NEGOTIATE_KEY_EXCH
+NTLMSSP Sign/Seal - Initialising with flags:
+Got NTLMSSP neg_flags=0x62088215
+  NTLMSSP_NEGOTIATE_UNICODE
+  NTLMSSP_REQUEST_TARGET
+  NTLMSSP_NEGOTIATE_SIGN
+  NTLMSSP_NEGOTIATE_NTLM
+  NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+  NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  NTLMSSP_NEGOTIATE_VERSION
+  NTLMSSP_NEGOTIATE_128
+  NTLMSSP_NEGOTIATE_KEY_EXCH
+ session setup ok
+ tconx ok

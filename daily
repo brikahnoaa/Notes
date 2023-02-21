@@ -8974,3 +8974,9 @@ PhD student attending first big conference, with advisor.
 .. pcie wireless
 .. clamav clamtk
 ... also sophos, comodo, f-prot av
+
+2023-02-01
+.1 </var/log/samba/log.smbd> fail uid from anchovy
+.. verify tamara is registered in accessmgr::global::Unix::users
+.. add tamara as ::global::auth::role::listed
+.. does baum need to be in :::child::Newport::compu::syspc::role ?

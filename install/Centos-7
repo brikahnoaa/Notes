@@ -87,7 +87,7 @@ InfoMsgFont=Sans=16"
  yum install pam_pkcs11
  yum groupinstall "Smart card support"
 ..2 centrify
-<~/Notes/install/samba-centrify>
+<~/Notes/linux/centrify>
 # !! do not reboot until dots.tar for kahn, else only cnsd login
 ..3 cac reader
  sctool -e

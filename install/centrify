@@ -1,13 +1,21 @@
 2022-09-29
-.0 prep
-delete machine from AD
- yum install -y samba samba-client samba-winbind samba-winbind-clients
-.1 centrify (CAC, samba)
+.0 remove
+ :dargle: scp ~/Linux/opt/centrify/* station1:
+>> /etc/ssh/sshd_config
+PermitRootLogin yes
+ yum remove -y samba samba-client samba-winbind samba-winbind-clients
+.. uninstall
+ /opt/centrify/install.sh
+  E erase  N no-reboot
+.. test root login, then reboot
+.. delete machine from AD
+.1 centrify (CAC, ssh)
 ..1 server-suite
  cd /opt/centrify
- tar xvzf centrify-server-suite*z
+ tar xzf *-server-suite*z
  ./install.sh
-# choose custom, then all defaults
+# choose custom, then all defaults, workstation=Y, reboot=N
+# optional: CentrifyDA=Y (same as adbind.tgz)
 How do you want to proceed? (E|S|X|C|Q) [E]: c
 # enter domain, zone, workstation license, DC, no reboot after
 Please enter the Active Directory domain to check []: pmel.noaa.gov
@@ -21,30 +29,36 @@ Join an Active Directory domain? (Q|Y|N) [Y]:
     Join domain using workstation license type? (N for server license) (Q|Y|N) [N]: y
     Enter the name of the domain controller [auto detect]: hatfield2
 Reboot the computer after installation? (Q|Y|N) [Y]:n
-..2 AD move
+..2 AD move on hatfield2
 pmel/Computers -> pmel/Pmel Systems/Linux
+pmel/Computers -> pmel/Pmel Systems/Servers - Non Windows
 properties:comment
-..3 Centrify Access Manager
+..3 Centrify Access Manager on hatfield2
 zones/global/child/newport/computers/SYS/role
 add:login..newport kahn,others
-..4 verify ad, ssh login
+..4 verify AD, ssh login
  adflush /force
  adquery user kahn
-:overcast: ssh $SYS
- ls -ld /home/kahn
+:dargle: ssh $SYS
+ su
+ vi /etc/ssh/sshd_config
+ reboot
+..5 cac test at console
 
 .2 set up samba
+ yum install -y samba samba-client samba-winbind samba-winbind-clients
  cd /opt/centrify
- yum install ./*adbind*rpm
- /usr/share/centrifydc/bin/adbindproxy.pl
-Please input Samba path : /usr
-Joined to Domain: pmel.noaa.gov
-          Zone: pmel.noaa.gov/Centrify/Global/Newport Linux
-Do you want to leave this domain and join to another domain? [N] :
- ...
-(defaults)
-.. NOTE - with adbindproxy-5.7.0, smb.conf: @group-name from AD not Linux
-.. test \\bioac3\silo
+ tar xzf *adbind*z
+ rpm=$(ls -1 | head -1)
+ yum install $rpm
+ cp /etc/samba/smb.conf /opt/centrify
+  -or-
+ :dargle: scp ~/Linux/etc/samba/smb.conf.tmpl $SYS:
+ >> smb.conf
+    netbios name = station1
+.. enable, start
+  systemctl enable smb winbind
+  systemctl start smb winbind
 
 Wed, Apr  3, 2019  1:44:55 PM
 install centrify 5.6
@@ -54,11 +68,14 @@ install centrify 5.6
  systemctl stop smb.service
  yum remove -y samba samba-client samba-winbind samba-winbind-clients
 .1 install
- yum install -y samba samba-client samba-winbind samba-winbind-clients
+ yum install -y --disableexcludes=all samba samba-winbind 
+ #? yum install -y --disableexcludes=all samba-client samba-winbind-clients
+ systemctl enable smb winbind
+ systemctl start smb winbind
 .1.1 extract centrify 
  cd /opt/centrify
- tar xzf centrify-infra*
- tar xzf centrify-adbind*
+ tar xzf centrify-server*
+ # tar xzf centrify-adbind*
 .1.2 ./install.sh, choose erase if offered 
 # on hatfield2, remove SYS from domain; move afterwards
 ./install.sh
@@ -96,14 +113,9 @@ vim /etc/samba/smb.conf
   [homes]
       path = /users/%S
 .2.3 Enable the service 
-# rhel6
-## chkconfig
-## cent="centrifydc centrifydc-samba"
-## samb="nmb winbind smb"
-## for i in $cent $samb; do chkconfig $i on; service $i restart; done
-# rhel7
  systemctl list-units --type service --all 
- samba="centrifydc nmb winbind adbindd smb"
+ samba="centrifydc winbind smb"
+ # samba="centrifydc nmb winbind adbindd smb"
  for i in $samba; do systemctl enable $i; systemctl restart $i; done
 
 .3 existing users
@@ -169,13 +181,3 @@ Enable the service at reboot:
  service centrifydc-samba restart
 # rhel7
  systemctl restart centrifydc-samba.service
-IF SELINUX:
-  # setsebool -P samba_export_all_ro on
-IF FIREWALL:
-   open both kerberos and samba:
-               # firewall-cmd --permanent --add-service=samba
-               # firewall-cmd --permanent --add-service=kerberos
-               # firewall-cmd --reload
-
----
-
