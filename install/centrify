@@ -45,11 +45,13 @@ add:login..newport kahn,others
  >> smb.conf
     netbios name = station1
 .. adbind
-/usr/share/centrifydc/bin/adbindproxy.pl
+ /usr/share/centrifydc/bin/adbindproxy.pl
 >> /usr, defaults
 .. enable, start
-  systemctl enable smb winbind
-  systemctl restart smb winbind
+ vi /etc/samba/smb.conf
+>> comment out samba-test
+ systemctl enable smb winbind
+ systemctl restart smb winbind
 .3 details -- ./install.sh
 
 
