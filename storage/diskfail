@@ -1,8 +1,21 @@
+2023-02-22
+.1 b3 alarm, blue+red on 4:12, not listed in storcli /c0 show
+.. GHS 4:17 automatically filled in, raid6 optimal
+.. 4:12 removed, first sectors wiped, smartctl looks clean
+.. put back in slot 4:22, shows as UBad
+..   storcli /c0/e4/s22 set good
+... shows as UGood (DG=F)
+..   storcli /c0/e4/s22 add hotsparedrive 
+... fail not allowed, reboot
+
 2022-10-11
 .1 new 12tbx12 on B3
 within one week, ubad
 hotswap
  storcli64 /c0/e4/s7 show rebuild
+.. seagate.com/b.k@n:MM8
+.. order 110836853
+
 
 2021-12-28
 # 6TB on shelf?

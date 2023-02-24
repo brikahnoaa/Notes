@@ -8832,6 +8832,12 @@ cloudhub (brane) - not ads
 .2 jeff. permission problems.
 .3 smb
 
+2022-10-11
+.1 new 12tbx12 on B3
+within one week, ubad
+hotswap
+ storcli64 /c0/e4/s7 show rebuild
+
 2022-10-14
 .1 where are the tape parts in a backup?
 amandabackup@challenger 05:59:00 ~/full/logs $
@@ -8980,3 +8986,28 @@ PhD student attending first big conference, with advisor.
 .. verify tamara is registered in accessmgr::global::Unix::users
 .. add tamara as ::global::auth::role::listed
 .. does baum need to be in :::child::Newport::compu::syspc::role ?
+
+2023-02-22
+.1 b3 alarm, blue+red on 4:12, not listed in storcli /c0 show
+.. GHS 4:17 automatically filled in, raid6 optimal
+.. 4:12 removed, first sectors wiped, smartctl looks clean
+... pn:2ty103-002 sn:zv707kf7
+.. put back in slot 4:22, shows as UBad
+.2 seagate.com ..  b.k@n:MM8
+.. no open orders /2022-10-11/ ??
+.. did a replacement arrive? maybe
+.3 station1, pumice: JoinedToZone=N
+.. s1 
+adinfo -y zone
+System Diagnostic
+======== Zone Information ========
+CN=Global,OU=Centrify,DC=pmel,DC=noaa,DC=gov (Type: Hierarchical  RFC2307 Standard Zone)
+CN=Newport Linux,CN=Global,OU=Centrify,DC=pmel,DC=noaa,DC=gov (Type: Hierarchical  RFC2307 Standard Zone)
+CN=station1.pmel.noaa.gov:zone,CN=Computers,CN=Newport Linux,CN=Global,OU=Centrify,DC=pmel,DC=noaa,DC=gov (Type: Hierarchical  Computer Zone)
+.. sc
+ adinfo -y zone
+System Diagnostic
+======== Zone Information ========
+CN=Global,OU=Centrify,DC=pmel,DC=noaa,DC=gov (Type: Hierarchical  RFC2307 Standard Zone)
+CN=Newport Linux,CN=Global,OU=Centrify,DC=pmel,DC=noaa,DC=gov (Type: Hierarchical  RFC2307 Standard Zone)
+

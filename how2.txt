@@ -29,6 +29,7 @@ CAC id <- activcard[O]:open:certs:authen:subjAlt
 
 # smb on ac b3 e2 sc cr ve
  smbstatus
+ smbclient -L localhost -U kahn
 yum -y --disableexcludes=all update
  systemctl restart centrifydc-samba.service;  \
  systemctl status centrifydc-samba.service
