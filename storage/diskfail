@@ -7,6 +7,32 @@
 ... shows as UGood (DG=F)
 ..   storcli /c0/e4/s22 add hotsparedrive 
 ... fail not allowed, reboot
+... still UGood (DG=F), but unusable
+.2 scrub disk
+.. remove and attach to local linux
+.. lsblk displays disk
+.. sfdisk -l /dev/sdc
+... >> 23437770752 sectors
+.. dd if=/dev/zero of=/dev/sdc count=999
+.. dd if=/dev/zero of=/dev/sdc count=999 seek=23437770000
+.3 replace in b3
+..  storcli /c0 show
+ >> 4:22     24 UGood  - 10.913 TB SATA HDD N   N  512B ST12000NM000J-2TY103 U
+..  storcli /c0/e4/s22 add hotsparedrive
+Description = Add Hot Spare Failed.
+.4 seagate warranty
+<Docu/property/repair/>
+order# 110849828 
+pn# 2ty103-002  sn# zv707kf7
+.5 similar
+.. drive transfered from ac to b3 got ugood (dg=f) and could not be used
+..   storcli /c0/e4/s20 start erase
+..   storcli /c0/e4/s20 stop erase
+..   storcli /c0/e4/s20 add hotsparedrive
+>>Controller = 0
+>>Status = Success
+>>Description = Add Hot Spare Succeeded.
+.6 rma cancelled 110849828
 
 2022-10-11
 .1 new 12tbx12 on B3

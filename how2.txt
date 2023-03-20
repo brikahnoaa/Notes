@@ -7,7 +7,10 @@ C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --t
 trout_sb pme!@2739 (end of prop label)
 lusrmgr.msc  user manager
 
-sherlock nessus ness_report:n3ss@cnsd
+ps -fwwC dat2wav.py
+awk '{a=a+$1} END{print a}' # sum of column 1
+
+sherlock nessus ness_report:n3ss@cnsd on dargle_vpn
 
 At this time it is understood that not all external drives are marked with 
 a property tag. Do not register your personal drives, you can register 
@@ -19,8 +22,9 @@ drives purchased for NOAA work.
 - select Details tab in Properties windows
 - drop-down Property and select "Device instance path"
 - copy the whole string in Value.
-Open a CNSD ticket with this info and brief description 
+Open a CNSD ticket with this info, a brief device description 
  (brand, model, thumb or external disk)
+ which computer you expect to use them with, what purpose.
 
 UPS bkahn@noaa:MM!!/12 
 .. w8R3UAP-PAB ac, w8R3UER-PGC gas, w8R3UER-PBS eoi
@@ -104,6 +108,11 @@ The /MIR option (equivalent to /PURGE /E) stands for "mirror" and is the most im
 Additional useful parameters mentioned by other users
 /XJD excludes "junction points" for directories, symbolic links that might cause problems like infinite loops during backup. See Brian's comments for details.
 /MT[:N] uses multithreading and can speed up transfers of many small files. For N, a value of 2-4 times the number of cores should do on a normal machine. Commented by Zoredache on the original question.
+
+general repair, in admin cmd.exe:
+sfc /scannow
+DISM.exe /Online /Cleanup-image /Scanhealth
+DISM.exe /Online /Cleanup-image /Restorehealth
 
 reset updates
 https://pureinfotech.com/reset-windows-update-windows-10-fix-downloads-installs/

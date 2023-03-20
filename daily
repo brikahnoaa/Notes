@@ -9011,3 +9011,48 @@ System Diagnostic
 CN=Global,OU=Centrify,DC=pmel,DC=noaa,DC=gov (Type: Hierarchical  RFC2307 Standard Zone)
 CN=Newport Linux,CN=Global,OU=Centrify,DC=pmel,DC=noaa,DC=gov (Type: Hierarchical  RFC2307 Standard Zone)
 
+2023-02-27
+.1 fix raid - not legal op
+/// start erase
+.2 /e/ jonathan. 
+AFSC-Newport is getting a new Google Meet kit in the RSF conference room.  In March it will be permanently mounted, and connected to the AFSC network.  PMEL personnel will unfortunately not be able to view the associated AFSC Google hardware page, but much of the information is here: https://support.google.com/a/answer/7552840?hl=en&ref_topic=3341432&visit_id=638131135832937030-23562112&rd=1
+The calendar for reservations is called "AFSC -Newport - Conf Rm -104". 
+
+2023-03-01
+.1 peer2peer award
+.2 unlimited pwd length
+The way you can tell if your system uses cryptographic hashes to store passwords is take a look at the /etc/shadow file (assuming you have root access). Every line is formatted like user:password:last-changed:minimum-age:maximum-age:warning-period:inactivity-period:expiration-date:reserved. The password field may start with $num$ (i.e. an md5 hash in the password field looks like $1$01234567$b5lh2mHyD2PdJjFfALlEz1 where it starts with $1$). If it starts with this, then that means your system is using a cryptographic hash. The format of the password field on all modern systems is $id$salt$hash. The id specifies what type of cryptographic hash you are using. The salt is a randomly generated string that is concatenated with the key (plain text password) in order to protect against precomputed tables of known hashes. The hash is the cryptographic hash created from the salt and key/password. If your password field starts with $num$ then you are using cryptographic hashes.
+So you know, the numbers mean this:
+$1$ means you are using MD5
+$2$ or $2a$ means you are using blowfish
+$5$ means you are using SHA-256
+$6$ means you are using SHA-512
+.3 ogie olanday. NOAA review of property management
+
+2023-03-03
+.1 caldera - working with bill
+..  run idl script or setup file from bash script:
+# make file.pro
+ echo "EXIT" > ~/bin/test.pro
+# execute from $HOME
+ idl -e '@~/bin/test'
+# set idl exec path to include the dir
+ IDL_PATH="<IDL_DEFAULT>:+/home/kahn/bin" idl -e '@test'
+
+2023-03-06
+.1 "it's weird being the same age as old people"
+.2 rsync -rt /mnt/* /users/haver/GlacierBay &
+.3 making new wav files in /users/haver
+.. update to dat2wav.py help message
+.4 admin team
+.. v review survey
+.5 eclipse pwd scissors.B.1.B/27
+.6 multithreading dat convert
+.. 3 threads on 4 cpu, leaves room for file copy ops
+.. 360 file in 72 minutes == 5/minute (2.5x dargle)
+
+2023-03-09
+.1 .dargle,brute,salish,harbor. chrome, ffox
+.2 all linux server
+.. smb updates
+.. pwd update listeningisoneofthebasicsecretS!1

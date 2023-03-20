@@ -1,0 +1,65 @@
+https://www.techrepublic.com/article/how-to-enable-ssh-2fa-on-almalinux-for-more-secure-logins/
+sudo dnf install epel-release -y
+
+Once that is taken care of, install Google Authenticator with the command:
+
+sudo dnf install google-authenticator qrencode qrencode-libs -y
+
+After the installation completes, run the command to create a new secret key that will be housed in your ~/.ssh directory:
+
+google-authenticator -s ~/.ssh/google_authenticator
+
+Answer y to the first question and then make sure to resize your terminal window to display the entire QR code. Open your TOTP app (either Authy or Google Authenticator) on your mobile device and add a new account. Scan the QR code and then, when prompted on the AlmaLinux terminal, type the six-digit code presented by the app. Answer y to the remaining question and you’re ready to configure SSH and PAM on the server.
+
+How to configure SSH and PAM
+The first thing we must do is configure the SSH daemon. Open the file with the command:
+
+sudo nano /etc/ssh/sshd_config
+
+I’m going to show you how to configure this for standard password/2FA and SSH key/2FA. The most secure method is using the SSH key authentication and 2FA combination. First, I’ll show you how to configure standard password/2FA authentication. Open the SSH daemon configuration file with the command:
+
+sudo nano /etc/ssh/sshd_config
+
+In that file, make sure both UsePAM and ChallengeResponseAuthentication are set to Yes. Save and close the file.
+
+Open the PAM sshd configuration file with the command:
+
+sudo nano /etc/pam.d/sshd
+
+In that file, add the following line at the bottom:
+
+auth required pam_google_authenticator.so secret=${HOME}/.ssh/google_authenticator
+
+Save and close the file.
+
+Restart the SSH daemon with the command:
+
+sudo systemctl restart sshd
+
+If you’d prefer to configure SSH key authentication/2FA, open the SSH daemon configuration file with the command:
+
+sudo nano /etc/ssh/sshd_config
+
+In that file, make sure both UsePAM and ChallengeResponseAuthentication are set to Yes. Also, make sure PubkeyAuthentication is set to Yes, and at the bottom of the file, add the following line:
+
+AuthenticationMethods publickey,keyboard-interactive
+
+Save and close the file.
+
+Next, open the PAM configuration file with the command:
+
+sudo nano /etc/pam.d/sshd
+
+At the bottom of this file, comment out (add a leading #) the line:
+
+auth substack password-auth
+
+Finally, add the following line at the bottom:
+
+auth required pam_google_authenticator.so secret=${HOME}/.ssh/google_authenticator
+
+Save and close the file.
+
+Restart SSH with the command:
+
+sudo systemctl restart sshd

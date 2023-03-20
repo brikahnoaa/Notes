@@ -99,3 +99,22 @@ comment out xinit lines, change twm to mwm
   xterm -e ssh -L 5902:localhost:5902 caldera &
   vncviewer :5902 &
 
+2023-03-10
+.1 vnc not starting at boot time
+.. added to /etc/systemd/system/vncserver@.service
+After=syslog.target network.target centrifydc.service
+..
+$ kahn@caldera 02:27:07 ~/.vnc $
+ systemctl -l status vncserver@:2.service
+● vncserver@:2.service - Remote desktop service (VNC)
+   Loaded: loaded (/etc/systemd/system/vncserver@.service; enabled; vendor preset: disabled)
+   Active: failed (Result: exit-code) since Thu 2023-03-09 13:37:45 PST; 24h ago
+ Main PID: 1125 (code=exited, status=2)
+
+Mar 09 13:37:44 caldera.pmel.noaa.gov systemd[1]: Starting Remote desktop service (VNC)...
+Mar 09 13:37:45 caldera.pmel.noaa.gov systemd[1]: Started Remote desktop service (VNC).
+Mar 09 13:37:45 caldera.pmel.noaa.gov vncserver_wrapper[1125]: runuser: user kahn does not exist
+Mar 09 13:37:45 caldera.pmel.noaa.gov vncserver_wrapper[1125]: FATAL: 'runuser -l kahn' failed!
+Mar 09 13:37:45 caldera.pmel.noaa.gov systemd[1]: vncserver@:2.service: main process exited, code=exited, status=2/INVALIDARGUMENT
+Mar 09 13:37:45 caldera.pmel.noaa.gov systemd[1]: Unit vncserver@:2.service entered failed state.
+Mar 09 13:37:45 caldera.pmel.noaa.gov systemd[1]: vncserver@:2.service failed.
