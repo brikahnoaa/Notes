@@ -5,6 +5,7 @@ query user
 C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 300
 
 trout_sb pme!@2739 (end of prop label)
+bomgar:NoaaPmel//0@1
 lusrmgr.msc  user manager
 
 ps -fwwC dat2wav.py
