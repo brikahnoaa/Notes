@@ -1,25 +1,9 @@
 localhost /backup gtar-full
-acoustic-191 .catalog/set0 /data0/.catalog gtar-full
-acoustic-191 ANT/set0 /data0/ANT gtar-full
-acoustic-191 ARCTIC/set0 /data0/ARCTIC gtar-full
-acoustic-191 EA/set0 /data0/EA gtar-full
-acoustic-191 EPAC/set0 /data0/EPAC gtar-full
-acoustic-191 EPR/set0 /data0/EPR gtar-full
-acoustic-191 GLOC/set0 /data0/GLOC gtar-full
-acoustic-191 INDIAN/set0 /data0/INDIAN gtar-full
-acoustic-191 MAR/set0 /data0/MAR gtar-full
-acoustic-191 Qphone/set0 /data0/Qphone gtar-full
-acoustic-191 WISPR/set0 /data0/WISPR gtar-full
-acoustic-191 WPAC/set0 /data0/WPAC gtar-full
-acoustic-191 programs/set0 /data0/programs gtar-full
-acoustic-191 project/set0 /data0/project gtar-full
-acoustic-191 ONRSN/set1 /data0/ONRSN gtar-full
-acoustic-191 users/set2 /data0/users gtar-full
-embfile2-191 back/set0 /data0/back gtar-full
-embfile2-191 multibeam/set0 /data0/multibeam gtar-full
-embfile2-191 users/set0 /data0/users gtar-full
-embfile2-191 video/set0 /data0/video gtar-full
-embfile2-191 mdisk/set1 /data0/mdisk gtar-full
-bioac3-191 /data0 gtar-full
-bioac3-191 /data1 gtar-full
-syspc-191 /data0 gtar-full
+acoustic-191 data0 /vd0/data0 gtar-full
+acoustic-191 data1 /vd0/data1 gtar-full
+bioac3-191 data0 /vd0/data0 gtar-full
+bioac3-191 data1 /vd0/data1 gtar-full
+bioac3-191 data2 /vd0/data2 gtar-full
+embfile2-191 data0 /vd0/data0 gtar-full
+embfile2-191 data1 /vd0/data1 gtar-full
+syspc-191 data0 /data0 gtar-full

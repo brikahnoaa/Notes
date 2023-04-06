@@ -9055,7 +9055,7 @@ $6$ means you are using SHA-512
 .1 .dargle,brute,salish,harbor. chrome, ffox
 .2 all linux server
 .. smb updates
-.. pwd update listeningisoneofthebasicsecretS!1
+.. pas listeningisoneofthebasicsecrets/S+!1+xx
 
 2023-03-20
 .1 yang updates
@@ -9064,8 +9064,70 @@ https://sherlock.pmel.noaa.gov:1241/
 .2 cr java
 java /data0/backup/RHbackup/garfield/local/IDL/idl85/idlde/bin.linux.x86_64
   : /data0/backup/RHbackup/garfield/local/MATLAB/sys/java/jre/glnxa64/
-
 .3 eon one pro battery dead
 JBL Part number - 5091181-00
 voltage and capacity - 43.2V 5200 MAH
+.4 finding simple driver for big bass
 
+2023-03-22
+.1 lagan wiped mcafee disk profile - admin recovery /tony/
+.2 musculus cpu LGA1155
+
+2023-03-24
+.1 $ kahn@acoustic 10:43:30 /users/kahn/WAV/NRS04/2017-2019 $
+ ( dat2wav.py -d /data/ONRSN/NRS04/2017-2019 *.DAT ) &
+.2 $ kahn@acoustic 10:46:16 /users/kahn/uploads/fodh2022 $
+ ( dat2wav.py -w WAV *.DAT ) &
+.3 /mnt2/NRS06/2018-2020
+ ( cp -rn /users/haver/ONRSN/NRS06/WAV/2018-2020 /mnt2/NRS06 & )
+.4 shortwav
+/users/haver/ONRSN/
+103282732 Nov 10 04:55 NRS05/WAV/2019-2021 NRS05_20211229_130240.wav
+28833836 Apr 22  2022 NRS06/WAV/2018-2020 NRS06_20180727_124709.wav
+90175532 Apr 30  2022 NRS06/WAV/2018-2020 NRS06_20190817_020513.wav
+57292844 Jul  2  2019 NRS08/WAV/2016-2018 NRS08_20170820_095651.wav
+97884204 Jun 17  2019 NRS11/WAV/2015-2017 NRS11_20170613_051854.wav
+58064940 Oct 28  2021 NRS11/WAV/2017-2019 NRS11_20180606_173954.wav
+126875692 Aug 16  2022 NRS11/WAV/2019-2021 NRS11_20201017_185049.wav
+100884524 Sep  2  2022 NRS11/WAV/2019-2021 NRS11_20210514_060054.wav
+.. find file
+ wav=NRS08_20170820_095651.wav
+ nrs=NRS08
+ dd=/data/ONRSN/$nrs/2018-2020 
+ cd $dd ; ls -l | tail
+ ls -l | grep 'Jul 27  2018'
+ dat2wav.py --datetime 0000295* | grep 095651
+ dat=00002953.DAT
+ cd /users/haver/ONRSN; cd NRS06/WAV/2018-2020
+ ls -l $wav
+ rm $wav
+ dat2wav.py -n $nrs $dd/$dat
+ ls -l $wav
+
+2023-03-27
+.1 doc purch port https://doc.csporders.com/cart/save
+$1250 mid size best cpu postorderup:32G->64G@$250
+
+2023-03-29
+.1 /susan/ disk fail on lingcod
+.. remind all to back up
+.2 /ray/ progress on property?
+.. print out full pages and 2022 notes (kahn, merle, dziak, tamara)
+.3 new musculus
+/e//bob/ 3BR3U9L-PBD
+what is the charge number to use for a NOAA desktop? 
+And probably a few external drives to backup laptops (for you, samara, angela)
+
+2023-03-30
+.1 # root@challenger 01:21:10 /backup #
+ du -sh *
+570G    RHbackup
+28T     ac
+1.1T    b3
+1000G   e2
+2.4T    sc
+
+2023-04-03
+.1 new disk on warranty for lingcod
+.2 A-team. Kenneth Connell - NOAA Federal2:15 PM survey.
+https://docs.google.com/forms/d/1y3TgLiQHl_pvSJCV2RX-S-avXsvKDuuiuIPZNlkfTiY/edit

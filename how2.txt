@@ -8,6 +8,8 @@ trout_sb pme!@2739 (end of prop label)
 bomgar:NoaaPmel//0@1
 lusrmgr.msc  user manager
 
+beyond trust challenge code shared secret : bomgar or PMEL
+
 ps -fwwC dat2wav.py
 awk '{a=a+$1} END{print a}' # sum of column 1
 
@@ -133,7 +135,8 @@ net start cryptSvc
 net start bits
 net start msiserver
 
-beyond trust challenge code shared secret : noaapmel//^0@^1
+office 2021 installer
+setup.exe /configure pmel2021.xml
 
 .2 win10 win11
  wmic product get name
