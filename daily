@@ -9117,6 +9117,11 @@ $1250 mid size best cpu postorderup:32G->64G@$250
 /e//bob/ 3BR3U9L-PBD
 what is the charge number to use for a NOAA desktop? 
 And probably a few external drives to backup laptops (for you, samara, angela)
+.. wmic cpu get name   i7-3770K (LGA1155) {6K}
+.. 7680 precision i7-13850HX {38K} plus 2x 32GB 5200MHz SODIMM, non-ECC $243  
+https://www.amazon.com/Crucial-2x32GB-5200MHz-CT2K32G52C42S5/dp/B0BNXX1NT8
+3820+243+1096(disks) = $5159
+5.75 lbs
 
 2023-03-30
 .1 # root@challenger 01:21:10 /backup #
@@ -9131,3 +9136,5 @@ And probably a few external drives to backup laptops (for you, samara, angela)
 .1 new disk on warranty for lingcod
 .2 A-team. Kenneth Connell - NOAA Federal2:15 PM survey.
 https://docs.google.com/forms/d/1y3TgLiQHl_pvSJCV2RX-S-avXsvKDuuiuIPZNlkfTiY/edit
+
+2023-04-17
