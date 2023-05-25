@@ -1,1 +1,1 @@
-comm - compare two sorted files line by line
+storcli64 /c0/v0 start migrate type=raid6 option=add disk=21:20,21:21

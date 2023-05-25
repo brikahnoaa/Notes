@@ -1,9 +1,0 @@
-localhost /backup gtar-full
-acoustic-191 data0 /vd0/data0 gtar-full
-acoustic-191 data1 /vd0/data1 gtar-full
-bioac3-191 data0 /vd0/data0 gtar-full
-bioac3-191 data1 /vd0/data1 gtar-full
-bioac3-191 data2 /vd0/data2 gtar-full
-embfile2-191 data0 /vd0/data0 gtar-full
-embfile2-191 data1 /vd0/data1 gtar-full
-syspc-191 data0 /data0 gtar-full

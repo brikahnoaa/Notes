@@ -29,6 +29,9 @@ Username: ONID username
   eduroam: followed by "@oregonstate.edu" 
 Password: ONID password here
 
+sherlock nessus ness_report:n3ss@cnsd
+on dargle-vpn mozilla  https://sherlock.pmel.noaa.gov:1241/#/
+
 robocopy backup
 robocopy C:\src M:\dst /MIR /S /FFT /R:3 /W:10 /Z /NP /NDL /XJD /MT:8
 Parameters explained
@@ -104,6 +107,7 @@ windows store
 --
 https://www.maketecheasier.com/windows-store-not-working-fix/
 
+\\pesto\cnsd\rsmith\Scripts\Powershell\Update_fix.bat
 Ron: activclient 7.2 - 7.4 broke (should uninstall first)
 put system into pmel.noaa.gov:isolate OU, then gpupdate /force
 examine group policy with rsop.msc from cmd admin
@@ -111,8 +115,32 @@ net user to reset cnsd_local pwd if LAPS is broke: net user cnsd_local NEWPASS
 
 git update-index --skip-worktree [path] to stop git from tracking changes
 git update-index --no-skip-worktree [path] to start tracking that file again
+gmail: filter delete old
+
+:reinstall grub:
+Boot into live USB or CD
+Mount the ubuntu partition drive 
+  sudo mount /dev/sda1 /mnt
+Mount the virtual filesystems:
+  sudo mount --bind /dev /mnt/dev
+  sudo mount --bind /proc /mnt/proc
+  sudo mount --bind /sys /mnt/sys
+To ensure that only the grub utilities from the LiveCD get executed, mount /usr
+  sudo mount --bind /usr /mnt/usr
+  sudo chroot /mnt
+Make your changes to /etc/default/grub using nano
+run the updater update-grub
+Exit chroot : CTRL-D on keyboard.
+Unmount virtual filesystems:
+  sudo umount /mnt/dev
+  sudo umount /mnt/proc
+  sudo umount /mnt/sys
+  sudo umount /mnt/usr
+  sudo umount /mnt
 
 2115 SE OSU Drive
 Newport, Oregon 97365
 
 purchase: rusty robertSlaney
+
+

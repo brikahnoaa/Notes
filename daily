@@ -8688,11 +8688,6 @@ remote support bomgar 21.3.4
 .2 prep for onboard
 .. anchovy, lingcod
 
-.1 group meet
-https://sherlock.pmel.noaa.gov:1241/api#/authorization
-no access
-ness_report:
-
 2022-05-29
 .1 https://www.youtube.com/watch?v=IL7Jd9rjgrM
 
@@ -9114,6 +9109,7 @@ $1250 mid size best cpu postorderup:32G->64G@$250
 .2 /ray/ progress on property?
 .. print out full pages and 2022 notes (kahn, merle, dziak, tamara)
 .3 new musculus
+charge account
 /e//bob/ 3BR3U9L-PBD
 what is the charge number to use for a NOAA desktop? 
 And probably a few external drives to backup laptops (for you, samara, angela)
@@ -9122,6 +9118,12 @@ And probably a few external drives to backup laptops (for you, samara, angela)
 https://www.amazon.com/Crucial-2x32GB-5200MHz-CT2K32G52C42S5/dp/B0BNXX1NT8
 3820+243+1096(disks) = $5159
 5.75 lbs
+.. dell R6515, AMD EPYC 7443P, 2TB SSD SATA Read
+.. store.supermicro.com as-1015 AS-1114CS-TNR $4,824
+https://store.supermicro.com/1u-rail-kit-mcp-290-00054-0n.html
+https://www.supermicro.com/en/products/system/clouddc/1u/as-1015cs-tnr
+.. newegg AS-1014S-WTRT $5,799
+https://www.neweggbusiness.com/product/product.aspx?item=9B-59-152-143
 
 2023-03-30
 .1 # root@challenger 01:21:10 /backup #
@@ -9137,4 +9139,235 @@ https://www.amazon.com/Crucial-2x32GB-5200MHz-CT2K32G52C42S5/dp/B0BNXX1NT8
 .2 A-team. Kenneth Connell - NOAA Federal2:15 PM survey.
 https://docs.google.com/forms/d/1y3TgLiQHl_pvSJCV2RX-S-avXsvKDuuiuIPZNlkfTiY/edit
 
-2023-04-17
+2023-04-19
+.1 UPS batteries
+.. RBC105 REPLACEMENT $272 
+https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000009693962
+8 x battery $104
+https://www.replaceupsbattery.com/APC-RBC105-Batteries-Set-of-8/?sku=299874892595-UPS12-7x8
+8 x battery $80
+https://www.batterysharks.com/APC-RBC105-p/apc-rbc105_ups12-7_x8.htm
+2 x battery $48
+https://www.newegg.com/p/14R-0025-00FR2
+.2 new lap
+7330 i5-8365U {6,267} (monodon about the same, 16gb, larger disk)
+5440 base i5-1345U 14" 32GB 1TB-nvme $1856 {18,673}
+5540 base i5-1335U 15" 32GB 1TB-nvme $1812
+5440 base basic $880 + 64GB $120 + M.2 1TB $80 = $1080
+ https://www.neweggbusiness.com/product/product.aspx?item=9b-20-374-025
+ https://www.neweggbusiness.com/product/product.aspx?item=9b-20-147-804
+
+2023-04-20
+.1 install hasp <dargle//Down/proj/SusanM>
+.2 pdf to jpg https://www.adobe.com/acrobat/online/pdf-to-jpg.html
+convert f'd up fox news pdf to jpg for pp slides for bobD
+.3 new musc
+.. Supermicro, AMD EPYC Milan 7543P 1U , 32-C/64-T, 128 DDR4, 1 TB Intel SSD
+https://www.neweggbusiness.com/product/product.aspx?item=9B-59-152-143
+.. 
+..  Intel Core i9-13900K - Core i9 13th Gen Raptor Lake 24-Core (8P+16E)
+https://www.newegg.com/intel-core-i9-13900k-core-i9-13th-gen/p/N82E16819118412
+
+2023-05-01
+.1 located jonathon linksys, now in top right file drawer 
+.2 submit purch req for server workstation
+.3 nrs11 2017-19 to disk
+.4 hid dat files from screened data 05/2015-2017,2019-2021 11/2019-2021
+# make tmp script and pop in/out of shell
+<tmp>
+!G find -newer 00004442.DAT
+:.,$s/..//
+
+data=/data/ONRSN/NRS05/2019-2021
+mkdir $data/sensitive
+for i in $a; do mv $data/$i $data/sensitive; cp -n $i $data; done
+ chmod go-rwx $data/sensitive/*
+ pushd $data
+ ls -l sensitive
+ popd
+a="\
+00000858.DAT
+00000859.DAT
+00002700.DAT
+"
+.5 purge wav files made from screened data 05/2015-2017,2019-2021 11/2019-2021
+dat=/data/ONRSN
+cd $dat
+a="\
+NRS05 2015-2017
+NRS05 2019-2021
+NRS11 2019-2021"
+# echo "$a" | while read n y; do echo n$n y$y; done
+echo "$a" | while read n y; do
+  if [ ! -d $n/$y/sens* ]; then continue; fi
+  echo $n $y
+  for s in $(ls $n/$y/sens*); do
+    dt=$(dat2wav.py --datetime $dat/$n/$y/$s)
+    if [ $? -gt 0 ]; then echo dat2wav err; continue; fi
+    kn=/users/kahn/WAV/$n/$y/*${dt}*
+    if [ -f $kn ]; then
+      echo updating $kn
+      rm -f $kn
+      dat2wav.py -n $n -w /users/kahn/WAV/$n/$y $dat/$n/$y/$s
+      chown kahn /users/kahn/WAV/$n/$y/*${dt}*
+      continue
+    fi
+    hr=/users/haver/ONRSN/$n/WAV/$y/*${dt}*
+    if [ -f $hr ]; then
+      echo updating $hr
+      rm -f $hr
+      dat2wav.py -n $n -w /users/haver/ONRSN/$n/WAV/$y $dat/$n/$y/$s
+      chown haver /users/haver/ONRSN/$n/WAV/$y/*${dt}*
+    fi
+  done
+done
+
+2023-05-05
+.1 /e/ /ridge/ need hat hat2 specs
+hatfield is a 2016 Dell R230 (#DLV6RD2) with 32GB and Xeon e3-1225-v5 cpu. 
+hat2 is a 2014 SuperMicro case CSE-743T-R760B (#C74300741G20502)
+with Asus P8B-C motherboard holding 12GB and i3-2120 CPU. Hat2 was
+NEWPSERV for its first 3 years.  Note: the case number is from PNDI, the
+serial number is from sunflower, there are no markings visible on Hat2.
+The case and mboard were probably purchased separately, and so I don't
+think hat2/newpserv came with a license from supermicro. Jonathon may
+know for sure.
+hat is the VM host to Rogue DC, so Hat & Hat2 are the two Newport DCs. Hat
+is also the print server. Hatfield was apparently purchased to be a DC
+for newport, it was set up in seattle.
+.2 "myth america" zelizer, kruse
+There’s a famous aphorism by the Czech writer Milan Kundera, which is: “The struggle of human beings against power is the struggle of memory against forgetting.”
+
+2023-05-09
+.1 PR 5440 laptop
+memory $111 64gb ddr4 3200 
+https://www.newegg.com/g-skill-64gb-260-pin-ddr4-so-dimm/p/N82E16820374025
+.2 PR gsa 1tb dell 
+B&M Distrib $265 https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000097615276
+bahfed corp $105 https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000101487438
+newegg $108 https://www.newegg.com/corsair-1tb-mp600-mn/p/N82E16820236999
+.3 PR gsa 32gb ddr4 3200 sodimm 
+better direct $101 https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000083663085
+computech international $92 https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000082495684
+newegg $58 https://www.newegg.com/g-skill-32gb-260-pin-ddr4-so-dimm/p/N82E16820374028
+.4 PR gsa fluke 179 + leads kit
+interworld highway $380 https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000011340028
+bahfed corp $399 https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?contractNumber=GS-35F-0431Y&itemNumber=179%2FEDA2KIT&mfrName=Fluke
+digikey $479 https://www.digikey.com/en/products/detail/fluke-electronics/FLUKE-179%2FEDA2/1506345
+newegg $462 https://www.newegg.com/p/2A7-000F-001R6
+
+2023-05-10
+.1 laptop samara #19516
+replace primary system dell 7300 with dell 5440
+2x speed increase
+also seeking aftermarket 32GB and 1TB nvme
+account 3BR3U9L-PBD
+Quote # DOC-10021718
+
+	Dell Latitude 5440 Base - Standard	210-BFZX	$812.66	
+ 	Upgrade (Memory): 16 GB, 1 x 16 GB, DDR4, 3200 MHz	370-AFVP	+ $118.87
+ 	Upgrade (Dock): Dell Dock- WD19S 130w USB C 210-AZBE	+ $92.87
+ 	Total	1	$1,024.40
+
+.2 .. 1TB + 32GB purch req
+  1TB M.2 NVMe 2230 internal disk, GSA vendor BahFed Corp, $105
+https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000101487438
+open market: https://www.newegg.com/corsair-1tb-mp600-mn/p/N82E16820236999,
+  32GB sodimm ddr4 3200, GSA vendor computech international, $92 
+https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000082495684
+open market: https://www.newegg.com/g-skill-32gb-260-pin-ddr4-so-dimm/p/N82E16820374028
+.3 fluke
+
+2023-05-12
+.1 docks, 4
+	Dell WD19S - with 180 W AC Adapter	210-AZBE	$92.87	4	
+ 	Total	4	$371.48
+.2 bob laptop
+Dell Latitude 5440 Base - Standard	210-BFZX	210-BFZX-0414	$812.66
+ 	Upgrade (Processor): Intel® Core™ i7-1355U, 379-BFBS	+ $196.99
+ 	Upgrade (Memory): 16 GB, 1 x 16 GB, DDR4, 3200 MHz	370-AFVP	+ $118.87
+ 	Upgrade (Dock): Dell Dock- WD19S 210-AZBE	+ $92.87
+ 	Total	1	$1,221.39
+.3 wiha bits and driver wiha 76899 2x @ $54 gsa
+.4 5TB -> ncei
+Elizabeth Jimenez
+NOAA CIRES NCEI
+325 Broadway
+E/NE42, 1B117
+BOULDER, CO 8030-53328
+
+.5 cpu
+pepper i7-8700 12,961 32gb
+brute  E3-1240v5 8295 16gb
+
+2023-05-15
+.1 bob laptop yeti:19530 Quote:DOC-10021779 acct:3BR3U9L-PBD PR:PR0002576
+Dell Latitude 5440 Base - Standard	210-BFZX	$812.66	
+ 	Upgrade (Processor): i7-1355U 	379-BFBS	+ $196.99
+ 	Upgrade (Memory): 16 GB, 1 x 16 GB	370-AFVP	+ $118.87
+ 	Upgrade (Dock): Dell Dock- WD19S 	210-AZBE	+ $92.87
+ 	Total	1	$1,221.39
+.. aftermarket PR:PR0002577
+Must complete by end of May. GSA vendor BahFed Corp. acct:3BR3U9L-PBD
+1TB M.2 NVMe 2230 internal disk, GSA vendor BahFed Corp $105
+Must complete by end of May. GSA vendor computech int'l. acct:3BR3U9L-PBD
+  32GB sodimm ddr4 3200, GSA vendor computech international, $92
+https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000082495684
+.2 /e/bob/ $11K in account charges.
+
+2023-05-16
+.1 linux vulns
+ vi /etc/fstab
+syspc:/data0         /syspc       nfs     defaults,bg     1 1
+ mkdir /syspc
+ umount -a -t nfs
+ a=$( grep syspc /etc/fstab | awk '{print $2}' )
+ echo $a
+ for i in $a; do rmdir $i; ln -s /syspc$i $i; done
+ mount -a
+ df
+.2 /e/ joseph.hwang@noaa.gov weiming.tan@noaa.gov
+This quote is from the preferred purchase platform, 
+Department of Commerce Purchasing Portal
+https://doc.csporders.com/
+TeamBox@cspenterprises.com
+Apricorn Aegis Fortress – USB 3.0 - 2TB	A25-3PL256-2000F	$274.16	x6	
+Apricon Aegis Secure Key 3NX - 128 GB	ASK3-NX-128GB	$178.00	x2	
+ 	Total	8	$2,000.96
+
+2023-05-22
+.1 pam config for sudo
+https://www.redhat.com/sysadmin/pam-configuration-file
+/etc/pam.d/sudo
+.2 cimers training
+Collaboration & Teams, Innovation & Technology, Work/Life Integration,
+Inclusive Excellence & Diversity, Leadership, 
+Performance & Organizational Management, Safety & Compliance
+.3 shipping
+bkahn@noaa:  acoustic:x8r3uap-pab gas:x8r3uer-pgc eoi:x8r3uer-pbs
+
+2023-05-23
+.1 tracfone (verizon) sim card
+.2 /joe/e/ 
+please look at PR0002567 PR0002550 PR0002537 
+
+2023-05-24
+.1 purchases.
+.. docks dead, order via mypmel / it equip / pools / new
+.. joeW looking at laptop for samara
+.. weiming ordering disks for server
+.. robS will contact weiming re fluke
+.2 increase R6 on ac
+storcli64 /c0/v0 start migrate type=raid6 option=add disk=21:20,21:21
+ first do a backup
+.3 structure ac like b3 for backup, with data0,1,2
+was 300-303 ac/users    304-306 ac/ONRSN    307-309 ac/set0     2022-09-12
+.4 /e/benC/
+Ben Carlson - NOAA Federal
+1:11 PM (32 minutes ago)
+to Robert, me, Weiming
+Hi All,
+If the funds are set to expire in May, they cannot be used for purchase card purchases. This is the case because reconciling the card account happens the month after and the funding won't be pulled from the project number until June after it's expiration. In the future if you have funds that are going to expire, I'd recommend any card charges that will use those funds occur 60-90 days prior to the expiration of the funds.
+
+.5 /../e/
+PR0002577 2576 2567 2566 2552 2550 2537 2536 

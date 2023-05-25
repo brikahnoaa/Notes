@@ -1,0 +1,53 @@
+. data sizes are growing too big for our backup tech. 
+in 2022 i transitioned to b3 to datasets up to 24TB (4 tapes)
+
+.. /vd0/.data0,1,2 are the actual data, and datasets of up  to 24TB
+note: amandabackup must work with real directories, not links
+.. /vd0/* are links to dirs in /vd0/.data?/* for samba
+note: samba links only work downwards
+.. /data -> /vd0 for export by nfs
+
+. to create dataset
+.. make /vd0/.dataX and move dirs
+# cd /vd0; ln -s .data?/* .
+.. update backup.data to v22, vi /etc/cron.daily/backup.data.conf 
+Srcs="/vd0/data0 /vd0/data1 /vd0/data2"
+.. copy /vd0/.catalog and trim or update tapeL0
+# root@acoustic 02:54:36 /vd0 #
+ ls .catalog/
+gz  tapeL0  tapeL0.old
+... edit tapeL0
+ for i in .data?; do 
+   mkdir $i/.catalog; cp -a .catalog/tapeL0 $i/.catalog/
+   ls $i; echo proceed to vi?; read vi; vi $i/.catalog/tapeL0
+ done
+.catalog/
+.catalog/tapeL0
+.catalog/tapeL0.old
+users/kahn/ ...
+
+. to make changes in directory structure
+.. also mv directories on challenger day[1-7]
+
+.1 examples from b3
+..  cat /etc/fstab
+# /etc/fstab
+/dev/mapper/cl_bioac3-root /                       xfs     defaults        0 0
+UUID=6b689c70-5b44-41a3-b399-d48961d1bb65 /boot    xfs     defaults        0 0
+/dev/mapper/cl_bioac3-home /home                   xfs     defaults        0 0
+/dev/mapper/cl_bioac3-swap swap                    swap    defaults        0 0
+LABEL=raid-vd0                   /vd0         xfs     defaults        1 1
+..  ls -l /data
+total 0
+lrwxrwxrwx 1 root root 19 May 24 13:54 analysis -> /vd0/data2/analysis
+lrwxrwxrwx 1 root root 19 May 24 13:54 datasilo -> /vd0/data1/datasilo
+lrwxrwxrwx 1 root root 20 May 24 14:29 datasilo2 -> /vd0/data2/datasilo2
+lrwxrwxrwx 1 root root 15 May 24 13:54 silo -> /vd0/data0/silo
+lrwxrwxrwx 1 root root 16 May 24 13:54 users -> /vd0/data1/users
+..  cat /etc/cron.daily/backup.data.conf
+#echo "$0: not configured"; exit 1
+Srcs="/vd0/.data0 /vd0/.data1 /vd0/.data2 /vd0/.data3"
+Dest="challenger-191::b3"
+When="20210326"
+..  Note: datasilo is too big, so some directories are moved to datasilo2
+ could be done with wide links = yes in smb.conf?
