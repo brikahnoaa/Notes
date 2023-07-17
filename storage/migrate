@@ -1,3 +1,26 @@
+2023-06-12
+.1 add more space on ac, b3 has enough 
+.. b3 has more future growth, many slots
+.. fresh backup of ac
+.. remove 6TBx2 from ac, move one GHS disk from b3 to ac
+# root@bioac3 01:08:57 /home/kahn #
+ storcli64 /c0/e4/s21 delete hotsparedrive
+ storcli64 /c0/e4/s21 spindown
+# root@acoustic 01:06:30 /home/kahn #
+ storcli64 /c0/e21/s18 spindown
+ storcli64 /c0/e21/s19 spindown
+.. grow ac raid6, 11 days ?
+ storcli64 /c0/v0 start migrate type=raid6 option=add drives=21:18,21:20,21:21
+ storcli64 /c0/v0 show migrate
+ VD Operation Progress% Status      Estimated Time Left
+---------------------------------------------------------------
+ 0 Migrate           0 In progress 25 Days 14 Hours 16 Minutes
+ 0 Migrate           0 In progress 11 Days 15 Hours 45 Minutes
+.2 e2 needs hot spares and use more 6TB drives
+ storcli64 /c0/e16/s20,23 set good force
+ storcli64 /c0/e16/s22,23 add hotsparedrive
+ # migrate 20,21 after full backup
+
 2022-09-02
 .1 new drives 16x12TB seagate exos18 $350
 .2 add two to acoustic to make space for migrate on b3

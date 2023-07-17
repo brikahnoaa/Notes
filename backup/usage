@@ -1,5 +1,5 @@
 $ kahn@bioac3 09:19:31 ~ $
- sudo find /data0/ -mtime +15000 -ls -exec touch -mt 8001010101 \{\} \;
+ sudo find /vd0/ -mtime +15000 -ls -exec touch -mt 8001010101 \{\} \;
 
 [amandabackup@challenger 09:20:09 ~]
 # prepare tapes for use, 0 existing timestamp in tapelist
@@ -27,6 +27,7 @@ $ kahn@bioac3 09:19:31 ~ $
   ($rs; amdump full bioac3-191 data0; $rs)&
   ($rs; amdump full bioac3-191 data1; $rs)&
   ($rs; amdump full bioac3-191 data2; $rs)&
+  ($rs; amdump full bioac3-191 data3; $rs)&
   ($rs; amdump full embfile2-191 data0; $rs)&
   ($rs; amdump full embfile2-191 data1; $rs)&
   ($rs; amdump full syspc-191; $rs)&
@@ -55,3 +56,5 @@ $ kahn@bioac3 09:19:31 ~ $
  vi /etc/cron.daily/backup.data.conf
  # hint one day before e.g. 20190214
 
+   export rs="rsync -ai /var/lib/amanda/full/index/ /etc/amanda/full/index"
+   grep PARTDONE /var/lib/amanda/full/logs/amdump

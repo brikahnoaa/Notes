@@ -1,0 +1,52 @@
+2023-06-02
+moved to <Notes/project/matlab>
+https://www.mathworks.com/licensecenter
+https://www.mathworks.com/support/search.html/answers/102845-where-can-i-find-the-activation-key-and-file-installation-key-fik-for-my-license.html
+license musculus 575045 9.5.0.1586782 (R2018b) Update 8
+
+License Label Option Use Latest Eligible Release Service End Date Term
+1065503	Student - Named User Licenses	Total Headcount	Academic	R2023a	2023-12-31	Annual
+575045	NOAA Lab (Network)	Concurrent	Academic	R2018b	2018-12-31	Perpetual
+557350	haver	Individual	Academic	R2019b	2019-09-30	Perpetual
+304616	sole	Designated Computer	Academic	R2018b	2018-12-31	Perpetual
+183019	Dave	Individual	Academic	R2021b	2021-09-30	Perpetual
+239376	Holger (Personal) - to expire	Individual	Academic	R2014b	2014-12-31	Perpetual
+239375	Selene (Balaena) - to expire	Designated Computer	Academic	R2014b	2014-12-31	Perpetual
+NOAA Lab (Network)
+575045  MATLAB  Perpetual Academic  Concurrent  Master License 30575045
+Manage Products
+Manage Users
+Install and Activate
+Contact Administrator(s)
+Activated Servers
+Activation Label
+Host ID
+Date Activated
+Operating System	Activated For	Get License File	Deactivate
+concur	0CC47A42FE28	11 Dec 2020	Linux	David Mellinger
+... install and activate
+key enables users to link their MathWorks Account and activate the software, 
+activation key: 17725-62676-59430-76158-44545
+... release 2018b File Installation Key,
+key used during the installation process if not connected to the Internet,
+R2018b File Installation Key: 06626-43427-29142-38791-46224-63042 
+toolbox: signal proc, stats machine learning
+.. haver perpet license to update to current version
+... License 557350 Renewal
+Product	Service Period	Price	Add
+MATLAB - Software Maintenance Service	01 Oct 2019 - 30 Sep 2023	USD 642.81
+Signal Processing Toolbox - Software Maintenance Service	01 Oct 2019 - 30 Sep 2023	USD 257.13
+Add Products
+Parallel Computing Toolbox	USD 220.00
+Statistics and Machine Learning Toolbox	USD 220.00
+...
+Service end date 30 Sep 2023	USD 899.94 *
+	Service end date 30 Sep 2024	USD 1,111.69 *
+	Service end date 30 Sep 2025	USD 1,323.44 *
+	Service end date 30 Sep 2026	USD 1,535.19 *
+* Includes reinstatement fee(s) for an updated subscription to MathWorks products and services
+
+2023-06-01
+.1 matlab - linked 575045 noaa lab net license to b.k@o.e
+.. install to catfish with b.k@osu login
+

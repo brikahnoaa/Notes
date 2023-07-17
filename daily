@@ -9139,6 +9139,10 @@ https://www.neweggbusiness.com/product/product.aspx?item=9B-59-152-143
 .2 A-team. Kenneth Connell - NOAA Federal2:15 PM survey.
 https://docs.google.com/forms/d/1y3TgLiQHl_pvSJCV2RX-S-avXsvKDuuiuIPZNlkfTiY/edit
 
+2023-04-17
+.1 UPS ship. use V accounts now.
+.. W8R3UAP-PAB ac, W8R3UER-PGC gas, W8R3UER-PBS eoi
+
 2023-04-19
 .1 UPS batteries
 .. RBC105 REPLACEMENT $272 
@@ -9263,12 +9267,10 @@ replace primary system dell 7300 with dell 5440
 also seeking aftermarket 32GB and 1TB nvme
 account 3BR3U9L-PBD
 Quote # DOC-10021718
-
 	Dell Latitude 5440 Base - Standard	210-BFZX	$812.66	
  	Upgrade (Memory): 16 GB, 1 x 16 GB, DDR4, 3200 MHz	370-AFVP	+ $118.87
  	Upgrade (Dock): Dell Dock- WD19S 130w USB C 210-AZBE	+ $92.87
  	Total	1	$1,024.40
-
 .2 .. 1TB + 32GB purch req
   1TB M.2 NVMe 2230 internal disk, GSA vendor BahFed Corp, $105
 https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000101487438
@@ -9369,5 +9371,233 @@ to Robert, me, Weiming
 Hi All,
 If the funds are set to expire in May, they cannot be used for purchase card purchases. This is the case because reconciling the card account happens the month after and the funding won't be pulled from the project number until June after it's expiration. In the future if you have funds that are going to expire, I'd recommend any card charges that will use those funds occur 60-90 days prior to the expiration of the funds.
 
-.5 /../e/
+2023-05-25
+.1 /../e/ cancel all we can
 PR0002577 2576 2567 2566 2552 2550 2537 2536 
+.2 prepare to increase ac raid, increase 33TB (adding one ghs from b3)
+.. oops 2022 backup never finished, missing e2/data1. start now.
+.. changed ac, b3 to /vd0/.data{1,2,3} data sets
+.. backup ac before adding new disks <storage/migrate>
+.. documented RAID structure in <backup/Readme2023>
+listeningisoneofthebasicsecretS!1
+
+2023-05-26
+.1 set up new musc
+.. name - orca or where are the lists?
+.. pndi - new record; mac address?
+.. dhcp - ip & dns console
+.. sccm - set up admin console
+... need config mgr site server name
+... add new system to sccm
+.. join AD
+.2 help desk
+.. beyondtrust privilege management response code generator
+bomgar pwd
+.. sccm - set up admin console, config mgr site server
+nova.p.n.g
+
+2023-05-31
+.1 catfish
+161.55.124.21 https://netservices.pmel.noaa.gov/ui
+161.55.192.11 https://netservicesnewp.pmel.noaa.gov/ui
+.. newport_net
+catfish	samara.haver	CD0001529355	BNMTCX3	161.55.192.220	2023	Dell	opti 7010 	win11		i9-13900
+.. mac 
+C4-5A-B1-E6-5C-81
+.. smbios guid 
+wmic path win32_computersystemproduct get uuid
+UUID
+4C4C4544-004E-4D10-8054-C2C04F435833
+.. 2do
+not in dns
+software center almost nothing
+matlab
+.. matlab
+https://www.mathworks.com/licensecenter
+https://www.mathworks.com/support/search.html/answers/102845-where-can-i-find-the-activation-key-and-file-installation-key-fik-for-my-license.html
+moved to <Notes/project/matlab>
+
+.1 dns
+netservicesnewp.pmel.noaa.gov normally uses encryption to protect your information. When Chrome tried to connect to netservicesnewp.pmel.noaa.gov this time, the website sent back unusual and incorrect credentials. This may happen when an attacker is trying to pretend to be netservicesnewp.pmel.noaa.gov, or a Wi-Fi sign-in screen has interrupted the connection. Your information is still secure because Chrome stopped the connection before any data was exchanged.
+
+You cannot visit netservicesnewp.pmel.noaa.gov right now because the website uses HSTS. Network errors and attacks are usually temporary, so this page will probably work later.
+.2 purchases
+PR2550 2537 2566 2565 rejected.
+2552:fluke held, cancelled.
+2550:1TBssd 2537:raid 2566:tools 2565:docks
+2567: laptop generic.
+.3 /e/weiming,joe,benC/ 
+On Wed, May 24, 2023 at 1:46 PM Brian Kahn - NOAA Affiliate <brian.kahn@noaa.gov> wrote:
+This being the case, we should cancel as many purchases as we can at this point ... PR0002577 2576 2567 2566 2552 2550 2537 2536
+.4 <Notes/project/backup>
+.. gdrive rsync
+.. backup opensource
+
+2023-06-06
+.1 purch reqs
+..1 /jamieS/e/ approved PR2567 laptop
+..2 -- /e/eric.wisegarver@noaa.gov/ 
+please hold this req 30-60 days for funding
+..3 /emily.lemagie@noaa.gov/e/ was asked to purchase disks
+... -- /e/e.l/ please cancel
+.2 /e/merle/ arc licenses expiring
+.. -- /e/ please get license at esri/noaa ticket page 
+.3 buoy sw
+.. 4gb partition buoy2 copied to steller
+.. successful dup, documented <steller:proj/drifter/Readme>
+
+
+2023-06-07
+.1 bobD 88-07-08 anniversery 35yr
+.2 samara. using catfish.
+.. put in ticket for vpn access
+.. rdp to musculus, rdp to catfish
+.. install: raven and manta (require elevate code)
+... raven serial# VP8RHGSQVDF6NDRLHHQAP7KL 
+.3 -- laptop upgrade
+Dargle wmic memorychip .. HMA82GS6JJR8N-VK Hynix 16GB PC4-21300 DDR4-2666MHz non-ECC Unbuffered CL19 260-Pin SoDimm 1.2V Dual Rank Memory Module
+$53 https://www.newegg.com/timetec-32gb-260-pin-ddr4-so-dimm/p/0RM-006H-000A2
+$76 https://www.newegg.com/p/2RC-012B-00049?Description=HMA82GS6JJR8N from US
+
+2023-06-08
+.1 delivery from CSP to seattle. 
+.. /ray/e/ contact could be travis carter in shipping
+.. /e/ -- property stickers? i only have 5 left
+.. we would like to use acct:3BR3U9L-PBD but there is some uncertainty if this account works. acct:3BR3U9L-PBD was valid thru end of May, and the purchase was made in May. 
+Can we work with that, but then use acoustic base account if there is a problem?
+
+2023-06-09
+.1 external disks on the way
+.2 cac sudo
+https://www.redhat.com/sysadmin/pam-configuration-file
+https://beausanders.org/linux_shared_files/Linux-PAM_System_Administrators_Guide.pdf
+.3 arcgis license. using new .priv file from susanM i ran 
+arcMgr:avail:authorize and it seemed to work, but still half the modules are
+expiring. 
+.. -- /e/susanM/
+
+2023-06-20
+.1 backup run with no email, due to /usr/local/bin empty
+.2 ac expand raid
+# root@acoustic 12:44:08 /home/kahn #
+  storcli64 /c0/v0 show migrate
+--------------------------------------------------------------
+VD Operation Progress% Status      Estimated Time Left
+--------------------------------------------------------------
+ 0 Migrate          67 In progress 3 Days 19 Hours 48 Minutes
+--------------------------------------------------------------
+.3
+
+2023-06-21
+.1 buoy deployed
+.2 aegis 2tb disks
+6 x aegis fortress 2TB disk drive
+cd0004786249  SN#102000055057  Angela Sremba - <angela.sremba@noaa.gov>,
+cd0004786250  SN#102000055067  Bob Dziak <Robert.P.Dziak@noaa.gov>,
+cd0004786251  SN#102000055074   James Turnbull - <james.turnbull@noaa.gov>,
+cd0004786252  SN#102000055086   Dave Mellinger <david.k.mellinger@noaa.gov>,
+cd0004786253  SN#102000055099   Samara Haver - <samara.haver@noaa.gov>,
+cd0004786254  SN#102000055400   Lauren Roche - <lauren.roche@noaa.gov>
+
+2023-06-22
+.1 ac raid upgrade 2 days remaining
+.2 investigating backup sw
+.. MS file history
+.. MSstore syncfolder
+... sync to usb or net, sync on sched or when connected
+... create a target subdir
+.. ubackup aomei https://www.ubackup.com/synchronization/automatic-sync-4125.html
+.3 cygwin network drive, eg //syspc
+.4 white list, enable encrypted USB drive Apricorn 2TB 
+tickets 19684-690
+angela.sremba Trout "apricorn 2TB drive" cd0004786249
+USBSTOR\DISK&VEN_APRICORN&PROD_FORTRESS&REV_0510\102000055057&0
+robert.dziak Guppy "apricorn 2TB drive" cd0004786250
+USBSTOR\DISK&VEN_APRICORN&PROD_FORTRESS&REV_0510\102000055067&0
+david.mellinger Monodon "apricorn 2TB drive" cd0004786251
+USBSTOR\DISK&VEN_APRICORN&PROD_FORTRESS&REV_0510\102000055074&0
+james.turnball Physeter "apricorn 2TB drive" cd0004786252
+USBSTOR\DISK&VEN_APRICORN&PROD_FORTRESS&REV_0510\102000055086&0
+lauren.roche Lagan "apricorn 2TB drive" cd0004786253
+USBSTOR\DISK&VEN_APRICORN&PROD_FORTRESS&REV_0510\102000055099&0
+samara.haver Sole "apricorn 2TB drive" cd0004786254
+USBSTOR\DISK&VEN_APRICORN&PROD_FORTRESS&REV_0510\102000055400&0
+brian.kahn Dargle "apricorn 128GB thumb" SN-116220013955 USBSTOR\DISK&VEN_APRICORN&PROD_SECURE_KEY_3.0&REV_0105\116220013955&0
+brian.kahn Dargle "apricorn 128GB thumb" SN-116220014078  USBSTOR\DISK&VEN_APRICORN&PROD_SECURE_KEY_3.0&REV_0105\116220014078&0
+
+2023-06-26
+.1 dd-wrt
+no more pciE ether cards
+use dd-wrt and static route? 
+setup::basic:wan:connection=static
+:: :wanIP=192.168.3.4
+setup::advanced::operMode->router
+.. on pc
+route -p add 192.168.3.0 mask 255.255.255.0 192.168.4.1
+
+
+2023-06-27
+.1 dd-wrt
+make wireless ..4.0 and LAN ..3.0
+.. brute and laptop on ..3.4 ..3.2 for both buoys and hydrophones
+.. https://wiki.dd-wrt.com/wiki/index.php/Separate_LAN_and_WLAN
+ nvram get wl0_ifname -> eth1
+ nvram show | grep buoy2 ->
+static_leases=90:E2:02:2D:71:F3=buoy2=192.168.4.12=999 80:D2:1D:91:B3:DB=buoy1=192.168.4.11=999
+... if i use this tutor, will i lose static lease for second dhcpd?
+no, shared setting. After updating services::staticLeases,
+ nvram show | grep buoy2 ->
+static_leases=90:E2:02:2D:71:F3=buoy2=192.168.4.102=999 80:D2:1D:91:B3:DB=buoy1=192.168.4.101=999
+
+2023-06-28
+.1 dd-wrt
+hack almost working!
+hints in https://wiki.dd-wrt.com/wiki/index.php/Multiple_WLANs
+.. settings
+setup:basic:wanType=disabled
+::netSetup=..3.1
+::dhcp=..3.200
+:networking:bridging:create=br1, ..4.1, /24
+:::assign=br1/eth1
+:::table=br0.vlan1, br1.eth1
+::port:defaults
+::dhcpd:multiple=dhcp0,br1,on,start.200
+.. status
+status:sysinfo:clients=2
+::dhcpClients=brute..3.10, desktop-5J..4.203, buoy2..4.102
+.. problems 
+wired cannot touch wireless, 
+
+2023-06-29
+.1 encryp disk to dave
+.. [rtclik] include in library:new c:/dave
+.2 got new ncei disk
+# root@acoustic 02:01:07 /users/haver/PassivePacker/CurrentArchive #
+ (rsync -rt --size-only NRS_10_2016-2017 NRS_12_2016-2017 NRS_06_2018-2020 NRS_01_2018-2020 NRS_12_2017-2018 NRS_12_2018-2019 NRS_12_2019-2020 NRS_10_2017-2018 NRS_01_2020-2022 NRS_12_2020-2022 NRS_11_2019-2021 NRS_03_2017-2019 NRS_09_2021-2022 NRS_03_2020-2022 /mnt )&
+.. that is all except PMEL_ChallengerDeep_2015 = 5.6T
+.3 dd-wrt
+added another ethernet to brute, so it can have ..4. and ..3.2 and simple ddwrt
+
+2023-07-13
+.1 seattle help for salmon. ron smith, kevin mccliment
+.. cannot set up vpn yet, try again monday
+.. sccm new version, but not on menu?
+.2 bob. equip account
+X8LPB01-PDZ
+.. need 6x 12tb disks, 10x 6tb tapes
+.3 joe weing is ups acct mgr for pmel
+https://sites.google.com/noaa.gov/pmelhub/admin-services/shipping/general-guidelines
+Seattle		W81V12
+Newport		W81R79 
+
+2023-07-17
+.1 /e/ bob. i need backup tapes ($800) and disks ($1800) in 2023
+x8r3ee0-per
+.2 send salmon to seattle for imaging
+.. /e/ byron. can mypmel use other accounts?
+
+.. /e/ byron. can mypmel use other accounts?
+.3 salmon
+.. failed disk encrypt, send to seattle for imaging
+.. wrong CD in pndi -> CD0004786255
+

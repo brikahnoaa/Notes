@@ -32,6 +32,8 @@ Password: ONID password here
 sherlock nessus ness_report:n3ss@cnsd
 on dargle-vpn mozilla  https://sherlock.pmel.noaa.gov:1241/#/
 
+start[rt-clk]::computerMgmt::LocalUsers manage users groups
+
 robocopy backup
 robocopy C:\src M:\dst /MIR /S /FFT /R:3 /W:10 /Z /NP /NDL /XJD /MT:8
 Parameters explained
@@ -68,9 +70,8 @@ net start bits
 net start msiserver
 
 office 2021 installer
-setup.exe /configure pmel2021.xml
+.\setup.exe /configure pmel2021.xml
 
-.2 win10 win11
  wmic product get name
  wmic /node: product get name
 Once you know the name of the software, you can remove it with wmic as well:
@@ -85,19 +86,7 @@ B3NH4-4T2RY-XK3VD-GM8D4-F6YP2
 ... \HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\BackupProductKeyDefault
 .. prod key (lab rat OSU)
 
-. why PC has reboot sched
-   c:\windows\ccm\logs\RebootCoordinator.log
-(you may want to use c:\windows\ccm\CMTrace.exe to view files)
-Search for the following string: requested from
-
-Most of the time a new CAC works the same as before. I see that your account needs to be updated with the 16 dig ID, it would be better to do that before you get the new one. Your ID is found one of two ways:
-.1 log out, and before logging in look at the display of name/ID for each of the icons under SignInOptions. Find the one with 16 digs probably ending in ...113305@mil.gov
-.2 open Menu::ActivID::UserConsole and select MyCertificates::Authentication::Details::SubjectAltName, look for that same data.
-  Let me know for sure your ID ends in those 6 digs. Yours starts with 1388396357 in the first 10 digs.
-The 10 dig ID may not work with the new CAC, so let's fix this first.
-  Also, note that you can get to google meet and all without your CAC using any computer, but if you don't have a personal computer using your phone browser can be awkward.
-
-windows store
+MS microsoft store
 1.  Run WSReset.exe.
 2.  Re-register Windows Store by running the following commands in a CMD window started as Administrator:
   PowerShell -ExecutionPolicy Unrestricted
@@ -120,27 +109,33 @@ gmail: filter delete old
 :reinstall grub:
 Boot into live USB or CD
 Mount the ubuntu partition drive 
-  sudo mount /dev/sda1 /mnt
+  mount /dev/sda1 /mnt
 Mount the virtual filesystems:
-  sudo mount --bind /dev /mnt/dev
-  sudo mount --bind /proc /mnt/proc
-  sudo mount --bind /sys /mnt/sys
+  mount --bind /dev /mnt/dev
+  mount --bind /proc /mnt/proc
+  mount --bind /sys /mnt/sys
 To ensure that only the grub utilities from the LiveCD get executed, mount /usr
-  sudo mount --bind /usr /mnt/usr
-  sudo chroot /mnt
+  mount --bind /usr /mnt/usr
+  chroot /mnt
 Make your changes to /etc/default/grub using nano
-run the updater update-grub
+run the updater 
+  update-grub
 Exit chroot : CTRL-D on keyboard.
 Unmount virtual filesystems:
-  sudo umount /mnt/dev
-  sudo umount /mnt/proc
-  sudo umount /mnt/sys
-  sudo umount /mnt/usr
-  sudo umount /mnt
+  umount /mnt/dev
+  umount /mnt/proc
+  umount /mnt/sys
+  umount /mnt/usr
+  umount /mnt
+
+background process
+ ps wax | grep rsync
+
+privilege management reponse code generator = bomgar = N0a@Pme1 (one)
+dns infoblox netservices 161.55.192.11/ui from brute with firefox
 
 2115 SE OSU Drive
 Newport, Oregon 97365
 
-purchase: rusty robertSlaney
 
 

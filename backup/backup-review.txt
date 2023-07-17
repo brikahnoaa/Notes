@@ -1,0 +1,33 @@
+. client/server auth?
+ip address, root user and shared secret password (128bit MD4 encrypted)
+
+. data encrypted on network?
+no, local network only
+
+. data encrypted on server?
+no, dedicated backup server
+
+. privacy protections:
+rsyncd write-only, no remote read
+no users on server
+
+. general description:
+.. bi-annual level0 full dump to tape
+.. daily incremental backup to server disk
+
+. detail description:
+.. bi-annual level0 full dump to tape
+... storing last 12 months full dump
+... two full dump tape sets rotated every 6 months
+... dump tape groups up to four tapes (24TB)
+... tape speed is 6TB/day, about one tape per day
+.. daily incremental backup to server disk
+... storing last seven days of incremental
+... incremental since oldest full dump, 12-18m
+... RAID6 with two hot spare disks
+
+. service 
+.. version / change recovery
+.. restore times 
+... changes since oldest full dump available live (file change within 12-18m)
+... older files require temporary pull of full dump, up to four days to recover

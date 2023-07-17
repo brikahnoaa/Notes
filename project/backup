@@ -1,0 +1,30 @@
+2023-06-02
+.1 gdrive rsync
+.. 750GB /day upload cap
+.. need parent org location to create a cloud.goo.c project to get Oauth ID
+https://rclone.org/drive/#making-your-own-client-id
+https://console.cloud.google.com/projectselector2/apis/dashboard?supportedpurview=project
+.. python gdrive
+https://docs.iterative.ai/PyDrive2/oauth/
+https://www.projectpro.io/recipes/upload-files-to-google-drive-using-python
+https://pythonhosted.org/PyDrive/oauth.html
+https://stackoverflow.com/questions/67623860/how-to-access-shared-google-drive-files-through-python
+https://pypi.org/project/google-drive/
+https://www.youtube.com/watch?v=Z2kfNx3Cgsk
+https://towardsdatascience.com/how-to-manage-files-in-google-drive-with-python-d26471d91ecd
+https://developers.google.com/drive/api/quickstart/python
+.2 rsync windows backup
+https://wiki.linuxquestions.org/wiki/Rsync_with_Google_Drive
+https://www.reddit.com/r/linux4noobs/comments/s62jkd/using_rsync_bash_script_to_backup_to_google_drive/
+https://www.reddit.com/r/unRAID/comments/pjqwlp/so_many_options_to_backup_to_google_drive_which/?onetap_auto=true
+.3 backup opensource
+<Notes/project/backup>
+https://www.easeus.com/backup-recovery/open-source-backup-software.html
+https://sourceforge.net/directory/backup/windows/?sort=update
+.. 2019
+https://opensource.com/article/19/3/backup-solutions
+
+2023-06-05
+.1 open backups
+.. rclone - authen is clumsy
+... winfsp - mount as filesys like FUSE for gdrive, smb, etc
