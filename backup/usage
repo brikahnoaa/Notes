@@ -37,24 +37,27 @@ $ kahn@bioac3 09:19:31 ~ $
 
 # after all backups complete
 # root@challenger
- rm -rf ~kahn/index
+ rm -rf ~kahn/index /backup/index
  rsync -ai --exclude='*.header' /etc/amanda/full/index ~kahn
+ rsync -ai --exclude='*.header' /etc/amanda/full/index /backup
  chown -R kahn ~kahn/index
-: kahn@BRUTE :
+: kahn@DARGLE :
+  rm -rf ~kahn/index 
   scp -r challenger:index ~
-  for h in acoustic bioac3 embfile2; do \
-    cd ~/index/$h-191; for d in *; do \
-      f=$(ls -1 $d | tail -1); scp $d/$f $h:$d-$f ; \
-      LC_COLLATE=C zcat $d/$f |sed 's|^/||; /^$/d' |sort > tapeL0 ; \
-      scp tapeL0 $h:$d-tapeL0; rm tapeL0 ; \
+  for host in acoustic bioac3 embfile2; do \
+    for data in $(/bin/ls ~/index/$host-191); do \
+      cd ~/index/$host-191/$data; file=$(/bin/ls -1 *.gz | tail -1); \
+      LC_COLLATE=C zcat $file |sed 's|^/||; /^$/d' |sort > tapeL0 ; \
+      ssh $host rm -rf $data; ssh $host mkdir $data ; \
+      scp $file tapeL0 $host:$data/ ; \
     done; done
 # kahn@embfile2
- cd /data0/.catalog
- mv tapeL0 tapeL0.old
- cp ~kahn/_data0-t* tapeL0
- cp ~kahn/_data0-2* gz
+ cd ~kahn; for data in data[0-9]; do echo $data; \
+   cd ~kahn/$data; vd=/vd0/.$data/.catalog; \
+   mv -vf $vd/tapeL0 $vd/tapeL0.old; cp -v *.gz tapeL0 $vd; \
+   done
  vi /etc/cron.daily/backup.data.conf
- # hint one day before e.g. 20190214
+ # hint one day before data0/*gz e.g. 20190214
 
    export rs="rsync -ai /var/lib/amanda/full/index/ /etc/amanda/full/index"
    grep PARTDONE /var/lib/amanda/full/logs/amdump

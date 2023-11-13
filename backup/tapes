@@ -22,3 +22,14 @@
 133-135 e2/data0    2022-11-18
 136-136 e2/data1    2023-05-25
 
+2023-07-18
+# root@challenger 10:56:39 /backup #
+ du -sh *
+578G    RHbackup
+32T     ac
+1.1T    b3
+3.0T    e2
+1.8T    sc
+# root@challenger 11:24:35 /backup/ac/day1 #
+ du -sh users
+23T     users

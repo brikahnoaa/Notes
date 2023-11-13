@@ -9595,9 +9595,202 @@ Newport		W81R79
 x8r3ee0-per
 .2 send salmon to seattle for imaging
 .. /e/ byron. can mypmel use other accounts?
-
-.. /e/ byron. can mypmel use other accounts?
 .3 salmon
 .. failed disk encrypt, send to seattle for imaging
 .. wrong CD in pndi -> CD0004786255
+.4 turn off animations
+.. firefox
+about:config, search anim, image.animation_mode(normal -> none)
+
+2023-07-18
+.1 backup done. put new tapeL0 in place
+.2 security class training done
+.3 vuln report
+acoustic brute catfish challenger chindog conch curry
+hatfield musculus new-temp pepper pumice rogue station1
+
+2023-07-19
+.1 new laptop, dave
+.. KCP432SD832, 32GB DDR4 3200MHZ SODIMM $115
+https://www.gsaadvantage.gov/advantage/ws/catalog/product_detail?gsin=11000099616314
+.2 --/.3 updates
+.. done
+acoustic brute catfish challenger chindog musculus pepper pumice station1
+windows store broken: conch curry
+... hatfield is failing updates
+... rogue solution is too strange, leave to ridge
+... overall: bad win11 apps auto installed, no updates in store, no auto-update
+.3 dev2ops
+.. resolved
+get a golden image again, every month?
+program to reimage all non-enterprise systems
+.4 helpdesk directory updated
+https://docs.google.com/document/d/1G8Ko7CcPWVIySGcBSV7-Dse1JRP_H3E0OSth4Vvi7fY
+
+2023-07-24
+.1 jay returns. physeter!
+.2 sunflower required.
+.. which training? <doc/pmel/training/sun..> <drive/stuff/prop/slides.pdf>
+https://doc.csod.com/ui/lms-learning-details/app/curriculum/97388d5a-8270-4e4f-8e18-fae8a5add8da
+Property Accountability Officer (PAO) / Property Custodian (PC) Training Certification
+.. slide deck pg 22
+BAS will provide NOAA Sunflower users supplemental training during the
+August BAS table talk on August 17, 2023
+.. slide deck pg 24
+August 10 - October 12: Phase 1B of Sunflower training will be conducted
+during this period. This is a great opportunity to learn and familiarize
+yourself with the updated system functionalities.
+August 17: There will be a special training session focused on the
+retirement of the NOAA CD50/52 Transaction Pages. It's a significant
+change, so make sure to mark this date on your calendar
+
+2023-07-26
+.1 sccm update \\nova\consolesetup$
+
+2023-07-31
+.1 updates to ac b3 e2 .catalog files for backup
+.2 # root@challenger 09:50:39 /backup #
+ du -sh *
+564G    RHbackup
+32T     ac
+1.1T    b3
+3.0T    e2
+373M    index
+1.7T    sc
+.3 raven on salmon
+VP8RHGSQVDF6NDRLHHQAP7KL samara.haver@noaa.gov
+
+2023-08-01
+.1 merle lingcod gis upgrade
+https://gissupport.noaa.gov
+ras SW for salmon
+
+2023-08-03
+.1 ras form for samara
+.2 arc gis susan
+/e caleb.bombaci@noaa.gov/ Here is the folder for all esri downloads: 
+https://drive.google.com/drive/folders/0B2DOjxLhESyFbHBzbFBOZF84S1E?resourcekey=0-jbQQkFSpHSWQD-XIXrtFtw
+
+2023-08-04
+.1 reboot acoustic
+.2 could not find a proper boot setting
+F11 for boot menu, or
+DEL -> Save -> override -> redhat
+
+2023-08-08
+.1 ups ship for lauren
+.2 drogue repair
+.3 s1 guest chad
+.4
+
+2023-08-09
+.1 guppy crit for 3 weeks
+.. guppy is traveling
+.. /e/jonathon/ we sent 3 requests!
+.. notes
+does 22h2 update show without clicking 'check online'?
+is it a large update that may not work on poor wifi?
+bad to shut down in the middle of update?
+what did message to user say?
+.. facts
+three messages, weekly. user mailed 20 days ago. cnsd took 9 days to mail.
+
+2023-08-21
+.1 john balsamo. michelle/diane admin (new)
+.2 navy disk return
+.. NRS11/2017-2019  NRS02/2020-2022
+.3 navy processing
+ data=/data/ONRSN/NRS11/2017-2019
+ user=/users/kahn/NRS11/2017-2019
+ cd $user
+ redf=$(find * -newer WAKETIME.LOG)
+ ls -l $redf > $data/redacted
+ cd $data
+ mkdir -p sensitive
+ mv sensitive/* .  # if sensitive dir has the data in it
+ mv $redf sensitive
+ cd $user
+ mv $redf $data
+ cd $data
+ rm -rf $user
+ chown -R root.newport .
+ chmod -R go-rwx sensitive/
+
+2023-08-25
+.1 kb5029244 22H2 x64 failing install on conch
+
+2023-08-28
+.1 hatfield is a problem. reboot takes 4 hours to VM running.
+green/yellow led on disk in slot 3. Bad admin profile. Updates broken.
+
+2023-08-30
+.1 struggling to get windows store on curry
+.. 4 wk old ticket is escalated
+.. https://www.makeuseof.com/microsoft-store-fix-error-code-0x80131500/
+.. fix, reset fails
+.. reinstall https://answers.microsoft.com/en-us/windows/forum/all/microsoft-store-reinstall-powershell-method/37b4f27c-3eaa-4962-8ef4-2a75df225eb6
+Get-AppXPackage *WindowsStore* -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+.. scannow
+ sfc /scannow
+ DISM /Online /Cleanup-Image /RestoreHealth
+
+2023-09-01
+.1 <.vim/vimrc> 
+.. set title set titlestring=%t%m
+set tits in term tab
+.. set mouse=h
+mouse / scroll in help files
+.. solarize not being used
+.. custom color 
+.. settings::color=ubuntu20{background=black}
+.. settings::default::appearance::autoAdjustText=always
+.2 laborday23 at rei
+
+2023-09-06
+.1 macbook power
+Shut down the MacBook, Connect the power adapter.
+Hold down Control + Shift+ Option/Alt and the Power button 
+for about four seconds. Then release all four together.
+Press the Power button to start up the Mac again.
+.2 start menu
+.. Programdata\Microsoft\Windows\Start Menu\Programs
+.3 ooi
+.. bill in office, changed 3DayMJ03D-NANO-ed.idl MJ03B-NANO.idl
+.. error in cleanup.sh, was deleting all segments instead of >14 days old
+.. split 
+
+2023-09-08
+.1 EOI permissions
+.. change default user group -> 1102 for susanM tamaraB jeffB AnsonA
+.. change all or e2 to group owner 1102
+.. make default permissions group rw
+
+2023-09-11
+.1 5440 laptop coming - is it for bob or dave?
+.2 e2 samba changes
+.. <smb.conf>
+    read list = @e2-r
+    write list = @e2-rw
+    force group = +eoi
+    directory mask = 0775
+    force directory mode = 0770
+    create mask = 0664
+    force create mode = 0660
+.. ownership, permissions in mdisk, multibeam, gis
+chgrp -R eoi /data/.data*/m*
+chmod -R g-s,g+rw /data/.data*/m*
+.. /e/susan,jeff,tamara,anson/
+I have made changes on e2 fileserver to simplify the security approach, which may get rid of occasional access conflicts on e2. 
+.1 The default linux group for users susan, jeff, anson, and tamara is now eoi (was: newport)
+.2 The files on e2 have been reset to group eoi (was: e2-rw or newport)
+,3 The samba file server on e2 now forces these settings on new files & dirs:
+.. set group eoi, set group rw permissions
+.. no write access for other (i.e. acoustic staff)
+.4 syspc:
+.. server settings and existing files on syspc have not been changed
+.. new files on syspc will be group eoi (was: newport), but this should not change access
+ 
+The occasional permission problems seen on e2 had been caused by differences between how Unix/NFS and PC/samba handle files, which is not a factor on syspc
+
+Let me know if there are any problems, or if there is interest in changing similar on syspc
 

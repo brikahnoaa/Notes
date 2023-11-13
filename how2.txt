@@ -1,73 +1,84 @@
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforceoption /d 0 /f
-query user
 
-\\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools
+<\\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools>
 C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 300
 
-copy data to acoustic
-.. cp got the timestamp wrong
- (rsync --times --size-only  /mnt/NRS05/2015-2017/* 2015-2017 ) &
- (rsync -rt --size-only  /mnt/NRS05/2015-2017 . ) &
+system_sb:pme!@####   listeningisoneofthebasicsecret
+ (rsync -rt --size-only  /mnt/NRS05/2015-2017 . ) &    # upload with times
+ ps wax | grep rsync # background processes
 
-rsync:
-install cygwin with rsync 
-  ldd /usr/bin/rsync | grep -v WIND | cut -f3 -d' '
----
-cygwin-lite http://cygwin-lite.sourceforge.net/faq.html
----
-osu wifi login
-Wi-Fi Security: "WPA & WPA2 Enterprise"
-Authentication: "Protected EAP (PEAP)"
-Anonymous identity: blank
-Domain: Enter "oregonstate.edu"
-CA certificate: "(None)"
-CA certificate password: blank
- No CA certificate is required: Check 
-PEAP version: "Automatic"
-Inner authentication: "MSCHAPv2"
-Username: ONID username 
-  eduroam: followed by "@oregonstate.edu" 
-Password: ONID password here
+lusrmgr.msc  #  start[rt-clk]::computerMgmt::LocalUsers manage users groups
+net user to reset cnsd_local pwd if LAPS is broke: net user cnsd_local NEWPASS
+
+https://catalog.update.microsoft.com
 
 sherlock nessus ness_report:n3ss@cnsd
 on dargle-vpn mozilla  https://sherlock.pmel.noaa.gov:1241/#/
 
-start[rt-clk]::computerMgmt::LocalUsers manage users groups
+. rsync on windows:
+.1 install cygwin with rsync 
+.2  ldd /usr/bin/rsync | grep -v WIND | cut -f3 -d' '
+or cygwin-lite http://cygwin-lite.sourceforge.net/faq.html
 
-robocopy backup
-robocopy C:\src M:\dst /MIR /S /FFT /R:3 /W:10 /Z /NP /NDL /XJD /MT:8
-Parameters explained
-The /MIR option (equivalent to /PURGE /E) stands for "mirror" and is the most important option. It regards your source folder as the "master", causing robocopy to copy/mirror any changes in the source (new files, deletions etc.) to the target, which is a useful setting for a backup.
-/FFT is a very important option, as it allows a 2-second difference when comparing timestamps of files, such that minor clock differences between your computer and your backup device don't matter. This will ensure that only modified files are copied over, even if file modification times are not exactly synchronized.
-/R:3 specifies the number of retries, if the connection should fail, and /W:10 specifies a wait time of 10 seconds between retries. These are useful options when doing the backup over a network.
-/Z copies files in "restart mode", so partially copied files can be continued after an interruption.
-/NP and /NDL suppress some debug output, you can additionally add /NS, /NC, /NFL to further reduce the amount of output (see the documentation for details). However, I would suggest to print some debug output during the first runs, to make sure everything is working as expected.
-Additional useful parameters mentioned by other users
-/XJD excludes "junction points" for directories, symbolic links that might cause problems like infinite loops during backup. See Brian's comments for details.
-/MT[:N] uses multithreading and can speed up transfers of many small files. For N, a value of 2-4 times the number of cores should do on a normal machine. Commented by Zoredache on the original question.
+osu wifi login settings
+Wi-Fi Security: "WPA & WPA2 Enterprise"   Authentication: "Protected EAP (PEAP)"
+Anonymous identity: blank    Domain: "oregonstate.edu"
+CA cert: "(None)"   CA cert password: blank   No CA cert is required: Check 
+PEAP version: "Automatic"   Inner authentication: "MSCHAPv2"
+ eduroam: "username@oregonstate.edu" 
+Username: kahnb    Password: ONID password here
+
+share in google meet, multiple monitors bobD
+.1 share screen .2 click on screen 3
 
 general repair, in admin cmd.exe:
 sfc /scannow
 DISM.exe /Online /Cleanup-image /Scanhealth
 DISM.exe /Online /Cleanup-image /Restorehealth
 
-reset updates
+. reset MS store
+.. apps.find.store -> reset
+.. powershell
+Get-AppXPackage *WindowsStore* -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+. https://www.maketecheasier.com/windows-store-not-working-fix/
+1.  Run WSReset.exe.
+2.  Re-register Windows Store by running the following commands in a CMD window started as Administrator:
+  PowerShell -ExecutionPolicy Unrestricted
+  $manifest = (Get-AppxPackage Microsoft.WindowsStore).InstallLocation + '\AppxManifest.xml' ; Add-AppxPackage -DisableDevelopmentMode -Register $manifest
+
+. reset updates
 https://pureinfotech.com/reset-windows-update-windows-10-fix-downloads-installs/
+..
 dism.exe /Online /Cleanup-image /Restorehealth
 sfc /scannow
-net stop wuauserv
+..
+taskkill /F /FI "SERVICES eq wuauserv" (do this multiple times)
 net stop cryptSvc
 net stop bits
 net stop msiserver
-rmdir /q /s C:\Windows\SoftwareDistribution.old
-rmdir /q /s C:\Windows\System32\catroot2.old
+rmdir C:\Windows\SoftwareDistribution\DataStore /s
+rmdir C:\Windows\SoftwareDistribution\Download /s
+rmdir C:\Windows\SoftwareDistribution.old /s
 ren C:\Windows\SoftwareDistribution SoftwareDistribution.old
-ren C:\Windows\System32\catroot2 catroot2.old
-Del "%ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\*.*"
-net start wuauserv
-net start cryptSvc
+rmdir %systemroot%\System32\catroot2.old /s
+ren %systemroot%\System32\catroot2 catroot2.old
+shutdown /r
+..
+net stop bits
+net stop wuauserv
+net stop appidsvc
+net stop cryptsvc
+net stop msiserver
+rmdir %systemroot%\SoftwareDistribution.old /s
+ren %systemroot%\SoftwareDistribution SoftwareDistribution.old
+rmdir %systemroot%\System32\catroot2.old /s
+ren %systemroot%\System32\catroot2 catroot2.old
 net start bits
+net start wuauserv
+net start appidsvc
+net start cryptSvc
 net start msiserver
+shutdown /r
 
 office 2021 installer
 .\setup.exe /configure pmel2021.xml
@@ -86,21 +97,10 @@ B3NH4-4T2RY-XK3VD-GM8D4-F6YP2
 ... \HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\BackupProductKeyDefault
 .. prod key (lab rat OSU)
 
-MS microsoft store
-1.  Run WSReset.exe.
-2.  Re-register Windows Store by running the following commands in a CMD window started as Administrator:
-  PowerShell -ExecutionPolicy Unrestricted
-  $manifest = (Get-AppxPackage Microsoft.WindowsStore).InstallLocation + '\AppxManifest.xml' ; Add-AppxPackage -DisableDevelopmentMode -Register $manifest
---
-  Get-AppXPackage WindowsStore -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
---
-https://www.maketecheasier.com/windows-store-not-working-fix/
-
 \\pesto\cnsd\rsmith\Scripts\Powershell\Update_fix.bat
 Ron: activclient 7.2 - 7.4 broke (should uninstall first)
 put system into pmel.noaa.gov:isolate OU, then gpupdate /force
 examine group policy with rsop.msc from cmd admin
-net user to reset cnsd_local pwd if LAPS is broke: net user cnsd_local NEWPASS
 
 git update-index --skip-worktree [path] to stop git from tracking changes
 git update-index --no-skip-worktree [path] to start tracking that file again
@@ -128,14 +128,14 @@ Unmount virtual filesystems:
   umount /mnt/usr
   umount /mnt
 
+yum install --disableexcludes=all samba
+
 background process
  ps wax | grep rsync
 
+query user
 privilege management reponse code generator = bomgar = N0a@Pme1 (one)
 dns infoblox netservices 161.55.192.11/ui from brute with firefox
 
 2115 SE OSU Drive
 Newport, Oregon 97365
-
-
-
