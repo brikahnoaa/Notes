@@ -13,7 +13,8 @@ net user to reset cnsd_local pwd if LAPS is broke: net user cnsd_local NEWPASS
 https://catalog.update.microsoft.com
 
 sherlock nessus ness_report:n3ss@cnsd
-on dargle-vpn mozilla  https://sherlock.pmel.noaa.gov:1241/#/
+ on dargle-vpn mozilla  https://sherlock.pmel.noaa.gov:1241/#/
+dns infoblox netservices 161.55.192.11/ui from brute with firefox
 
 . rsync on windows:
 .1 install cygwin with rsync 
@@ -144,7 +145,6 @@ query user
 privilege management reponse code generator : pmel or bomgar = N0a@Pme1 (one) 
  install as admin \\pesto\cnsdtools\beyondtrust\PrivMgmtForWin\PrivMgrRespGen.exe 
  then link to start \ProgFiles\Avecto\PGCR\PGCRUI.exe
-dns infoblox netservices 161.55.192.11/ui from brute with firefox
 
 2115 SE OSU Drive
 Newport, Oregon 97365

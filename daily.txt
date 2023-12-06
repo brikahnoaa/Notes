@@ -9843,3 +9843,12 @@ This flaw does not affect the versions of curl as shipped with Red Hat Enterpris
 2023-12-06
 .1 is US bad at learning from other countries? how do others faire on this?
  review how other countries study other countries
+.2 brute cannot access netservices. cac cannot perform requested service.
+.3 salish cannot, blocked
+.4 overcast rebuild win11 enterp
+.. could not get dhcp until win11 updates
+.. joined domain
+.. dargle::configurationMgr. 
+.5 adm card does not work 
+.. configMgr updating extensions
+.. join domain
