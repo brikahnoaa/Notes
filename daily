@@ -9794,7 +9794,7 @@ The occasional permission problems seen on e2 had been caused by differences bet
 
 Let me know if there are any problems, or if there is interest in changing similar on syspc
 
-!! lost a month due to system crash
+!! lost a month of daily file due to system crash
 
 2023-11-13
 .1 dargle crash. lost wsl, no backup method. lost 6 weeks of daily.
@@ -9804,3 +9804,42 @@ https://lesferch.github.io/WinSetView/
 
 2023-11-14
 .1 almost fully restored
+.2 rsync -> syspc:/users/kahn/wsl
+
+2023-11-15
+.1 new purchase rules
+.. pending; req'd to have IT form for every purchase (needs signature)
+https://drive.google.com/file/d/1XjebdOJNBn4HApg-HrQA8tGwyyWUYsgU/view
+.2 looking for LAPS UI admpwd.ui.exe,admpwd.utils.dll (cnsd_local)
+.3 fail to launch. Priv Mgmt (code challenge)
+
+2023-11-16
+.1 encrypt dargle, pilsner
+.2 laps - download from MS <d:\Store\installcnsd>
+.3 response code generator
+ privilege management reponse code generator : pmel or bomgar = N0a@Pme1 (one)
+ install as admin \\pesto\cnsdtools\beyondtrust\PrivMgmtForWin\PrivMgrRespGen.exe
+ then link to start \ProgFiles\Avecto\PGCR\PGCRUI.exe
+
+2023-11-27
+.1 crontab stopped on caldera again
+updated cron.null to crontab crontab
+.2 lang bad
+ add LANG=en_US.utf-8 in .bashrc, distribute
+
+2023-12-01
+.1 /e/ tony. vulnerable on subnet
+.2 fixes on pc
+.3 curl vuln:
+https://access.redhat.com/security/cve/cve-2023-38545
+Statement
+This flaw does not affect the versions of curl as shipped with Red Hat Enterprise Linux 6, 7, and 8
+
+2023-12-04
+.1 hat update system fixed
+.. many fails. catroot2 locked. several runs of fix_update.bat and restarts finally cleared.
+.. ready for cumulative update. KB5032196
+
+2023-12-06
+.1 is US bad at learning from other countries? how do others faire on this?
+ review how other countries study other countries

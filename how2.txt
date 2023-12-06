@@ -52,18 +52,6 @@ https://pureinfotech.com/reset-windows-update-windows-10-fix-downloads-installs/
 dism.exe /Online /Cleanup-image /Restorehealth
 sfc /scannow
 ..
-taskkill /F /FI "SERVICES eq wuauserv" (do this multiple times)
-net stop cryptSvc
-net stop bits
-net stop msiserver
-rmdir C:\Windows\SoftwareDistribution\DataStore /s
-rmdir C:\Windows\SoftwareDistribution\Download /s
-rmdir C:\Windows\SoftwareDistribution.old /s
-ren C:\Windows\SoftwareDistribution SoftwareDistribution.old
-rmdir %systemroot%\System32\catroot2.old /s
-ren %systemroot%\System32\catroot2 catroot2.old
-shutdown /r
-..
 net stop bits
 net stop wuauserv
 net stop appidsvc
@@ -78,6 +66,7 @@ net start wuauserv
 net start appidsvc
 net start cryptSvc
 net start msiserver
+..
 shutdown /r
 
 office 2021 installer
@@ -96,6 +85,24 @@ B3NH4-4T2RY-XK3VD-GM8D4-F6YP2
 ... powershell "(Get-WmiObject -query 'select * from SoftwareLicensingService').OA3xOriginalProductKey"
 ... \HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\BackupProductKeyDefault
 .. prod key (lab rat OSU)
+
+win updates remote bomgar, from the shell run the commands below:
+powershell install-module PSWindowsUpdate
+powershell set-executionpolicy remotesigned
+powershell import-module PSWindowsUpdate
+powershell install-windowsupdate -verbose
+ . Used only if the previous command finds files to update
+Powershell get-windowsupdate -microsoftupdate -verbose
+Powershell install-windowsupdate -microsoftupdate -verbose
+ . Used only if windows update did not find the updates indicated by NESSUS
+powershell set-executionpolicy restricted
+ . Must be used after all commands have been run
+
+ . To run a specific KB update, do the following:
+Powershell Get-WindowsUpdate -KBArticleID "KB1111111","KB2222222","etc" -Install -verbose
+ . Or
+Powershell Get-WindowsUpdate -microsoftupdate -KBArticleID "KB1111111","KB2222222","etc" -Install -verbose
+
 
 \\pesto\cnsd\rsmith\Scripts\Powershell\Update_fix.bat
 Ron: activclient 7.2 - 7.4 broke (should uninstall first)
@@ -134,7 +141,9 @@ background process
  ps wax | grep rsync
 
 query user
-privilege management reponse code generator = bomgar = N0a@Pme1 (one)
+privilege management reponse code generator : pmel or bomgar = N0a@Pme1 (one) 
+ install as admin \\pesto\cnsdtools\beyondtrust\PrivMgmtForWin\PrivMgrRespGen.exe 
+ then link to start \ProgFiles\Avecto\PGCR\PGCRUI.exe
 dns infoblox netservices 161.55.192.11/ui from brute with firefox
 
 2115 SE OSU Drive
