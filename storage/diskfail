@@ -1,3 +1,32 @@
+2024-02-09
+.1 ubad
+ /usr/local/bin/storcli64 /c0/e21/s14 show
+EID:Slt DID State DG      Size Intf Med SED PI SeSz Model                                   Sp
+-----------------------------------------------------------------------------------------------
+21:14    25 UBad  F  10.913 TB SATA HDD N   N  512B       u              KH      @j      Aj U
+
+ /usr/local/bin/storcli64 /c0/e21/s14 show all
+Drive /c0/e21/s14 State :
+=======================
+Shield Counter = 0
+Media Error Count = 0
+Other Error Count = 0
+Drive Temperature =  25C (77.00 F)
+Predictive Failure Count = 0
+S.M.A.R.T alert flagged by drive = No
+Drive /c0/e21/s14 Device attributes :
+===================================
+SN = N/A
+Manufacturer Id = ATA
+Model Number = ST12000NE0008-2P
+NAND Vendor =
+WWN = 5000c500e3624de6
+Firmware Revision = EN02
+.2 locate
+note - show all does not make drive light flash
+copying makes all disks flash except 2 - ghs and ubad??
+may be a bad led - find serial# to power down and locate
+
 2023-02-22
 .1 b3 alarm, blue+red on 4:12, not listed in storcli /c0 show
 .. GHS 4:17 automatically filled in, raid6 optimal

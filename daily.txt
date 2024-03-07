@@ -9852,3 +9852,284 @@ This flaw does not affect the versions of curl as shipped with Red Hat Enterpris
 .5 adm card does not work 
 .. configMgr updating extensions
 .. join domain
+
+2023-12-07
+.1 CAC block
+patty george retired
+.. /e nancycurl/ ?
+.. https://idco.dmdc.osd.mil/idco/locator
+
+2023-12-12
+.1 dargle off of cac waived (cac fixed)
+.2 annual switch to tidal data (caldera)
+: caldera.kahn 01:08:25 ~/ooi/rsn :
+ grep -l TidalD *.{pro,job,sh}
+GetHEATdata.pro
+GetIRISdata.pro
+GetNANOdata.pro
+ProcessHEATdata.pro
+ProcessIRISdata.pro
+ProcessRSN-MARSdata.pro
+ProcessRSNdata.pro
+.. made a list of files used <README>
+.. *.job, *.pro + kids + gkids 
+.. now i can grep *.pro for use of e.g. *AxialTidalData*
+.3 some .pro files are msdos
+: caldera.kahn 01:08:14 ~/rsn :
+ grep -laP '\r' *.pro
+RunProcessCTDdata.pro
+match.pro
+: caldera.kahn 01:08:23 ~/rsn :
+ dos2unix RunProcessCTDdata.pro
+dos2unix: converting file RunProcessCTDdata.pro to Unix format ...
+
+2023-12-14
+.1 is rsn working? no new data, so hard to tell
+ unuJob=$( ( ls -1 *.job ; echo "$CronJob" ) | sort | uniq -u )
+ unuPro=$( ( ls -1 *.pro ; echo "$AllPro" ) | sort | uniq -u )
+.. moved 27.pro 14.job .sh to unused/
+.2 errors, mystery
+: caldera.kahn 11:30:00 ~/rsn :
+ grep -i err *.log
+DisplayAlarmSummary.log:% Error opening file.
+DisplayAlarmSummary.log:% Error opening file.
+ProcessRSN-MJ03Fdata.log:% Error opening file. File: ~/4Chadwick/RSN/SetupRSN.pro
+RunForecastDates.log:% Error opening file.
+RunForecastDates.log:% Error opening file.
+RunPlotNANOdiffE-F7Days.log:% Error opening file. File: ~/4Chadwick/RSN/SplitRSNdata.pro
+RunPlotNANOdiffE-F7Days.log:% Type conversion error: Unable to convert given STRING to Float.
+RunPlotRSNdata.log:% Program caused arithmetic error: Floating underflow
+RunPlotRSNdata.log:% Program caused arithmetic error: Floating underflow
+RunUpdateNANOdiffE-F.log:% Error opening file. File: ~/4Chadwick/RSN/match.pro
+: caldera.kahn 11:53:34 ~/rsn :
+ ls -l ~/4Chadwick/RSN/match.pro
+-rwxr-xr-x 1 kahn newport 6197 Dec 13 13:09 /home/kahn/4Chadwick/RSN/match.pro
+: caldera.kahn 11:54:12 ~/rsn :
+ ls -l ~/4Chadwick/RSN/SplitRSNdata.pro
+-rwxr-xr-x 1 kahn newport 50465 Jan 11  2016 /home/kahn/4Chadwick/RSN/SplitRSNdata.pro
+
+2023-12-18
+.1 /e/ syspc urgent: yum
+not really? however mariadb repo out of date.
+</etc/yum.repos.d/MariaDB.repo> 10.3->10.11
+.2 caldera
+BOTPT restoring
+/e/ chadw
+git@github.com:NOAA-PMEL/ooi.git
+... git tag v2.5
+.3 e-waste excess
+NOAA monitors, UPS, osu laptops and disks
+pickup 12/20
+
+2023-12-20
+.1 locale
+https://wiki.archlinux.org/title/Locale
+ scp N-bash: warning: setlocale: LC_CTYPE: cannot change locale (en_US.utf-8)
+-bash: warning: setlocale: LC_CTYPE: cannot change locale (en_US.utf-8)
+A-bash: warning: setlocale: LC_CTYPE: cannot change locale (en_US.utf-8)
+-bash: warning: setlocale: LC_CTYPE: cannot change locale (en_US.utf-8)
+ sudo bash
+root@dargle:/home/kahn# echo en_US.UTF-8 UTF-8 > /etc/locale.gen && locale-gen
+Generating locales (this might take a while)...
+  en_US.UTF-8... done
+Generation complete.
+
+2023-12-21
+.1 fixes to idl data w/ chad
+.2 moved unused files to subdirs
+
+2023-12-22
+.1 NOAA records management fundamentals (yearly, due jan31)
+ 90% on final quiz
+
+2023-12-28
+.1 movies
+action: fall guy. family plan. argylle. ghostbusters. 
+rude: wicked little letters. 
+
+2023-12-29
+.1 terrapin vuln ssh
+CVE-2023-48795
+https://forums.centos.org/viewtopic.php?f=51&p=337486
+https://access.redhat.com/security/cve/cve-2023-48795
+
+2024-01-02
+.1 ssh vuln
+https://access.redhat.com/security/cve/cve-2023-48795
+Mitigation
+As an alternate less invasive countermeasure, the affected cipher modes
+chacha20-poly1305 and any encrypt-then-mac variants (generic EtM) may
+be (temporarily) disabled. Some cipher modes, in particular AES-GCM,
+are not affected and can still be used without changes.
+.2 32 excess items
+https://docs.google.com/spreadsheets/d/1mozxlbcXcVn-7B1jDfdTXQ7DCU2Fm001VPbuKUmAql4/edit#gid=0
+submitted excess tickets for all
+3 dozen + old disks included for excess
+.3 syspc sshd
+</var/log/messages>
+Dec 31 20:30:09 syspc sshd[18997]: error: Could not load host key: /etc/ssh/ssh_host_dsa_key
+Dec 31 20:30:10 syspc sshd[19062]: error: Could not load host key: /etc/ssh/ssh_host_dsa_key
+Dec 31 20:30:11 syspc sshd[19265]: error: Could not load host key: /etc/ssh/ssh_host_dsa_key
+Dec 31 20:30:57 syspc sshd[22369]: error: Could not load host key: /etc/ssh/ssh_host_dsa_key
+ ?? sudo /usr/bin/ssh-keygen -A
+: syspc.root 04:09:21 /var/log :
+ rpm -qa | grep openssh
+openssh-server-7.4p1-23.el7_9.x86_64
+openssh-7.4p1-23.el7_9.x86_64
+openssh-clients-7.4p1-23.el7_9.x86_64
+
+2024-01-08
+.1 /e/ merle. 10gb free lingcod.
+
+2024-01-17
+.1 power failures during icestorm
+.2 update apcupsd.conf
+acoustic UPS has higher load, move caldera power to challenger UPS
+... pumice shuts down after challenger ups onbattery 30 sec
+... also station1
+.3 https://www.nytimes.com/activate-access/digitalpass  n161.55.32.3yt from osu
+.3.1 https://www.nytimes.com/account (kb@osu Account number 85668603)
+Account number 229574259 Email address brian.kahn@oregonstate.edu
+https://guides.library.oregonstate.edu/
+
+2024-01-18
+.1 /-.1/ point b3 ca to challenger ups
+.2 1tb sandisk costco
+.3 /samara/ 
+Would you be able to help me by generating some .WAV files for these recent NRS deployments?
+NRS02 20-22
+NRS06 20-22
+NRS11 21-23
+completed in 12-18 hours
+
+2024-01-24
+.1 update problems on brute, musculus
+.. sfc, dism, dism, catroot2, nothing resolves it
+.2 car radio
+carplay req'd, for android 2gb-4gb ram
+trusted brands: jvc pioneer kenwood alpine, joying xtrons atoto
+
+Boss BE920WCPA   https://www.breakersstereoandperformance.com/product/boss-be920wcpa-digital-multimedia-receiver-w-wirless-andriod-auto-apple-carplay/
+
+2024-01-26
+.1 walgreens cancelled prescription Sildenafil
+https://www.walgreens.com/pharmacy/fulfillment/rx-landing
+(877) 250-5823 
+insurance only allows 8/month
+look for coupon -> $20/30pills
+https://www.walgreens.com/topic/pharmacy/rx-savings-finder.jsp
+
+2024-02-02
+.1 nrs5 wav
+: acoustic.kahn 12:23:09 /users/haver/ONRSN/NRS05/WAV/2021-2023 :
+ ( dat2wav.py -n NRS05 -d /data/ONRSN/NRS05/2021-2023/navy-review *.DAT ) &
+: acoustic.kahn 12:25:03 /users/haver/ONRSN/NRS05/WAV/2021-2023 :
+ ll
+total 275M
+-rw-rw-r-- 1 kahn newport 138M Feb  2 12:25 NRS05_20211210_213050.wav
+-rw-rw-r-- 1 kahn newport 138M Feb  2 12:25 NRS05_20211211_013057.wav
+
+2024-02-06
+.1 rhel9 on s1
+.2 rhel6
+bonita <- blanco, umpqua <- yaquina 
+tgrid21 tweb4
+
+2024-02-07
+.1 navy data nrs7/21-23 nrs11/21-22 aleut/h32,38,40,41
+
+2024-02-12
+.1 reset pwd dale.gamble on syspc
+.. gamble is in /etc/passwd
+ vipw  
+ gamble:x:527:100:Dale Gamble:/home/gamble:/bin/bash
+ vipw -s
+ gamble:$6$OajoIdFx$gpp9qZEYsKvYzxU/Beg5h6aUtVBqfVnQTdSeAukuVEvvyGVdO9ql5szXo8PHWLNkBxjSna/RheJJ2huZohJkx/:19114:14:182:14:::
+.. hatfield2 DelineaAccessManager
+chown -R 527.15 /home/gamble
+.. winpass
+2024weLuvsMariadb!
+
+2024-02-13
+.1 mariadb
+https://mirrors.xtom.com/mariadb/yum/10.4.33/rhel74-amd64/rpms/
+https://mariadb.org/download/?t=repo-config&d=CentOS+7&v=10.5&r_m=osuosl
+.2 navy data /02-06.1/
+looks like original data
+.2.1 lois/e/. will send disk back
+.3 docker for samara
+/e/john.ryan schedule a meeting
+.4 /e/deloura on linux team now (tested)
+.5 /e/del station1 missing from scan
+
+2024-02-14
+.1 navy
+.2 servicedesk
+.3 newport, network survey, nwave
+ed.cortes@osu/e/ access to guin mdf, msi
+3/11-3/13
+.4 sixzero 6.0 discord https://discord.com/invite/yANZPezXUT
+.5 seagate 12tb rma IR60118178
+- warranty link doesn't work, but chatbot did
+b.k@n:MM8 <stuff/seagate12tb/*> 
+https://returns.seagate.com/returns/registered/xhtml/indirectRegCustHome.xhtml
+
+2024-02-15
+.1 /e/samara. property
+It looks like my old laptop and a hard drive I don't recognize are on my property list: 
+CD0004382745 COMPUTER, LAPTOP (DELL INC., LATITUDE 7300, 1YVZG53) $1,043.76
+CD0001529354 PORTABLE HARD DRIVE (SEAGATE TECHNOLOGY LLC, EXPANSION PORTABLE $109.99
+Also, my Ageis fortress property number is listed incorrectly, I have item CD0004786254. 
+.2 /--/e/
+..1 i have the laptop in my office, we should have done a property transfer from you to me when you got the new one. I will show it to you and you should mark it on your property list, then we will transfer ownership afterwards.
+..2 I may have that hard drive CD0001529354, i will check at home
+..3 For the fortress drive a similar thing, lauren has CD0004786254 in her name and she has CD0004786253 in hand; we will check them off the property lists and exchange ownership later.
+.3 remove dup files / acoustic
+ mkdir -p tmp; for i in *; do if [ -f ../$i ]; then echo $i; mv $i tmp; fi; done | wc
+.4 /e/doug recommend brother MFC-L8900CDW $700 over xerox versalink c415 $1800
+
+2024-02-16
+.1 dziak cac blocked, temp cac waive
+ticket #20912
+.. Oceansciencewhalemagic1!
+.. ! smart card required
+.. guppy -> cacwaived
+.. cac enforcement exception group += dziak
+.2 xerox supplies
+
+2024-02-27
+.1 champ P0442 P1135
+P0442 EVAP System Leak Detected (small leak)
+P1135 a general fault in the air/fuel sensor heater circuit for bank 1, sensor 1.
+Toyota Code P1135?  The majority of the time, the P1135 code initiates from these causes:
+Faulty air/fuel ratio sensor in bank 1, sensor 1
+Air/fuel sensor harness for bank 1, sensor 1 has a short or isn't properly connected
+Air/fuel sensor for bank 1, sensor 1 has a poor electrical connection
+ECM is faulty
+https://parts.olathetoyota.com/toyota-trouble-codes
+
+2024-03-04
+.1 : acoustic.kahn 03:26:22 /mnt/Marianas/2017-2018/East_H24 :
+ jobs
+[1]-  Running                 ( cp -a Aleut/ /mnt ) &  (wd: /data/NPAC)
+[2]+  Running                 ( cp -a Marianas /mnt ) &  (wd: /data/WPAC)
+
+2024-03-05
+.1 manta
+install in apps/local, need to be haver to run install
+generate session key from bomgar
+
+2024-03-05
+.1 cac on linux
+.1.1 ssh w/ putty, mobyxterm
+https://www.insentragroup.com/us/insights/geek-speak/modern-workplace/using-kerberos-sso-for-ssh-in-idm-with-ad-trust/
+.1.2 linux 2 linux
+each client computer must have a copy of the /etc/krb5.conf file that matches
+ kinit user1
+ ssh -K user1@syspc
+.1.3 rhel
+https://kevrocks67.github.io/blog/configuring-openssh-to-use-kerberos-authentication.html
+OpenSSH uses GSSAPI to communicate with Kerberos
+ hostnamectl set-hostname dargle.pmel.noaa.gov
+ yum install krb5-workstation krb5-libs
+

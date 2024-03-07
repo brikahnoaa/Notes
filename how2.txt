@@ -1,17 +1,17 @@
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v scforceoption /d 0 /f
 
 <\\pesto\cnsd\ops\Tools\McAfee tool\EEAdminTools>
-C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 300
+C:\Users\cnsd_local\Downloads\EpeTemporaryAutoboot.exe --number-of-reboots 5 --timeout-in-minutes 90
 
-system_sb:pme!@####   listeningisoneofthebasicsecret
+system_sb:pme!@####   theimageoftheKingofCloud
  (rsync -rt --size-only  /mnt/NRS05/2015-2017 . ) &    # upload with times
  ps wax | grep rsync # background processes
 
 lusrmgr.msc  #  start[rt-clk]::computerMgmt::LocalUsers manage users groups
 net user to reset cnsd_local pwd if LAPS is broke: net user cnsd_local NEWPASS
-
 https://catalog.update.microsoft.com
 
+domain join djoin:N0a@Pme1N0a@Pme1 
 sherlock nessus ness_report:n3ss@cnsd
  on dargle-vpn mozilla  https://sherlock.pmel.noaa.gov:1241/#/
 dns infoblox netservices 161.55.192.11/ui from brute with firefox
@@ -69,6 +69,9 @@ net start cryptSvc
 net start msiserver
 ..
 shutdown /r
+..
+settings->trouble->other trouble->updates
+
 
 office 2021 installer
 .\setup.exe /configure pmel2021.xml
@@ -140,6 +143,8 @@ yum install --disableexcludes=all samba
 
 background process
  ps wax | grep rsync
+
+cacwaive: "CAC Enforcement Exception", "CAC CNSD PW Users", "CAC Mac PW Users"
 
 query user
 privilege management reponse code generator : pmel or bomgar = N0a@Pme1 (one) 
