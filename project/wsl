@@ -1,0 +1,43 @@
+install from ms store, debian or ubuntu
+. make network
+ #
+ cd /etc
+ rm resolv.conf wsl.conf
+ cat > wsl.conf <<Here
+[network]
+generateResolvConf = false
+[boot]
+systemd = true
+Here
+ cat > resolv.conf <<Here
+nameserver 161.55.192.11
+search pmel.noaa.gov
+Here
+ #
+
+. mount
+sudo mkdir /mnt/share
+sudo /sbin/mount.drvfs s: /mnt/share
+sudo /sbin/mount.drvfs //brute/store /mnt/store
+
+. add packages
+
+ root@DARGLE:/home/kahn# apt install python3 python3-pip python3-setuptools python3-wheel python3-venv
+Suggested packages:
+  binutils-doc bzip2-doc cpp-doc gcc-12-locales cpp-12-doc dbus-user-session libpam-systemd pinentry-gnome3 tor debian-keyring g++-multilib g++-12-multilib gcc-12-doc gcc-multilib autoconf automake libtool flex bison gdb gcc-doc gcc-12-multilib parcimonie xloadimage scdaemon apache2 | lighttpd | httpd glibc-doc git bzr libgd-tools gdbm-l10n libsasl2-modules-gssapi-mit | libsasl2-modules-gssapi-heimdal libsasl2-modules-ldap libsasl2-modules-otp libsasl2-modules-sql libstdc++-12-doc make-doc man-browser ed diffutils-doc perl-doc libterm-readline-gnu-perl | libterm-readline-perl-perl libtap-harness-archive-perl pinentry-doc python3-doc python3-tk python3-venv python-setuptools-doc python3.11-venv python3.11-doc binfmt-support
+
+ root@DARGLE:/home/kahn# apt install vim binutils git indent perl rsync vim-doc
+Suggested packages:
+  gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui gitk gitweb git-cvs git-mediawiki git-svn indent-doc gpm keychain libpam-ssh monkeysphere ssh-askpass openssh-server python3-braceexpand ctags vim-scripts
+
+
+2023-11-14
+. backup wsl to syspc,  rsync -a syspc::kahn/wsl
+ </etc/rsyncd.conf>
+[kahn]
+uid = kahn
+gid = newport
+comment = /users/kahn/
+hosts allow = dargle
+path = /users/kahn/
+list = true

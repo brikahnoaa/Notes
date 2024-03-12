@@ -1,0 +1,194 @@
+2024-02-26
+.0 install
+sdb                 8:16   0 931.5G  0 disk
+├─sdb1              8:17   0   200M  0 part /boot/efi
+├─sdb2              8:18   0   500M  0 part /boot
+└─sdb3              8:19   0 930.8G  0 part
+  ├─station2-home 253:0    0 830.8G  0 lvm  /home
+  └─station2-root 253:1    0   100G  0 lvm  /
+.. network name, ip; timezone
+.. user kahn 
+.. server w/ gui
+.1 selinux
+ vi /etc/selinux/config
+SELINUX=disabled
+ reboot
+.2 time
+.2.1 chrony ntp servers
+set servers during pre-install network time, -or-
+ vi /etc/chrony.conf
+#pool 2.rhel.pool.ntp.org iburst
+server netservicesnewp.pmel.noaa.gov iburst prefer
+server netservices.pmel.noaa.gov iburst 
+.2.2 enable chronyd
+ systemctl is-active chronyd.service
+# systemctl enable chronyd.service
+# systemctl restart chronyd.service
+.2.3 date # if needed, if registering before chrony setup 
+# date MMDDhhmmYY
+.3 rhel register
+ user=pmel_admin
+ pwd=RHNservices04
+ name="NEW-9WS-${HOSTNAME%%.*}.pmel"
+ echo $name
+ subscription-manager register --force --username=$user --password=$pwd --name=$name
+ subscription-manager attach --auto
+# subscription-manager repos --enable=rhel-9-for-x86_64-supplementary-rpms
+# subscription-manager refresh
+ yum update
+ mkdir /root/install
+ rpm -qa > /root/install/rpm-qa.update
+ reboot
+https://access.redhat.com/management/systems
+# pmel_admin:RHNservices04
+.5 SW
+.5.1 turn firewall off 
+ # systemctl list-units --type service --all
+ systemctl stop firewalld.service
+ systemctl disable firewalld.service
+.5.2 yum package groups
+during pre-install Click on 'Software Selection', 'Server with GUI' -or-
+ yum -y groupinstall "Debugging Tools" "Network File System Client" "Windows File Server" "Performance Tools" "File and Storage Server" "Scientific Support" "Smart Card Support" "System Tools" "Graphical Administration Tools" "Security Tools" "Legacy UNIX Compatibility" "Development Tools" 
+ rpm -qa > /root/install/rpm-qa.groups
+.6 cnsd specials
+.6.1 user cnsd
+ groupadd -g 110 cnsd
+ useradd -u 469 -g 110 cnsd
+ passwd cnsd
+.6.2 grub
+# Remove 'rhgb' from the GRUB_CMDLINE_LINUX in /etc/default/grub
+ sed -i '/GRUB_CMDLINE/s;rhgb *;;' /etc/default/grub
+# find grub.cfg, cd, backup, mkconfig
+ ls -l /boot/efi/EFI/redhat/grub.cfg /boot/grub2/grub.cfg
+ cd /boot/grub2
+ mv grub.cfg grub.cfg.bck
+ grub2-mkconfig > grub.cfg
+.4 network
+# nmcli
+ cat > /etc/hosts <<here
+#::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
+127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
+161.55.191.3 challenger-191
+161.55.191.7 ventstore-191
+161.55.191.9 bioac3-191
+161.55.191.14 caldera-191
+161.55.191.31 syspc-191
+161.55.191.131 embfile2-191
+161.55.191.142 acoustic-191
+here
+.8 access ??
+.. console
+ cat >> /etc/gdm/custom.conf <<here
+InfoMsgFile=/etc/gdm/login_banner
+InfoMsgFont=Sans=16
+here
+
+---
+NEWPORT specials
+---
+.10 standard files
+.10.1 kahn
+ $brute$  SYS=new
+ $brute$  cd; . bin/maketar.sh; scp .kahn.tar $SYS:
+ $brute$  cd ~/Linux; ./makedots.sh; ./maketar.sh
+ $brute$  scp dots.tar tar/*.tar $SYS:
+ $SYS:kahn$  tar xvf dots.tar
+ $SYS:kahn$  chmod -R og-w ~/.ssh
+ $SYS:kahn$  su
+ cd
+# forward to kahn, not oar.pmel.cnsd.redhat_admin@noaa.gov
+ echo "brian.kahn@noaa.gov" > /root/.forward
+ cp ~kahn/.bashrc /root
+ mkdir /root/tar
+ tars="etc usr opt"
+ cd /root/tar; for i in $tars; do tar xvf ~kahn/$i.tar; done
+# copy with backups
+ /bin/cp -r -b $tars /
+.11 extra repos & packages
+ rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+ yum install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs lm-sensors
+.12 config
+ cd /etc/ssh
+ cp sshd_config sshd_config.inst
+ sed -i 's/^/#/' sshd_config
+ cat sshd_config.cat >> sshd_config
+ systemctl restart sshd
+# test ssh before leaving root
+.13 authen settings
+Three failures to lock out for 30min is the default on rhel7
+The manual settings summarized here:
+ vi /etc/pam.d/system-auth
+Just above the pam_unix.so call in the "auth" section, add:
+  auth  required  pam_faillock.so preauth silent audit deny=3 unlock_time=1200
+Just above the pam_succeed_if.so call in the "auth" section, add:
+  auth  [default=die]  pam_faillock.so authfail audit deny=3 unlock_time=1200
+At the bottom of the "account" section, add:
+  account required    pam_faillock.so
+make the same three changes to /etc/pam.d/password-auth.
+.15 services
+.15.1 xinetd
+ yum install xinetd 
+.15.2 nfs
+ cp -b /etc/exports.tmpl /etc/exports
+ vi /etc/exports
+ systemctl enable nfs-mountd
+ systemctl enable nfs.service
+ systemctl start nfs-mountd
+ systemctl start nfs.service
+ exportfs
+.15.3 rsync
+ # vi /etc/rsyncd.conf
+ systemctl enable rsyncd
+ systemctl start rsyncd
+# vi /etc/xinetd.d/rsync
+ systemctl enable xinetd
+ systemctl start xinetd
+.15.4 apcupsd
+ cp -b /etc/apcupsd/apcupsd.conf.tmpl /etc/apcupsd/apcupsd.conf
+ vi /etc/apcupsd/apcupsd.conf
+.16 ops
+.16.1 rsync
+ vi /etc/rsyncd.conf
+.16.2 cat /opt/LinuxBESclient/Readme
+.17 backups
+.17.1 ventstore
+ $ ssh ventstore
+ $vs$ sudo mkdir /data1/RHbackup/$newhost
+ $vs$ sudo vi /etc/rsyncd.conf
+ -- or --
+ vs# cd /data1/RHbackup/$sys
+ vs# newest=$(ls -t1 | head -1)
+ vs# mv $newest dada
+ vs# rm -rf day?
+ vs# for i in 1 2 3 4 5 6 7; do mkdir day$i; done
+.17.2 amanda
+ yum install amanda-client
+ a="challenger amandabackup amdump
+challenger-191 amandabackup amdump" 
+ echo "$a" >> /var/lib/amanda/.amandahosts
+ vi /etc/xinetd.d/amanda # see <notes/storage/amanda/amanda-devo>
+ cd /etc/cron.daily
+ cp backup.data.conf.tmpl backup.data.conf
+ vi backup.data.conf
+ a="# amanda client
+service amanda
+{
+        socket_type             = stream
+        protocol                = tcp
+        wait                    = no
+        user                    = amandabackup
+        group                   = disk
+        server                  = /usr/sbin/amandad
+        server_args             = -auth=bsdtcp amdump
+        disable                 = no
+}" 
+ echo "$a" > /etc/xinetd.d/amanda
+ service xinetd restart
+add host to rsyncd.conf
+.20 centrify
+<notes/linux/centrify>
+
+.21 prompts
+Activate the web console with: systemctl enable --now cockpit.socket
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard

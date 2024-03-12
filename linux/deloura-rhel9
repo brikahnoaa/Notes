@@ -1,0 +1,450 @@
+
+HOW TO CONFIGURE A NEW RED HAT ENTERPRISE LINUX 9.3 SYSTEM
+Last Modified: January 22nd, 2024
+
+
+DATA COLLECTION
+
+Machine Name:     ___________________________
+
+IP Address:            ___________________________
+
+Gateway Address:  ___________________________  (probably either .100 or .1)
+
+Netmask:                ___________________________   (usually /24 or 255.255.255.0)
+
+Physical Memory:  ___________________________   (to calculate swap)
+
+
+Use the machine's name in lower-case letters whenever you see $HOSTNAME in these instructions.  Just the first part of the name, without the usual ".pmel.noaa.gov" on the end.
+
+Get the IP address for the machine before starting the installation.  Look it up in PNDI.  If there isn't a name and IP address defined for the machine yet, submit a Footprints ticket to get one defined.  It's very important that the DNS entry and PNDI entry are correctly in place before continuing with the installation procedure.
+
+You also need to know what Gateway address the machine will use – either X.Y.Z.1 or X.Y.Z.100, depending on which network it will be part of.  Tran can give you this information once you know the IP address, or you can use 'nslookup' with each of those two addresses and see which one points to the gateway.  The gateway will have a name like '168-gw.pmel.noaa.gov', where the 'gw' stands for 'gateway', and the 168 is the Z field from the IP address. [MODIFY]  [.168 = 100]
+
+Find out how much physical memory the machine has, as that information is needed while partitioning the disk.  This information can be found by rebooting the machine and looking at the Setup menu in BIOS, if needed.  That's usually accessed via F2 on Dell systems, but you'll have to poke around a little to see where that information is kept.
+
+Most machines support 64-bit Linux at this point, so assume this one does unless it tells you otherwise during installation.  You'll get a warning message very early in the process if it can't handle 64-bit.
+
+==== INSTALLATION ====
+
+*  Get the install DVD(s) for the Red Hat Enterprise Linux (RHEL) 9 operating system.  Robert has them.  The operating system is too big to fit on a regular DVD now, so these instructions are for using the “BOOT DVD” installation, which is much smaller but requires internet access during installation in order to download the rest of the RPMs.  If you can't get internet access from the system in question, you won't be able to use these instructions.  These instructions will still work with the full install disc.
+
+* Boot from the “BOOT DVD”.  If the machine does not boot automatically from the DVD drive, check the Boot Menu (usually F11 or F12) during reboot and choose the drive manually.
+
+* The first menu will give options similar to 'Install Red Hat Enterprise Linux 9.x', 'Test this media and install Red Hat Enterprise Linux 9.x', and 'Troubleshooting'.  If this is a newly-burned DVD that has not yet been used, choose 'Test this media'.  Otherwise, choose 'Install Red Hat Enterprise Linux 9.x'.  NOTE: If you are not watching the screen when this menu appears, it times out in 30-60 seconds and defaults to 'Test this media and install'.
+
+* After the media test (optional) and some load time, it will prompt for your choice of language to use during the installation process.  Choosing 'English' (the default) here is likely a good idea.  Click CONTINUE.
+
+* The next page should be titled INSTALLATION SUMMARY.   There are three columns of icons here.  The first column is LOCALIZATION and USER SETTINGS and includes “Keyboard”, “Language Support”, “Time & Date”, "Root Password", and "User Creation".  The second column is SOFTWARE and includes "Connect to Red Hat", “Installation Source” and “Software Selection”.  The third column is SYSTEM and includes “Installation Destination”, “KDUMP”, “Network & Host Name”, and “Security Profile”.
+
+* Do not choose the 'Language Support' and 'Keyboard' options, unless the machine's user needs to make use of foreign language text or a foreign language keyboard.
+
+* Do not choose the 'KDUMP' option.  We're currently experimenting to see if this is useful or not, and it is enabled by default.
+
+* Do not choose the 'Installation Source' option, as there is no reason to change this setting if you are installing from a local DVD drive or Red Hat CDN.
+
+* Do not choose the 'Security Profile' option, as we have not yet determined what the proper security profile for RHEL 9 machines is.  (EDIT:  We need to choose this.  RHEL 9.x has a number of options to choose from, several of which seem relevant.)
+
+* Click on 'Network & Host Name'.  On the next screen, click on the 'Host name' box in the lower left corner, and enter $HOSTNAME.pmel.noaa.gov, then click Apply.  There is a list of network interfaces above that box, click on the one you're planning to use as the primary network interface, then click on the 'Configure' button in the lower right corner.
+
+* Now you are editing the network interface.  Choose the 'General' tab, and check the box for 'Connect automatically with priority', with the default value of -999.  Make sure the box for 'All users may connect to this network' is checked.  [Those should both be the defaults.]  Set 'Metered connection' to 'no'.  
+
+* Choose the 'IPv4 Settings' tab.  (EDIT: I need to edit this section once we start using DHCP on the Linux machines.)  Choose 'Manual' from the Method pulldown menu.  Click on 'Add', then type in the machine's IP address, hit TAB, type in the Netmask (probably 255.255.255.0), hit TAB, and type in the IP address of the Gateway.  Click on the 'DNS servers' box and enter '161.55.124.21, 161.55.32.3'.  Click on the 'Search domains' box and enter 'pmel.noaa.gov'.
+
+* Choose the 'IPv6 Settings' tab and pick 'Ignore' from the Method pulldown menu.  Then choose 'Save'.
+
+* If the Off/On toggle to the right of the displayed network interface still says Off, click on it so it becomes On.  Then choose 'Done', which is in the upper left corner.
+
+* Click on the 'Time & Date' icon, and choose 'Los Angeles' from the City pulldown menu. Seattle isn't an option, but Los Angeles is in the same time zone.
+
+* Click on the gears icon to the right of 'Network Time' (which should currently say ON, toggle it if not) to define NTP servers.  Uncheck the 'Use' column for the [0-3].rhel.pool.ntp.org entries, as they are selected by default.  Add '161.55.124.21' to the list by entering it in the box and hitting the plus-sign button to the right of the box.  (EDIT: Should we be using the rhel.pool entries instead, perhaps?)  The 'Use' checkboxes for them will automatically be marked as you add them.  Then choose 'OK'.  The toggle next to Network Time should now be 'ON'.  Choose 'Done' to return to the main menu.
+
+* Click on 'Connect to Red Hat'.  Fill in a 'User name' of 'pmel_admin', and the Password from the Linux Root Password list.  'Connect to Red Hat Insights' should already be checked, but do so if it isn't.  Check 'Set System Purpose', setting the Role to RHEL Server or RHEL Workstation (as appropriate), SLA to 'Standard', and Usage to 'Production'.  Setting Usage to 'Development/Test' tends to confuse RHSM when you try to license the machine, so don't do that.  Then choose 'Register', wait, then follow it by 'Done'.
+
+* Click on 'Software Selection'.  Choose 'Server with GUI' from the left menu. From the right menu, choose 'Debugging Tools', 'Network File System Client', 'Windows File Server', 'Performance Tools', 'File and Storage Server', 'Scientific Support', 'Smart Card Support', 'System Tools', 'Graphical Administration Tools', 'Security Tools', 'Legacy UNIX Compatibility', and 'Development Tools'.  Then choose 'Done'.
+
+* Click on 'Root Password'.  Type in the new root password once in the 'Root Password' field and once in the 'Confirm' field.  The 'Lock root account' and 'Allow root SSH login with password' boxes should both NOT be checked, which is the default.  Then choose 'Done'.
+
+* Click on 'User Creation'.  Full Name is 'CNSD Account (Robert DeLoura)', User Name is 'cnsd', and you will need to type our current CNSD password into both the 'Password' and 'Confirm Password' fields.  Make sure 'Make this user administrator' is NOT checked, and that 'Require a password to use this account' IS checked.  Click on 'Advanced', which opens a new window.  Set 'Home directory' to /home/$HOSTNAME/cnsd.  Don't bother selecting a User ID or Group ID, as the interface won't allow you to choose numbers less than one thousand, so you'd have to edit this later anyway.  Click 'Save Changes', followed by 'Done'.
+
+* Click on 'Installation Destination'.  Check the disks under 'Local Standard Disks' that you wish to modify.  Select 'Custom' under Storage Configuration. (EDIT:  If you're setting up a laptop, check the 'Encrypt my data' box and give it a passphrase.)  Then choose 'Done'.
+
+* You are now on the 'Manual Partitioning' screen.  If you are setting up a new machine, remove any listed partitions by highlighting them one at a time and using the '-' button at the bottom of the left window.  Then click on 'Click here to create them automatically', as this supplies a good starting point that you can modify.  (EDIT:  This needs to be modified once I figure out how we want things to be. Letting RHEL do it isn't really a good option overall.)  You can create new partitions using the '+' button.  Pick 'LVM' or 'Standard Partition' from the pulldown menu before creating your partitions.  Current suggested partitions and default sizes are:
+
+	/boot – 2 GiB
+	/boot/efi (if needed) – 1 GiB
+	/ – defaults to 70 GiB under RHEL 9, I usually set 50 GiB
+	swap – varies based on memory (2-8 GiB RAM = 1x, 8-64 GiB RAM = 0.5x)
+	/usr/local – 20 GiB if significant local software will be installed
+	/home/$HOSTNAME – all remaining space, define last and use 'all' for size
+
+Labels can also be chosen at this time if desired.  After defining the necessary partitions, choose 'Done'.  
+* A window titled 'Summary of Changes' will appear.  Give it a sanity check, and if it looks good, choose 'Accept Changes'.
+
+* Choose 'Begin Installation', which is in the lower right corner and has been greyed out before now.
+
+* Wait for the progress bar to finish.  It should be downloading and installing packages by now, and there are over 1500 of them.
+
+* Click 'Reboot System' and wait for it to do so.  You'll want to remove the DVD during reboot, to make sure it doesn't end up booting from the DVD again.  It should pop the drive open on its own when it is OK to remove the disk.
+
+* [Don't think it actually did this under RHEL 9.] It will eventually offer you two choices to boot from, one of which mentions 'rescue'.  Use the arrow keys and ENTER to pick the other choice.  This should be the default if you just let it run.
+
+==== FIRST BOOT ====
+
+* [Seemed to skip this FIRST BOOT section under RHEL 9.]
+
+* Now the Initial Setup screen should be visible.  Click on 'License Information, check the 'I accept the license agreement' box, and hit 'Done'.  Optionally, you could actually read the document first.
+
+* [EDIT: Different with BOOT, because you already defined this.  RHEL 8 only, not CentOS 8.] Click on 'Subscription Manager'.  Leave the settings alone and click 'Next'.  (EDIT:  If nothing happens when you click Next, the network is probably misconfigured.)  On the next screen, enter 'pmel_admin' as the Login, and the corresponding password off the Root password list for Password. Under System Name, enter 'SEA-7WS-64b-$HOSTNAME.pmel'.  Change the SEA portion if the machine is not in Seattle (Newport is "NEW"), the 7WS portion if you aren't installating RHEL 7 Workstation, and the 64b part becomes x86 if you're running the 32-bit version of the operating system. (EDIT:  Is there even a 32 bit version of RHEL 7?)  Then click 'Register'.  When 'Confirm Subscriptions' comes up, click 'Attach' if nothing seems obviously wrong.  When it tells you that registration is complete, click on 'Done' in the upper left corner.
+
+* Click on 'FINISH CONFIGURATION' in the lower right corner, and wait for the login screen.
+
+==== FIRST LOGIN ====
+
+* Log in as CNSD.  Click 'No Thanks' to skip the useless introductory tour.
+
+* Open a terminal window by clicking on Activities in the upper left corner, and then the Terminal icon in the bar at the bottom.  Become root via 'su - root'.
+
+* Edit /etc/selinux/config to set SELINUX to 'disabled' instead of 'enforcing'.  Save.  REBOOT SYSTEM to avoid SELinux conflicts.  [This config file mentions a possible need to use 'grubby' to fully disable SELinux.]
+
+* Edit /etc/default/grub.  Remove 'rhgb' from the GRUB_CMDLINE_LINUX line, and save.  Then find grub.cfg, which will either be in /boot/grub2(*) or /boot/efi/EFI/redhat, depending on your machine. Move to that directory.  Make a backup copy of it via 'cp grub.cfg grub.cfg.bck', then run 'grub2-mkconfig > grub.cfg'.  Do not edit grub.cfg directly.
+
+* Confirm that the network connection is working properly, by using "ping" or "traceroute", or by opening a web browser and trying to view a common web site like Google.  Traceroute isn't installed by default, so to use that will require 'yum install traceroute'.
+
+* Edit /etc/hosts.  At the moment, it should contain one line for "127.0.0.1" (IPv4) and one for "::1" (IPv6).  Comment out the "::1" by placing a number sign (#) at the start of the line.  Then add a new line to the file that reads "x.y.z.a $HOSTNAME.pmel.noaa.gov $HOSTNAME", where x.y.z.a is the machine's IP address.  Save.
+
+* Check /etc/resolv.conf.  Confirm that it looks like this:
+
+	# Generated by NetworkManager
+	search pmel.noaa.gov
+	nameserver 161.55.124.21
+	nameserver 161.55.32.3
+
+The 'search' line might be at the bottom instead.  If the file doesn't match this, use NetworkManager commands to set these values correctly, rather than editing /etc/resolv.conf directly.  Otherwise the system might just regenerate the incorrect /etc/resolv.conf on the next reboot.
+
+* Check to make sure there is a /home/$HOSTNAME directory, which you should have created a partition for during installation.
+
+* Edit /etc/group.  Find the line that reads "man:x:15:", and add a line directly BEFORE it that reads "users:x:15:".  (EDIT:  We need to start using a much larger number for "users".)  Delete the line that reads "users:x:100:", and the line that reads "cnsd:x:1000:cnsd".  Save.
+
+* Run 'useradd -D -g 15 -b /home/$HOSTNAME' to set appropriate defaults for the 'useradd' command.  Ignore complaints about group 100 not existing, or about the fact that it will ignore GROUP= configuration in /etc/default/useradd.  If you run 'useradd -D' afterwards, it should look like this:
+
+	GROUP=15
+	HOME=/home/$HOSTNAME
+	INACTIVE=-1
+	EXPIRE=
+	SHELL=/bin/bash
+	SKEL=/etc/skel
+	CREATE_MAIL_SPOOL=yes
+
+If all user accounts on this machine are supposed to default to being members of a group other than 'users' (15), you can use 'useradd -D -g $GID' to define that, where $GID is the group ID of the relevant group.  I generally leave the default as 'users', and just add new accounts to the other group as well, though.
+
+* Edit /etc/passwd.  Be very careful here.  Find the line for the root account (generally the first line) and change it to:
+
+	root:x:0:0:$HOSTNAME Root Account:/root:/bin/bash
+
+Find the line for the CNSD account (generally the last line) and change it to:
+
+	cnsd:x:469:15:CNSD Account (Robert DeLoura):/home/$HOSTNAME/cnsd:/bin/bash
+
+Save.  Then run the 'pwconv' command.  If you get any errors, STOP, and talk to Robert DeLoura before continuing.
+
+* The CNSD account's home directory now has the wrong ownership, because you just changed the UID and GID associated with the account.  Run "chown -Rh 469:15 /home/$HOSTNAME/cnsd" to repair this.
+
+* Configure Chrony (RHEL7 replacement for NTP)
+
+(EDIT: We should decide what the default settings for chronyd ought to be.  This is the replacement for NTP.  /etc/chrony.conf.  It was configured as part of installation setup.  These instructions are very similar to the old NTP instructions.)
+
+(EDIT:  I'm not sure bigben.cac.washington.edu is valid any more.  Should we use something else, or even allow the rhel.pool.ntp.org entries?)
+
+Edit /etc/chrony.conf.  Comment out the four 'server' lines at the beginning that point at [0123].rhel.pool.ntp.org, if they exist.  Under 7.7 it looks like those get removed by the installation procedure.  Then change the "server 161.55.124.21 iburst" line to say "server 161.55.124.21 iburst prefer".  Save and exit.  [NOTE: What does 'maxpoll 16' do?  It only includes it for Pool entries.]
+
+Run 'systemctl status chronyd -l' to see if chronyd is in an 'active (running)' state.  If the service shows up as "disabled" on the Loaded line (in the parentheses), run 'systemctl enable chronyd'.  
+
+Run 'systemctl restart chronyd'.  Give it 15 seconds, then run 'chronyc sources' to confirm that it is connecting successfully to both time servers.  
+
+* Add correct patch repositories to YUM.
+
+So far we are just using the default repositories of 'appstream' and 'BaseOS', and don't need to add any other repositories.  If we need to add some later, the correct format looks like this:
+
+	subscription-manager repos \
+                 --enable=name-of-repository-1-here \
+                 --enable=name-of-repository-2-here
+
+Then Log into Red Hat Subscription Management (https://access.redhat.com/management/systems) using the Red Hat Network username and password from the Root Passwords List.  Find the entry under SYSTEMS that is named $HOSTNAME.pmel.noaa.gov and rename it to $A-$B-$C-$HOSTNAME.pmel, where $A is SEA or NEW (Seattle or Newport), $B is 8WS (Workstation) or 8SV (Server), and $C is almost always 64b (64-bit).  
+
+* Patch system.  If you let the install procedure download everything from Red Hat by defining RHSM during the install, then there won't be anything to patch here.  Otherwise, run 'yum update' to patch the system.  It should ask for approval to import two GPG keys, and you should approve both of them.
+
+* (EDIT:  Firewalld settings should be what, exactly?)
+
+* Create a file named ~root/.forward, which contains the following line:
+
+	oar.pmel.cnsd.redhat_admin@noaa.gov
+
+* Create a file called /etc/ssh/sshd_banner, which contains the text shown between these two lines, but excluding the lines themselves:
+
+
+You are accessing a U.S. Government information system, which includes:
+1) this computer, 2) this computer network, 3) all Government-furnished
+computers connected to this network, and 4) all Government-furnished devices
+and storage media attached to this network or to a computer on this network.
+You understand and consent to the following: you may access this information
+system for authorized use only; unauthorized use of the system is prohibited
+and subject to criminal and civil penalties; you have no reasonable expectation
+of privacy regarding any communication or data transiting or stored on this
+information system at any time and/or any lawful Government purpose, the
+Government may monitor, intercept, audit, and search and seize any
+communication or data transiting or stored this information system; and any
+communications or data transiting or stored on this information system may be
+disclosed or used for any lawful Government purpose.  This information system
+may contain Controlled Unclassified Information (CUI) that is subject to
+safeguarding or dissemination controls in accordance with law, regulation, or
+Government-wide policy. Accessing and using this system indicates your
+understanding of this warning.
+
+
+* Edit /etc/ssh/sshd_config.  We set 'PermitRootLogin' to 'no' here, but it should already be set to 'prohibit-password' and commented out -- check for that.  Then find the 'Banner' line, uncomment it, and set it to '/etc/ssh/sshd_banner'.  Save.
+
+* Restart sshd via the command "systemctl restart sshd".  Attempt to log into the machine via SSH, and confirm it shows you the login banner that was just defined.
+
+* Create a file called /etc/gdm/login_banner, which contains exactly the same text as /etc/ssh/sshd_banner.  ("cp /etc/ssh/sshd_banner /etc/gdm/login_banner")
+
+* Edit /etc/gdm/custom.conf.  Add these two lines to the bottom of the file:
+
+	InfoMsgFile=/etc/gdm/login_banner
+	InfoMsgFont=Sans=16
+
+(EDIT:  That probably shouldn't be an equal sign between Sans and 16, but it does work.)
+
+Then insert the following line below "[daemon]":
+
+	InitialSetupEnable=false
+
+Then save, and run “systemctl restart gdm.service”.
+
+* Reboot the system, then log in as CNSD and do an 'su - root' again.
+
+* Edit /etc/login.defs.  Change the values for the following four variables to the numbers listed here, then save.   (EDIT:  Does PAM actually use these any more? See /etc/pam.d/system-auth.)
+
+	PASS_MAX_DAYS	182
+	PASS_MIN_DAYS	14
+	PASS_MIN_LEN	8      (this variable is no longer set here)
+	PASS_WARN_AGE	14
+
+* Set longer password expiration periods for Root and CNSD.
+
+Run the commands "chage -m 14 -M 60 -W 14 -d YYYY-MM-DD cnsd" and "chage -m 14 -M 60 -W 14 -d YYYY-MM-DD root", where YYYY-MM-DD are today's year, month, and day of the month.
+
+* Enforce minimum password quality.  
+
+Edit /etc/pam.d/passwd and add the following line to the end:
+(EDIT:  Check whether this works or not before doing it under RHEL 9.)
+
+	password	required	pam_pwquality.so retry=3
+
+Save.  Edit /etc/security/pwquality.conf.  Uncomment and set the following variables to these values:
+
+	minlen = 8 (already set)
+	dcredit = 0 (already set)
+	ucredit = 0 (already set)
+	lcredit = 0 (already set)
+	ocredit = 0 (already set)
+	minclass = 3
+	maxrepeat = 3
+
+Then add a "maxsequence = 3" line immediately after the "maxrepeat = 3" line.  Save.
+
+* Enforce temporary lockouts after three login failures.
+
+(EDIT:  Skip this configuration until I figure out why it causes duplicate password prompts and lets people become root WITH NO PASSWORD.)
+
+(CHECK: Does this work after Centrify?) (Not until CNSD added to ignore list.)
+(REFERENCE:https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/chap-hardening_your_system_with_tools_and_services)
+
+Edit /etc/pam.d/system-auth.  Just above the pam_unix.so call in the "auth" section, add:
+
+	auth	required	pam_faillock.so preauth silent audit deny=3 unlock_time=1200
+
+Just above the pam_succeed_if.so call in the "auth" section, add:
+
+	auth	[default=die]	pam_faillock.so authfail audit deny=3 unlock_time=1200
+
+At the bottom of the "account" section, add:
+
+	account	required	pam_faillock.so
+
+Save.  Then make the same three changes to /etc/pam.d/password-auth.
+
+* Create LOCAL user accounts.
+
+LOCAL user accounts can be created with this command:
+
+	useradd -c "Real Name Here" -m -n -u $UID $USERNAME
+
+Substitute appropriate values for $UID and $USERNAME.  Keep the username to no more than 8 characters whenever possible.  Get the correct UID from Dave Borg-Breen's UID database.  (If they don't have a UID yet, you can find an unused one there.)  Give the accounts an initial password, and then run this command to force them to change it on first login:
+
+	chage -d 0 $USERNAME
+
+Notify Robert DeLoura if any errors come up.  Add entries for these accounts to Dave's UID database after you create them.  Dave's UID database is at http://eclipse.pmel.noaa.gov/linux_admin/uid_info.html
+(EDIT:  Frankly, this database isn't really supported any more.)
+
+* You will need to do run these commands in order for csh scripts and outbound email to work under RHEL 9.
+	# yum install tcsh s-nail
+	# systemctl enable postfix
+	# systemctl start postfix
+
+* Unless we suddenly decide that Cockpit, Log4j, or Avahi are secure, run this command.
+	# yum erase avahi cockpit cockpit-ws log4j
+
+* Modify /etc/yum.conf by adding this line to prevent those from being reinstalled:
+	exclude=avahi,cockpit*,log4j
+
+* Avahi is generally not being used, so disable it.  The third command is just to check to make sure it is no longer running, and the first may give an error about it no longer existing.  (That's fine.)
+	# systemctl disable –now avahi-daemon.service avahi-daemon.socket
+	# systemctl mask avahi-daemon.service avahi-daemon.socket
+	# pgrep avahi
+
+* Run “insights-client --status” to see if it is already set up.  If not, run “insights-client --register”. 
+
+* Create an account so that Tony can run Nessus scans.  Set the password to match the current CNSD account, then set it as expired so he can change it.
+	# useradd -c "Nessus Scan account (Tony Ung)" -m -n -u 2000 ness_scan
+	# passwd ness_scan
+	# chage -d 0 ness_scan
+
+* The next several steps require files from another machine.  Make a directory somewhere and use SFTP to copy the contents of uchiura:/~cnsd/system_setup/ into it.  There should be seven files:
+
+	AAAREADME.PMEL:  Useless file that explains the purpose of the others
+	autoyum.tar:  Files for automated patching
+	BESClient.tar:  Contains what you need to install ECMO (BESClient).
+	delinea-*.tgz:  The latest version of Centrify (delinea)
+	FireEye_*.tgz:  The latest version of FireEye
+	rootcron.txt:  Root's initial crontab file
+	rsyslog.tar:  Contains rsyslog filters
+	watch:  Perl script to monitor /var/log/messages via cron
+	xrxEC7856.ppd:  Printer data file for our rented printers
+
+* Install our standard rsyslog filters by extracting the contents of rsyslog.tar, moving into the 'rsyslog' subdirectory, and executing 9_install_filters.csh.  The script will run 'vi /etc/logrotate.d/rsyslog' near the end, at which point you will need to add /var/log/adclient, /var/log/centrify, and /var/log/sessions near the top of the file (under the existing entries).  Then save, and clean up the files that were extracted.
+
+* (EDIT: Some networks can't print.  41, 64, and 124 are some of them.  What are the others?)  
+Now to define the five standard printers:  p1044a, p1084, p1109, p2063, and p2106.
+
+* You can theoretically define printers via 'gnome-control-center printers' as a non-privileged user who supplies the root password when prompted, but I couldn't figure out how to assign a .PPD file that way.  So instead, open Firefox and connect to http://localhost:631/admin/.
+
+* Define a printer by following this sequence.  Click on 'Add Printer' – the first time you do this, it'll prompt for username and password, and you should supply the ones for root, making sure to choose Don't Save when it asks.  Pick 'LPD/LPR Host or Printer', then enter lpd://pesto.pmel.noaa.gov/$QUEUENAME as the address, where $QUEUENAME matches the name (p2063, etc) of the printer you're adding and click 'Continue'.  From the next screen, Name should be set to 'p2063' (etc), Description should be set to 'Xerox WorkCentre EC7856', and Location should give the room number for the printer, then choose 'Continue'.  Pick 'Browse' and navigate to the location of xrxEC7856.ppd, then choose 'Open' followed by 'Add Printer'.  Click on JCL and choose to Disable the banner sheet, then pick Set Default Options.
+
+* Now go back and repeat that process for the other four printers.  It would probably be a good idea to send a test page to at least one printer, just to make sure things are working properly.  From Administration → Manage Printers, choose a printer.  You can 'Print Test Page' or Print Self-Test Page' from the Maintenance pulldown menu.  The Administration menu is where you can 'Set As Server Default'.  Once you've finished defining and/or testing the printers, exit Firefox.
+
+* If there will be any NFS mounts and/or NFS exports on this machine, NFS will need to be activated. (EDIT:  When I have a machine that does this, I'll need to update this section, but it looks like nfs-mountd and nfs-server will need to be enabled via systemctl, and possibly nfs-utils.)
+
+* Install Root's initial crontab file.  First, check the output of 'crontab -l', it should reply with 'no crontab for root'.  In that case, you can install the initial crontab with 'crontab -u root rootcron.txt'.  If 'crontab -l' resulted in any other output, you should combine the contents of crontab.txt with the existing crontab by editing it via the 'crontab -e' command.  Please note that the WATCH and AUTOYUM scripts will email you error messages on a regular basis until you complete the next two steps on this list.
+
+* Install the WATCH script.  Copy the 'watch' file to /usr/local/bin.  Make sure it is owned by root:root and has permissions of 755 (-rwxr-xr-x).  Create a /usr/local/scripts directory if one does not already exist.  Use 'crontab -e' to make this crontab entry if it doesn't already exist:
+
+	*/15 * * * *    /usr/local/bin/watch
+
+Then run "/usr/local/bin/watch reset" followed by "/usr/local/bin/watch".  If there are no error messages, it is probably working correctly.  Next, insert the line "/usr/local/bin/watch reset" at the end of the postrotate section of /etc/logrotate.d/rsyslog, just before the 'endscript' line.
+NOTE:  If this machine will be mounting /usr/local or /usr/local/bin from another machine, this method cannot be used.  Contact Robert DeLoura for help.
+
+* Install the AUTOYUM script.  (EDIT:  Note that non-PST/PDT time zones on the machine can cause this to run during the middle of the day.)  Just unpack autoyum.tar and run INSTALL.autoyumlog.  The end of the script invokes 'cron -u root -e', and you should add the following lines there if they don't already exist:
+
+	15  1-5  *  *  Tue,Thu   /usr/local/bin/autoyum
+            0      8   *  *      Thu      /usr/local/bin/autoyumlog
+
+You can test to see if autoyum is trivially working by running it at the command line.  Provided you're not running it between 1am and 6am in the morning, there will now be a file named /usr/local/scripts/autoyum.err that contains a timestamp and an error message that states "Invoked outside the 1 AM to 6 AM window."
+
+* Install ECMO (BESClient) on the system.  Extract the contents of BESClient.tar via "tar -xvf BESClient.tar", then "cd BESClient".  Then run the 'install.csh' script.  Move out of the BESClient directory and remove it.
+
+* Install FireEye on the system.  Extract the contents of FireEye_###.tar via 'tar -xvf FireEye_###.tar', then "cd FireEye".  Then run the "xagt_setup" script.  Move out of the FireEye directory and remove it.  
+
+* If this machine is considered a Desktop system, you need to install Centrify.  If it is not, skip to the line that begins with "After Centrify installation".
+
+* Create a directory, 'cd' into it and then extract the contents of the delinea-server-suite-*.tgz file by using 'gunzip' on it followed by 'tar -xf' on the resulting .tar file.  Run the install.sh file in that directory by typing "./install.sh".  It'll probably complain about only having one valid DNS server.  Too bad.
+
+* "perl-Sys-Hostname" is required by Centrify, so check to see if it is installed .  By default, it isn't installed.  "yum install perl-Sys-Hostname" should solve that.  It also wants NSCD installed, but we've just been ignoring that.
+
+* Answer the questions it gives in the following way:
+
+	How do you want to proceed?  → C
+	Install the CentrifyDC 6.0.0 package? → <CR> (Y)
+	Install the CentrifyDC-ldapproxy 6.0.0 package? <CR> (N)
+	Install the CentrifyDC-nis 6.0.0 package? → <CR> (N)
+	Install the CentrifyDC-cifsidmap 6.0.0 package? → <CR> (N)
+	Install the CentrifyDC-openssh 6.0.0 package? → Y
+	Install the CentrifyDA 6.0.0 package? <CR> (N)
+	Do you want to install in Express mode? <CR> (N)
+	Do you want to run adcheck to verify your AD environment? → <CR> (Y)
+	Please enter the Active Directory domain to check: → pmel.noaa.gov
+	Join an Active Directory Domain? → <CR> (Y)
+	Enter the Active Directory domain to join: → <CR> (pmel.noaa.gov)
+	Enter the Active Directory authorized user: → <CR> (administrator)
+	Enter the password for the Active Directory user: → (use PC Admin pass from Root pass list)
+	Enter the computer name: → <CR> ($HOSTNAME.pmel.noaa.gov)
+	Enter the container DN: → <CR> (Computers)
+	Enter the name of the zone: → Seattle Linux
+	Join domain using workstation license type? → Y
+	Enter the name of the domain controller: → <CR>
+	Reboot the computer after installation? → N
+            Do you want to continue (Y) or re-enter information? → <CR> (Y)
+
+Adcheck will probably complain about the DNS servers again, and about not being able to talk to some of the DCs and GCs (hatfield2, rogue).  Too bad.  Let it finish the installation.
+
+* SSH is currently misconfigured.  Edit /etc/centrifydc/ssh/ssh_config.  Add these two lines at the bottom, and save.
+
+	ForwardX11 yes
+	ForwardX11Trusted yes
+
+Edit /etc/centrifydc/ssh/sshd_config.  Scroll to the bottom and confirm the presence of the following lines, adding them if they're absent or changing them if they're set incorrectly.  They're usually in this order if they're already listed.
+
+	Protocol 2                          (probably already correct)
+	ChallengeResponseAuthentication no
+	Banner /etc/ssh/sshd_banner
+	PermitRootLogin no          (probably already correct)
+	X11Forwarding yes
+
+Save.  Please note that X Forwarding will not work properly until the machine is either rebooted (soon) or you log back in after executing the command 'systemctl restart centrify-sshd'.
+
+* Edit /etc/centrifydc/user.ignore, and add 'cnsd' to the end of the file.  Save.
+
+* Reboot the machine.
+
+* After the machine comes up, confirm things are working by trying to SSH to the machine as CNSD and seeing if it displays the login warning banner.
+
+* Log into Bosun (in the machine room) as 'administrator'.  The password is included in the Linux Root password list.
+
+* Run "Access Manager".
+
+* Click through Zones → Global → Child Zones → Seattle Linux → Computers → $HOSTNAME, and then select "Role Assignments". 
+
+* To create accounts on the machine, right-click in the right-hand window and pick "Assign Role". Choose the 'login' Role in the 'pmel.noaa.gov/Centrify/Global/Seattle Linux' Zone, which should be the seventh item on the list.  Pick OK.  From the "Assign Role" window that appears, click on "Add AD Account".  In the "Add User Role Assignment" window that appears, type the user's Active Directory name, or a reasonably unique substring of it into the Name field and hit 'Find Now'.  Highlight the correct account when it appears in the box at the bottom of the window, and pick OK.  Repeat this process to add any other necessary users, then pick OK to leave the Assign Role window.
+
+* Open "UNIX data" and select "Users".
+
+* Create entries for the same accounts you just defined in Assign Role.  For each account, right-click in the right-hand window and pick "Add User to Zone".  Type their Active Directory name or a reasonably unique substring into the Name field and hit 'Find Now'.  Highlight the correct account when it appears in the box at the bottom of the window, and pick OK.  A window titled "Set UNIX User Profile" will appear.  Change the contents of the "Home directory" field to be correct for this machine, as this information is almost always incorrect.  Check UID and GID and Shell as well, then pick OK.  Repeat this process until you've created entries for each account.  (EDIT:  Under 7.3, for some reason /bin/tcsh doesn't work, so I had to use /bin/bash.)
+
+* Exit "Access Manager".
+
+* Run "Active Directory Users and Computers".
+
+* Select "Computers".  You should see an entry for $HOSTNAME in the right-hand window.  If not, something has gone wrong, and you'll probably need to talk to Ridge Liepins.
+
+* Open "PMEL Systems".  Find the folder named "Linux".  Click and drag the entry for $HOSTNAME (from "Computers") and drop it on the Linux folder.  You will be asked if you really want to move items in Active Directory.  Choose "Yes".
+
+* Select "PMEL Systems" → Linux.  You should now see an entry for $HOSTNAME.
+
+* Exit "Active Directory Users and Computers".
+
+* Log out of Bosun.  Don't leave yourself logged in, as there's a two simultaneous user limit for the administrator account, so it's really annoying when people don't log out.
+
+* Reboot $HOSTNAME.  (Don't reboot Bosun.)
+
+* AFTER CENTRIFY INSTALLATION.  This line is just here so you know where to skip to if the machine did not need Centrify and other miscellaneous Active Directory stuff set up.
+
+* Run 'smartctl' [EDIT: with necessary qualifiers] on each of the local drives, creating files in /root/smartctl/Start.[DriveNumber].  So files named Start.0, Start.1, etc.  Useful for later comparison if disks act up.
+
+* Do any machine-specific configuration or custom software installation.
+
+* Notify users of their new accounts.
+
+* Tell Robert that you set up a new machine, so he can add an entry for it to his node database.
+
+

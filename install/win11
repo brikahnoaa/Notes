@@ -1,0 +1,8 @@
+add time to pre-boot 10 seconds
+after DELL mount USB, F12
+install win11, updates
+join domain
+ccmsetup.exe /source="C:\Users\cnsd\Desktop\SMS_Client" CSMSSITECODE=SEA
+ switchuser b.k.ADM configurationMgr
+ add device, help desk; install sw group, std
+on client, SWcenter: helpdesk imaging group, installing

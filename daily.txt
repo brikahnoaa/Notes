@@ -10069,7 +10069,7 @@ looks like original data
 ed.cortes@osu/e/ access to guin mdf, msi
 3/11-3/13
 .4 sixzero 6.0 discord https://discord.com/invite/yANZPezXUT
-.5 seagate 12tb rma IR60118178
+.5 seagate 12tb rma IR60118178 ironwolf pro
 - warranty link doesn't work, but chatbot did
 b.k@n:MM8 <stuff/seagate12tb/*> 
 https://returns.seagate.com/returns/registered/xhtml/indirectRegCustHome.xhtml
@@ -10132,4 +10132,19 @@ https://kevrocks67.github.io/blog/configuring-openssh-to-use-kerberos-authentica
 OpenSSH uses GSSAPI to communicate with Kerberos
  hostnamectl set-hostname dargle.pmel.noaa.gov
  yum install krb5-workstation krb5-libs
+.1.4 rhel
+https://www.insentragroup.com/us/insights/geek-speak/modern-workplace/using-kerberos-sso-for-ssh-in-idm-with-ad-trust/
 
+2024-03-08
+.1 daveM
+.. dm/e/ pics of steller b3 ca
+.. transfer ca -> tamara
+.. swap fort <> jay
+.. mystery laptop, dell 5440 missing a digit in cd#
+CD000478329(1)		david.k.mellinger	Laptop	Dell	Latitude 5440	554NYY3 quantum
+.. cisco vpn 
+https://oregonstate.box.com/v/cisco-vpn-clients
+https://oregonstate.teamdynamix.com/TDClient/1935/Portal/KB/ArticleDet?ID=51154
+
+2024-03-11
+.1 seagate 12tb rma IR60118178 ironwolf pro                                                         - warranty link doesn't work, but chatbot did                                                       b.k@n:MM8 <stuff/seagate12tb/*>                                                                     https://returns.seagate.com/returns/registered/xhtml/indirectRegCustHome.xhtml
