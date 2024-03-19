@@ -145,6 +145,7 @@ background process
  ps wax | grep rsync
 
 cacwaive: "CAC Enforcement Exception", "CAC CNSD PW Users", "CAC Mac PW Users"
+linux original login : logname or who am i
 
 query user
 privilege management reponse code generator : pmel or bomgar = N0a@Pme1 (one) 

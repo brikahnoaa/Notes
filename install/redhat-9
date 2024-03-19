@@ -7,7 +7,7 @@ sdb                 8:16   0 931.5G  0 disk
   ├─station2-home 253:0    0 830.8G  0 lvm  /home
   └─station2-root 253:1    0   100G  0 lvm  /
 .. network name, ip; timezone
-.. user kahn 
+.. user cnsd 
 .. server w/ gui
 .1 selinux
  vi /etc/selinux/config
@@ -16,14 +16,15 @@ SELINUX=disabled
 .2 time
 .2.1 chrony ntp servers
 set servers during pre-install network time, -or-
- vi /etc/chrony.conf
-#pool 2.rhel.pool.ntp.org iburst
-server netservicesnewp.pmel.noaa.gov iburst prefer
-server netservices.pmel.noaa.gov iburst 
+ cat >> /etc/chrony.conf << here
+
+server netservices.pmel.noaa.gov iburst prefer
+server 161.55.124.21 iburst
+here
 .2.2 enable chronyd
  systemctl is-active chronyd.service
-# systemctl enable chronyd.service
-# systemctl restart chronyd.service
+ # systemctl enable chronyd.service
+ # systemctl restart chronyd.service
 .2.3 date # if needed, if registering before chrony setup 
 # date MMDDhhmmYY
 .3 rhel register
@@ -33,14 +34,15 @@ server netservices.pmel.noaa.gov iburst
  echo $name
  subscription-manager register --force --username=$user --password=$pwd --name=$name
  subscription-manager attach --auto
-# subscription-manager repos --enable=rhel-9-for-x86_64-supplementary-rpms
-# subscription-manager refresh
+ # subscription-manager repos --enable=rhel-9-for-x86_64-supplementary-rpms
+ # subscription-manager refresh
+ insights-client --register
+# https://access.redhat.com/management/systems/ # pmel_admin:RHNservices04
+# https://console.redhat.com/insights/
  yum update
  mkdir /root/install
  rpm -qa > /root/install/rpm-qa.update
  reboot
-https://access.redhat.com/management/systems
-# pmel_admin:RHNservices04
 .5 SW
 .5.1 turn firewall off 
  # systemctl list-units --type service --all
@@ -48,7 +50,7 @@ https://access.redhat.com/management/systems
  systemctl disable firewalld.service
 .5.2 yum package groups
 during pre-install Click on 'Software Selection', 'Server with GUI' -or-
- yum -y groupinstall "Debugging Tools" "Network File System Client" "Windows File Server" "Performance Tools" "File and Storage Server" "Scientific Support" "Smart Card Support" "System Tools" "Graphical Administration Tools" "Security Tools" "Legacy UNIX Compatibility" "Development Tools" 
+ yum -y groupinstall 'Server with GUI'
  rpm -qa > /root/install/rpm-qa.groups
 .6 cnsd specials
 .6.1 user cnsd
@@ -63,51 +65,49 @@ during pre-install Click on 'Software Selection', 'Server with GUI' -or-
  cd /boot/grub2
  mv grub.cfg grub.cfg.bck
  grub2-mkconfig > grub.cfg
-.4 network
+.7 network
 # nmcli
- cat > /etc/hosts <<here
-#::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
-127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
-161.55.191.3 challenger-191
-161.55.191.7 ventstore-191
-161.55.191.9 bioac3-191
-161.55.191.14 caldera-191
-161.55.191.31 syspc-191
-161.55.191.131 embfile2-191
-161.55.191.142 acoustic-191
-here
 .8 access ??
 .. console
  cat >> /etc/gdm/custom.conf <<here
+[daemon]
+InitialSetupEnable=false
+
 InfoMsgFile=/etc/gdm/login_banner
 InfoMsgFont=Sans=16
 here
+
+.9 centrify
+<~/Notes/linux/centrify>
 
 ---
 NEWPORT specials
 ---
 .10 standard files
 .10.1 kahn
- $brute$  SYS=new
- $brute$  cd; . bin/maketar.sh; scp .kahn.tar $SYS:
- $brute$  cd ~/Linux; ./makedots.sh; ./maketar.sh
- $brute$  scp dots.tar tar/*.tar $SYS:
- $SYS:kahn$  tar xvf dots.tar
- $SYS:kahn$  chmod -R og-w ~/.ssh
- $SYS:kahn$  su
- cd
+ $laptop$  SYS=new-system
+ $laptop$  cd ~/Linux
+ $laptop$  ./makedots.sh; ./maketar.sh
+ $laptop$  scp dots.tar tar/*.tar $SYS:
+ $SYS:cnsd$  tar xvf dots.tar
+ $SYS:cnsd$  chmod -R og-w ~/.ssh
+ $SYS:cnsd$  su
+ cp -b .bashrc /root
+ cd /root
 # forward to kahn, not oar.pmel.cnsd.redhat_admin@noaa.gov
- echo "brian.kahn@noaa.gov" > /root/.forward
- cp ~kahn/.bashrc /root
- mkdir /root/tar
+ echo "brian.kahn@noaa.gov" > .forward
  tars="etc usr opt"
- cd /root/tar; for i in $tars; do tar xvf ~kahn/$i.tar; done
+ mkdir tar; cd tar; 
+ for i in $tars; do tar --no-same-owner -xvf ~kahn/$i.tar; done; ls
 # copy with backups
  /bin/cp -r -b $tars /
 .11 extra repos & packages
- rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# code ready for builders
+ /usr/bin/crb enable
+ dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y
  yum install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs lm-sensors
 .12 config
+.. ssh
  cd /etc/ssh
  cp sshd_config sshd_config.inst
  sed -i 's/^/#/' sshd_config
@@ -125,6 +125,25 @@ Just above the pam_succeed_if.so call in the "auth" section, add:
 At the bottom of the "account" section, add:
   account required    pam_faillock.so
 make the same three changes to /etc/pam.d/password-auth.
+.14 usual suspects
+ mkdir /vd0
+ echo "LABEL=raid-vd0                   /vd0         xfs     defaults        1 1" >> /etc/fstab
+ vi /etc/fstab
+ mount -a
+ #
+ ln -s /vd0 /data
+ ln -s /data/* / 
+ #
+ cd /etc/samba
+ mv smb.conf smb.conf.inst
+ cp smb.conf.tmpl smb.conf
+ vi smb.conf
+ systemctl status smb
+ systemctl restart smb
+# test \\SYS from pc
+ #
+ vi /etc/cron.daily/*.conf /etc/exports 
+ exportfs -a
 .15 services
 .15.1 xinetd
  yum install xinetd 

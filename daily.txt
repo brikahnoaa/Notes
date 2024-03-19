@@ -10148,3 +10148,11 @@ https://oregonstate.teamdynamix.com/TDClient/1935/Portal/KB/ArticleDet?ID=51154
 
 2024-03-11
 .1 seagate 12tb rma IR60118178 ironwolf pro                                                         - warranty link doesn't work, but chatbot did                                                       b.k@n:MM8 <stuff/seagate12tb/*>                                                                     https://returns.seagate.com/returns/registered/xhtml/indirectRegCustHome.xhtml
+
+2024-03-18
+.1 samba and domain join for s1
+.2 sudo dzdo
+https://docs.delinea.com/online-help/server-suite/configuration/group-policy/additional-unix-services/unix-settings/sudo-rights.htm
+https://docs.delinea.com/online-help/server-suite/configuration/group-policy/directcontrol-settings/dzdo-settings/replace-sudo.htm
+.3 su root name
+linux original login := logname, who am i
