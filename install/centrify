@@ -1,11 +1,13 @@
 
 2024-03-12
+.0 install server w/ gui
 .1 depends
- yum install chkconfig nscd perl
+ dnf install chkconfig nscd perl
  systemctl enable nscd
  systemctl start nscd
 ..1 err lm-sensors
-.2 remove samba*, /opt/centrify/install.sh, yum install samba, adbind  
+.2 summary
+ dnf remove samba*, /opt/centrify/install.sh, dnf install samba* winbind adbind, adbindproxy.pl
 
 2022-09-29
 .0 remove
@@ -15,7 +17,7 @@
  UsePAM Yes
  PermitRootLogin yes
  systemctl restart sshd
- yum remove -y samba samba-client samba-winbind samba-winbind-clients samba-winbind-modules
+ dnf remove -y samba samba-client samba-winbind samba-winbind-clients samba-winbind-modules
 ..1 uninstall
  cd /opt/centrify/
 # if needs reinstall
@@ -52,7 +54,7 @@ add:login..newport kahn,others
 ..5 cac test at console
 
 .2 set up samba
- yum install --disableexcludes=all -y samba samba-client samba-winbind samba-winbind-clients
+ dnf install --disableexcludes=all -y samba samba-client samba-winbind samba-winbind-clients
 .2.1 adbind
  /usr/share/centrifydc/bin/adbindproxy.pl
 >> /usr, defaults

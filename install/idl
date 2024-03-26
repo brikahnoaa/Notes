@@ -1,3 +1,4 @@
+
 2021-12-02
 java
 https://www.l3harrisgeospatial.com/Support/Maintenance-Detail/ArtMID/13350/ArticleID/16290/Changing-the-Java-version-used-with-the-IDL-8-Workbench
@@ -165,3 +166,82 @@ WantedBy=multi-user.target
 # systemctl start idl_lmgrd
 $ idl
 # systemctl enable idl_lmgrd
+
+2024-03-26
+/dave borg-breen/
+Here is license.dat info for station2 - IDL 8.5:
+############ license file comments, do not delete ###############
+# License Number(s):217234-652
+SERVER station2 c42c03259385 1700
+DAEMON idl_lmgrd
+INCREMENT idl idl_lmgrd 8.500 1-jan-0000 10 A2D7A28E1F02EBCD \
+	VENDOR_STRING="217234-652NOAA - MAIN" HOSTID=c42c03259385 \
+	ck=151 SIGN="1754 41CC 70FC B57E 79D5 EF59 CAD1 89FF D3DD 6E80 \
+	7009 5454 1B42 8AFB 3843 0AAF 3454 1C31 56C8 1BE2 7A58 A8BC \
+	9D28 5DA0 2089 C6B7 69BA 23C3 910F 1F0A"
+INCREMENT idl_bridge_assist idl_lmgrd 8.500 1-jan-0000 1 \
+	3F737231BF2842EA VENDOR_STRING="217234-652NOAA - MAIN" \
+	HOSTID=c42c03259385 ck=78 SIGN="08C1 9D04 5B63 8971 67DE F90E \
+	8593 645D 2BCC DB07 FC42 AD0A 689D DEC1 9AE1 0C05 8B47 DC31 \
+	B081 B2D9 A02B 0AF5 077B 3A5F 6B9B FA33 36B5 16B9 0512 1D6E"
+INCREMENT idl_video_write idl_lmgrd 8.500 1-jan-0000 1 \
+	80770423413467C0 VENDOR_STRING="217234-652NOAA - MAIN" \
+	HOSTID=c42c03259385 ck=68 SIGN="0EEC 7EB9 E251 B85E 263F EAA6 \
+	E827 749A BC56 54C8 2E2E 28A4 C99F 43A1 F175 1542 0AE2 C852 \
+	FC66 BDED 92CE 9DA3 4702 DDB0 FD18 E0A7 02D6 AFE7 FDAD 0605"
+INCREMENT idl_wavelet idl_lmgrd 8.500 1-jan-0000 1 D2F2D5B1CDAC5776 \
+	VENDOR_STRING="217234-652NOAA - MAIN" HOSTID=c42c03259385 \
+	ck=108 SIGN="1FBE 3292 4744 167A DD74 88E4 539B 1C7E 8152 7054 \
+	ED9F E1CD A176 0C5A FB4C 1951 4732 A21D 4E89 897F CA6C E421 \
+	EEAA C87F C67B BB18 3E8A A4AD 2573 4364"
+FEATURESET idl_lmgrd 7FF74605EA0C4B80
+
+##################### end of license file #######################
+
+IDL 8.5 license for 'syspc' using the lmhostid corresponding to em1 = 1866da5b1872
+############ license file comments, do not delete ###############
+# License Number(s):217234-624
+SERVER syspc 1866da5b1872 1700
+DAEMON idl_lmgrd
+INCREMENT idl idl_lmgrd 8.500 1-jan-0000 6 E7F74999FA98FE98 \
+	VENDOR_STRING="217234-624NOAA - MAIN" HOSTID=1866da5b1872 \
+	ck=166 SIGN="162F 4B03 973F F6AF 51D0 3139 0F1B DB44 390E 1150 \
+	B9DA 591C 6802 6CA8 D722 174C C643 E5DD A407 CF33 75F7 8595 \
+	495D 0FFD 0B0F FA1A BA57 AE79 F520 4F67"
+INCREMENT idl_bridge_assist idl_lmgrd 8.500 1-jan-0000 1 \
+	2F3EACE0791CA18D VENDOR_STRING="217234-624NOAA - MAIN" \
+	HOSTID=1866da5b1872 ck=125 SIGN="0602 292E 7CBA E70A AFE8 8C38 \
+	8637 3472 225C 71F1 46D0 A3DC A8DA F214 F89B 07E2 7BEE 81C1 \
+	B3D1 4F61 9B95 EC6D 0009 F8A0 6A2D 22B7 0780 1991 2B22 9697"
+INCREMENT idl_video_write idl_lmgrd 8.500 1-jan-0000 1 \
+	619765725EAC6EC1 VENDOR_STRING="217234-624NOAA - MAIN" \
+	HOSTID=1866da5b1872 ck=120 SIGN="08C2 84E8 E965 7DFE 7D6A 80DA \
+	5C1F C01F 5615 6F0D F92C D359 8123 B1CB 7871 0DD2 1D4F C9EB \
+	B870 EC4F 7136 907A 53A5 D882 820B F82A B8F9 7374 A0D8 F91A"
+INCREMENT idl_wavelet idl_lmgrd 8.500 1-jan-0000 1 D8D1C0EAEB52FB0B \
+	VENDOR_STRING="217234-624NOAA - MAIN" HOSTID=1866da5b1872 \
+	ck=100 SIGN="19F8 5916 69CC 868C 8B8F C6D5 CE40 5E20 2F1C B9FC \
+	0BAE FC22 67F1 9EB2 F881 1025 6CD3 36B1 6A54 3DED D844 AE94 \
+	2AE2 BA3A FC7D 2C0C E784 4B74 0024 DBBE"
+FEATURESET idl_lmgrd 3F9477BC52A6537B
+
+##################### end of license file #######################
+
+syspc:/var/log/idl.log
+12:49:44 (lmgrd) (@lmgrd-SLOG@) Listening port: 1700
+
+
+: syspc.root 01:42:18 /etc/init.d :
+ yum whatprovides /lib64/ld-lsb-x86-64.so*
+...
+redhat-lsb-core-4.1-27.el7.centos.1.x86_64 : LSB Core module support
+Repo        : base
+Matched from:
+Filename    : /lib64/ld-lsb-x86-64.so.3
+
+: station1.root 01:41:20 /usr/local/IDL/idl85/bin/bin.linux.x86_64 :
+ yum whatprovides */ld-lsb-x86-64.*
+Updating Subscription Management repositories.
+Last metadata expiration check: 1:35:42 ago on Tue 26 Mar 2024 12:05:53 PM PDT.
+Error: No matches found. If searching for a file, try specifying the full path or using a wildcard prefix ("*/") at the beginning.
+

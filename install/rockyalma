@@ -1,0 +1,19 @@
+AlmaLinux 8.4 and above comes with the Center for Internet Security Benchmark that allows users to configure their system security. CIS Benchmark comes with CIS-CAT tools that provide full reports of any potential security issues. Users of AlmaLinux can customize their system security thanks to the inclusion of the Center for Internet Security (CIS) Benchmark. The benchmark includes a CIS-CAT tool that generates comprehensive reports on potential security problems.
+
+OpenSCAP – The Security Content Automation Protocol automates vulnerability management, measurement, and policy evaluation of systems. AlmaLinux provides the OpenSCAP (Open Security Content Automation Protocol) tool, allowing you to automatically check the system for vulnerabilities. Since AlmaLinux comes with CIS (Center for Internet Security) Benchmark, users can configure their system security and access a full report on potential security issues. CIS Benchmarks provide best-practice security configuration guides to help safeguard against evolving cyber threats.
+AlmaLinux guide on how to use OpenSCAP to check your system security compliance:
+https://wiki.almalinux.org/documentation/openscap-guide-for-9.html
+
+OVAL – Open Vulnerability and Assessment Language that offers public security information.
+
+Security Mailing Lists, which users can sign up for to receive security updates and stay informed on any security fixes once they are available.
+
+
+
+Rocky Linux uses kernel 2.6 version with SELinux (Security Enhanced Linux) architecture, which allows administrators to have more control over system access. It uses security policies to monitor who can access applications, files, and processes on the server.
+
+Rocky Linux recently achieved an important security milestone in the extensive validation process, Federal Information Processing Standard Publication 140-3 (FIPS 140-3), when the OS was named to the NIST Implementation Under Test List. FIPS 140-3 is a U.S. government computer security standard, needed for applications with high security requirements.
+
+https://www.liquidweb.com/kb/almalinux-vs-rocky-linux/
+https://www.openlogic.com/blog/almalinux-vs-rocky-linux
+https://www.namecheap.com/support/knowledgebase/article.aspx/10652/22/almalinux-vs-rocky-linux-a-comparison-and-guide/

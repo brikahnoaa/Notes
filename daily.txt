@@ -10156,3 +10156,52 @@ https://docs.delinea.com/online-help/server-suite/configuration/group-policy/add
 https://docs.delinea.com/online-help/server-suite/configuration/group-policy/directcontrol-settings/dzdo-settings/replace-sudo.htm
 .3 su root name
 linux original login := logname, who am i
+
+2024-03-19
+.1 privacy nbtv https://amzn.to/3hCGEmk
+.. calyx hotspot v SIM
+.. protonmail
+.. brave browser 
+.2 data to emma (kate)
+596G    NRS02/WAV/2020-2022
+524G    NRS03/WAV/2020-2022
+566G    NRS05/WAV/2021-2023
+268G    NRS11/WAV/2021-2022
+449G    Aleut/
+..
+294G    NRS03/WAV/2019-2020
+596G    NRS05/WAV/2019-2021
+573G    NRS11/WAV/2019-2021
+
+2024-03-20
+.1 cnsd meeting
+no ssh after CAC, interactive login requires mfa
+/russ/ OWL to end of life (maybe one year). // I excessed newport's this feb.
+  /russ/ did you send it back to eugene? don't get in trouble. // no, just excessed.
+/russ/ ubikey can be registered with icam, google.
+/jon/ vpn. nwave erav address (Enterprise Remote Access VPN). Endpoints at seattle and newport. 
+
+2024-03-21
+.1 linux meet
+no ridge, russ. talk w/ tony about centrify, global uid, issues rhel9
+
+2024-03-22
+.1 patch brute catfish chindog curry hatfield h2 rogue musculus pepper physeter rogue
+.2 active card on console for win servers
+
+2024-03-25
+.1 LAPS for winserver
+NOTE: The legacy Microsoft LAPS product is deprecated as of Windows 11 23 H2 and later. Installation of the legacy Microsoft LAPS MSI package is blocked on newer OS versions. Microsoft will no longer consider code changes for the legacy Microsoft LAPS product.
+Please use Windows LAPS, available on Windows Server 2019 and above, and on supported Windows 10 and Windows 11 clients, for managing local administrator account passwords. See https://aka.ms/laps for more information on Windows LAPS.
+.2 amanda xinetd->systemd
+https://www.oops.co.at/en/amanda-backup-use-systemd-units/
+
+2024-03-26
+.1 s1 disk does not have recent system
+.2 \\pesto\CNSD\ops\IDL for idl 8.8
+
+.3 C:\Program Files\Centrify\Centrify PuTTY\pscp.exe -K src dst
+.4 pkg return from conrad young
+299GM681JHK pickup 11-3
+1ZW81R798798046381 tracking
+

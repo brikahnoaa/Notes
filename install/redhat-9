@@ -14,19 +14,17 @@ sdb                 8:16   0 931.5G  0 disk
 SELINUX=disabled
  reboot
 .2 time
-.2.1 chrony ntp servers
-set servers during pre-install network time, -or-
- cat >> /etc/chrony.conf << here
+# set servers during pre-install network time, -or-
+ cat >> /etc/chrony.conf << ===
 
 server netservices.pmel.noaa.gov iburst prefer
-server 161.55.124.21 iburst
-here
-.2.2 enable chronyd
+
+===
  systemctl is-active chronyd.service
  # systemctl enable chronyd.service
  # systemctl restart chronyd.service
 .2.3 date # if needed, if registering before chrony setup 
-# date MMDDhhmmYY
+ # date MMDDhhmmYY
 .3 rhel register
  user=pmel_admin
  pwd=RHNservices04
@@ -39,7 +37,7 @@ here
  insights-client --register
 # https://access.redhat.com/management/systems/ # pmel_admin:RHNservices04
 # https://console.redhat.com/insights/
- yum update
+ dnf update
  mkdir /root/install
  rpm -qa > /root/install/rpm-qa.update
  reboot
@@ -48,9 +46,10 @@ here
  # systemctl list-units --type service --all
  systemctl stop firewalld.service
  systemctl disable firewalld.service
-.5.2 yum package groups
-during pre-install Click on 'Software Selection', 'Server with GUI' -or-
- yum -y groupinstall 'Server with GUI'
+.5.2 dnf package group
+# during pre-install Click on 'Software Selection', 'Server with GUI' -or-
+ dnf -y group install 'Server with GUI'
+ #dnf -y group install Workstation
  rpm -qa > /root/install/rpm-qa.groups
 .6 cnsd specials
 .6.1 user cnsd
@@ -67,18 +66,17 @@ during pre-install Click on 'Software Selection', 'Server with GUI' -or-
  grub2-mkconfig > grub.cfg
 .7 network
 # nmcli
-.8 access ??
-.. console
- cat >> /etc/gdm/custom.conf <<here
+.8 console
+ cat >> /etc/gdm/custom.conf <<===
 [daemon]
 InitialSetupEnable=false
 
 InfoMsgFile=/etc/gdm/login_banner
 InfoMsgFont=Sans=16
-here
+===
 
 .9 centrify
-<~/Notes/linux/centrify>
+<~/Notes/install/centrify>
 
 ---
 NEWPORT specials
@@ -105,7 +103,8 @@ NEWPORT specials
 # code ready for builders
  /usr/bin/crb enable
  dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y
- yum install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs lm-sensors
+ dnf install -y yum-utils apcupsd iftop ntfs-3g ntfsprogs 
+ # lm-sensors?
 .12 config
 .. ssh
  cd /etc/ssh
@@ -116,7 +115,7 @@ NEWPORT specials
 # test ssh before leaving root
 .13 authen settings
 Three failures to lock out for 30min is the default on rhel7
-The manual settings summarized here:
+The manual settings summarized ===:
  vi /etc/pam.d/system-auth
 Just above the pam_unix.so call in the "auth" section, add:
   auth  required  pam_faillock.so preauth silent audit deny=3 unlock_time=1200
@@ -145,8 +144,9 @@ make the same three changes to /etc/pam.d/password-auth.
  vi /etc/cron.daily/*.conf /etc/exports 
  exportfs -a
 .15 services
-.15.1 xinetd
- yum install xinetd 
+.15.1 apcupsd (systemd?)
+ cp -b /etc/apcupsd/apcupsd.conf.tmpl /etc/apcupsd/apcupsd.conf
+ vi /etc/apcupsd/apcupsd.conf
 .15.2 nfs
  cp -b /etc/exports.tmpl /etc/exports
  vi /etc/exports
@@ -155,59 +155,76 @@ make the same three changes to /etc/pam.d/password-auth.
  systemctl start nfs-mountd
  systemctl start nfs.service
  exportfs
-.15.3 rsync
- # vi /etc/rsyncd.conf
+
+.16 rsync
+ dnf install rsync rsync-daemon
+ cat >> /etc/rsyncd.conf << ===
+uid = 0
+gid = 0
+comment = transfer
+read only = false
+#write only = true
+use chroot = yes
+#transfer logging = yes
+log file = /data/rsync/rsync.log
+
+[data]
+#comment = for amanda data backup by and to challenger
+hosts allow = 161.55.192.3 161.55.191.3
+path = /data
+read only = true
+===
+
  systemctl enable rsyncd
- systemctl start rsyncd
-# vi /etc/xinetd.d/rsync
- systemctl enable xinetd
- systemctl start xinetd
-.15.4 apcupsd
- cp -b /etc/apcupsd/apcupsd.conf.tmpl /etc/apcupsd/apcupsd.conf
- vi /etc/apcupsd/apcupsd.conf
-.16 ops
-.16.1 rsync
- vi /etc/rsyncd.conf
-.16.2 cat /opt/LinuxBESclient/Readme
-.17 backups
-.17.1 ventstore
+ systemctl restart rsyncd
+.17 backup
+.17.1 sys to ventstore
  $ ssh ventstore
- $vs$ sudo mkdir /data1/RHbackup/$newhost
- $vs$ sudo vi /etc/rsyncd.conf
- -- or --
- vs# cd /data1/RHbackup/$sys
- vs# newest=$(ls -t1 | head -1)
- vs# mv $newest dada
- vs# rm -rf day?
- vs# for i in 1 2 3 4 5 6 7; do mkdir day$i; done
-.17.2 amanda
- yum install amanda-client
- a="challenger amandabackup amdump
-challenger-191 amandabackup amdump" 
- echo "$a" >> /var/lib/amanda/.amandahosts
- vi /etc/xinetd.d/amanda # see <notes/storage/amanda/amanda-devo>
- cd /etc/cron.daily
- cp backup.data.conf.tmpl backup.data.conf
- vi backup.data.conf
- a="# amanda client
-service amanda
-{
-        socket_type             = stream
-        protocol                = tcp
-        wait                    = no
-        user                    = amandabackup
-        group                   = disk
-        server                  = /usr/sbin/amandad
-        server_args             = -auth=bsdtcp amdump
-        disable                 = no
-}" 
- echo "$a" > /etc/xinetd.d/amanda
- service xinetd restart
-add host to rsyncd.conf
+ vs# vi /etc/rsyncd.conf
+ vs# for i in 1 2 3 4 5 6 7; do mkdir -p /data1/RHbackup/$newhost/day$i; done
+.17.2 data by amanda
+# https://www.oops.co.at/en/amanda-backup-use-systemd-units/
+ dnf install amanda-client
+ # ip on ..191. subnet
+ ip=$(ip addr | grep .191. | sed -e 's;.*\(161.*\)/24.*;\1;')
+ echo $ip
+ cat > /etc/systemd/system/amanda.socket << ===
+# amanda.socket
+[Unit]
+Description=Amanda Activation Socket
+
+[Socket]
+ListenStream=$ip:10080
+Accept=true
+
+[Install]
+WantedBy=sockets.target
+===
+ cat > /etc/systemd/system/amanda@.service << ===
+# amanda@.service 
+[Unit]
+Description=Amanda Backup System
+After=local-fs.target
+
+[Service]
+User=backup
+Group=backup
+ExecStart=/usr/lib/amanda/amandad -auth=bsdtcp amdump amindexd amidxtaped
+StandardInput=socket
+===
+ cat >> /var/lib/amanda/.amandahosts << ===
+challenger amandabackup amdump
+challenger-191 amandabackup amdump
+===
+ systemctl enable amanda.socket
+ systemctl start amanda.socket
+ systemctl status -l amanda.socket
+ systemctl --full | grep amanda
+
 .20 centrify
 <notes/linux/centrify>
 
-.21 prompts
-Activate the web console with: systemctl enable --now cockpit.socket
-Register this system with Red Hat Insights: insights-client --register
-Create an account or view all your systems at https://red.ht/insights-dashboard
+
+2024-03-25
+.1 Q
+.. why /home/$host
